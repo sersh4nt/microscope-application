@@ -12,8 +12,8 @@
   </property>
   <property name="font">
    <font>
-    <family>Times New Roman</family>
-    <pointsize>14</pointsize>
+    <family>Sans Serif</family>
+    <pointsize>12</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,7 @@
      <number>0</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="8,5">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="8,3">
       <property name="spacing">
        <number>10</number>
       </property>
@@ -115,7 +115,7 @@
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>27</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
