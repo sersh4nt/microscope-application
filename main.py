@@ -1,10 +1,10 @@
-import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
 import qimage2ndarray
-import dessing as design
+import design
 import cv2
+import sys
 
 
 class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
@@ -16,8 +16,10 @@ class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.initiate_video_stream()
 
     def display_frame(self):
+        scale_factor = QtWidgets.QApplication.desktop().width() / self.frameGeometry().width()
         w, h = self.microscopeView.size().width(), self.microscopeView.size().height()
         ret, frame = self.video_capture.read()
+        frame = cv2.resize(frame, None, fx=scale_factor, fy=scale_factor)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame = frame[
                 (frame.shape[0] - h) // 2: (frame.shape[0] + h) // 2 - 2,
@@ -31,9 +33,6 @@ class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
         self.timer.timeout.connect(self.display_frame)
         self.timer.start(1000 // 60)
-        self.microscopeView.scaleFactor = 1.0
-        self.microscopeView.imageRelativeScale = self.frameGeometry().width() / QtWidgets.QApplication.desktop().width()
-        print(self.microscopeView.imageRelativeScale)
 
 
 def main():
