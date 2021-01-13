@@ -30,7 +30,7 @@ class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
         self.video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
         self.timer.timeout.connect(self.display_frame)
-        self.timer.start(1000//60)
+        self.timer.start(1000 // 60)
         self.microscopeView.scaleFactor = 1.0
         self.microscopeView.imageRelativeScale = self.frameGeometry().width() / QtWidgets.QApplication.desktop().width()
         print(self.microscopeView.imageRelativeScale)
