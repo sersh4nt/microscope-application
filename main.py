@@ -1,7 +1,8 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import QTimer, QPoint, QRect
-from PyQt5.QtGui import QPixmap, QImage, QPainter
+from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QPixmap
 from image_editor import ImageEditor
+# from user_editor import UserEditor
 import qimage2ndarray
 import main_window_design
 import cv2
@@ -14,17 +15,33 @@ IMG_EXTENSIONS = ('.BMP', '.GIF', '.JPG', '.JPEG', '.PNG', '.PBM', '.PGM', '.PPM
 class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
+
         self.video_capture = cv2.VideoCapture(0)
         self.timer = QTimer()
-        self.setupUi(self)
         self.video_stream_qpixmap = QPixmap()
         self.logs = []
         self.component_counter = 0
         self.item_dict = {}
-        #self.image_editor = ImageEditor()
+        self.image_editor = ImageEditor()
+        #self.user_editor = UserEditor()
 
         self.initiate_video_stream()
         self.load_database()
+        self.connect_buttons()
+
+    def connect_buttons(self):
+        self.databaseEditButton.clicked.connect(self._show_database_editor)
+        # self.operatorDataEditBitton.clicked.connect(self._show_user_editor)
+
+    def _show_database_editor(self):
+        _, frame = self.video_capture.read()
+        self.image_editor.show()
+        self.image_editor.show_image(frame)
+
+
+    # def _show_user_editor(self):
+    #    self.user_editor.show()
 
     def display_frame(self):
         scale_factor = QtWidgets.QApplication.desktop().width() / self.frameGeometry().width()
@@ -42,8 +59,9 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
     def initiate_video_stream(self):
         self.video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
         self.video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+        self.video_capture.set(cv2.CAP_PROP_FPS, 60)
         self.timer.timeout.connect(self.display_frame)
-        self.timer.start(1000 // 60)
+        self.timer.start(1)
 
     def _clicked_on_item(self, item):
         self.component_counter = self.item_dict[item.text()]
