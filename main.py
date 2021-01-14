@@ -1,15 +1,17 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QTimer, QPoint, QRect
 from PyQt5.QtGui import QPixmap, QImage, QPainter
+from image_editor import ImageEditor
 import qimage2ndarray
-import design
+import main_window_design
 import cv2
 import sys
 import os
 
 IMG_EXTENSIONS = ('.BMP', '.GIF', '.JPG', '.JPEG', '.PNG', '.PBM', '.PGM', '.PPM', '.TIFF', '.XBM')
 
-class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
+
+class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.video_capture = cv2.VideoCapture(0)
@@ -19,6 +21,7 @@ class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.logs = []
         self.component_counter = 0
         self.item_dict = {}
+        #self.image_editor = ImageEditor()
 
         self.initiate_video_stream()
         self.load_database()

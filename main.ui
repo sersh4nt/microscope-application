@@ -46,6 +46,12 @@
       </property>
       <item>
        <widget class="QLabel" name="microscopeView">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="frameShape">
          <enum>QFrame::Box</enum>
         </property>
@@ -115,7 +121,7 @@
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
