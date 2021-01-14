@@ -7,6 +7,7 @@ import qimage2ndarray
 import main_window_design
 import cv2
 import sys
+
 import os
 
 IMG_EXTENSIONS = ('.BMP', '.GIF', '.JPG', '.JPEG', '.PNG', '.PBM', '.PGM', '.PPM', '.TIFF', '.XBM')
