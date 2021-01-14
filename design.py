@@ -36,7 +36,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setSpacing(10)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.listView = QtWidgets.QLabel(self.centralwidget)
+        self.listView = QtWidgets.QListWidget(self.centralwidget)
         self.listView.setFrameShape(QtWidgets.QFrame.Box)
         self.listView.setObjectName("listView")
         self.verticalLayout_2.addWidget(self.listView)
@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Инспекционный стенд входного контроля"))
         self.microscopeView.setText(_translate("MainWindow", "TextLabel"))
-        self.listView.setText(_translate("MainWindow", "TextLabel"))
+        #self.listView.setText(_translate("MainWindow", "TextLabel"))
         self.databaseComponentView.setText(_translate("MainWindow", "TextLabel"))
         self.databaseEditButton.setText(_translate("MainWindow", "Изменение базы данных"))
         self.operatorDataEditBitton.setText(_translate("MainWindow", "Занесение данных оператора"))

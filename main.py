@@ -1,11 +1,13 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import QTimer, QPoint, QRect
+from PyQt5.QtGui import QPixmap, QImage, QPainter
 import qimage2ndarray
 import design
 import cv2
 import sys
+import os
 
+IMG_EXTENSIONS = ('.BMP', '.GIF', '.JPG', '.JPEG', '.PNG', '.PBM', '.PGM', '.PPM', '.TIFF', '.XBM')
 
 class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
     def __init__(self):
@@ -13,7 +15,13 @@ class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.video_capture = cv2.VideoCapture(0)
         self.timer = QTimer()
         self.setupUi(self)
+        self.video_stream_qpixmap = QPixmap()
+        self.logs = []
+        self.component_counter = 0
+        self.item_dict = {}
+
         self.initiate_video_stream()
+        self.load_database()
 
     def display_frame(self):
         scale_factor = QtWidgets.QApplication.desktop().width() / self.frameGeometry().width()
@@ -33,6 +41,42 @@ class MainWindow(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
         self.timer.timeout.connect(self.display_frame)
         self.timer.start(1000 // 60)
+
+    def _clicked_on_item(self, item):
+        self.component_counter = self.item_dict[item.text()]
+        self.display_item()
+
+    def display_item(self):
+        path = self.logs[self.component_counter]['path']
+        image = cv2.imread(path)
+        scale_factor = (self.databaseComponentView.width() - 2) / image.shape[1]
+        image = cv2.resize(image, None, fx=scale_factor, fy=scale_factor)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = qimage2ndarray.array2qimage(image)
+        self.databaseComponentView.setPixmap(QPixmap.fromImage(image))
+
+    def load_database(self):
+        directory = os.path.join(os.getcwd(), 'data')
+        self.logs = get_images(directory)
+        i = 0
+        for log in self.logs:
+            self.listView.addItem(QtWidgets.QListWidgetItem(log['name']))
+            self.item_dict[log['name']] = i
+            i += 1
+        self.display_item()
+        self.listView.itemClicked.connect(self._clicked_on_item)
+
+
+def get_images(directory):
+    res = []
+    for dir in os.listdir(directory):
+        path = os.path.join(directory, dir)
+        if os.path.isdir(path):
+            for file in os.listdir(os.path.join(directory, dir)):
+                if file.upper().endswith(IMG_EXTENSIONS):
+                    img_obj = {'name': dir, 'path': os.path.join(path, file)}
+                    res.append(img_obj)
+    return res
 
 
 def main():
