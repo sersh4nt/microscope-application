@@ -32,7 +32,7 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
 
     def connect_buttons(self):
         self.databaseEditButton.clicked.connect(self._show_database_editor)
-        # self.operatorDataEditBitton.clicked.connect(self._show_user_editor)
+        # self.operatorDataEditButton.clicked.connect(self._show_user_editor)
 
     def _show_database_editor(self):
         _, frame = self.video_capture.read()

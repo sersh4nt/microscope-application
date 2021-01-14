@@ -93,7 +93,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="operatorDataEditBitton">
+         <widget class="QPushButton" name="operatorDataEditButton">
           <property name="text">
            <string>Занесение данных оператора</string>
           </property>
