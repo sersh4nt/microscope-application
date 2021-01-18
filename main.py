@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIcon
 from image_editor import ImageEditor
 # from user_editor import UserEditor
 import qimage2ndarray
@@ -24,7 +24,7 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
         self.component_counter = 0
         self.item_dict = {}
         self.image_editor = ImageEditor()
-        #self.user_editor = UserEditor()
+        # self.user_editor = UserEditor()
 
         self.initiate_video_stream()
         self.load_database()
@@ -39,7 +39,6 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
         self.image_editor.show()
         self.image_editor.show_image(frame)
 
-
     # def _show_user_editor(self):
     #    self.user_editor.show()
 
@@ -47,6 +46,18 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
         scale_factor = QtWidgets.QApplication.desktop().width() / self.frameGeometry().width()
         w, h = self.microscopeView.size().width(), self.microscopeView.size().height()
         ret, frame = self.video_capture.read()
+
+        if not ret:
+            msg = QtWidgets.QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.setText('Cannot get frames from camera!')
+            msg.setInformativeText('Proceed to exit the application.')
+            msg.setWindowTitle('Error!')
+            msg.setStandardButtons(QtWidgets.QMessageBox.Close)
+            msg.buttonClicked.connect(terminate_app)
+            msg.setWindowIcon(QIcon('source/icons/error.png'))
+            msg.exec()
+
         frame = cv2.resize(frame, None, fx=scale_factor, fy=scale_factor)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame = frame[
@@ -57,9 +68,9 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
         self.microscopeView.setPixmap(QPixmap.fromImage(img))
 
     def initiate_video_stream(self):
-        self.video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-        self.video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        self.video_capture.set(cv2.CAP_PROP_FPS, 60)
+        # self.video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        # self.video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+        # self.video_capture.set(cv2.CAP_PROP_FPS, 60)
         self.timer.timeout.connect(self.display_frame)
         self.timer.start(1)
 
@@ -98,6 +109,10 @@ def get_images(directory):
                     img_obj = {'name': dir, 'path': os.path.join(path, file)}
                     res.append(img_obj)
     return res
+
+
+def terminate_app():
+    sys.exit()
 
 
 def main():
