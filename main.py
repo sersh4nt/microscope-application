@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import QEvent
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 from libs.image_editor import ImageEditor
 # from user_editor import UserEditor
 from libs.camera import Camera
@@ -13,7 +13,7 @@ import os
 IMG_EXTENSIONS = ('.BMP', '.GIF', '.JPG', '.JPEG', '.PNG', '.PBM', '.PGM', '.PPM', '.TIFF', '.XBM')
 
 
-class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
+class MainWindow(QMainWindow, main_window_design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -30,26 +30,21 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
         # self.user_editor = UserEditor()
 
         self.load_database()
-        self.connect_buttons()
+        self.connect()
 
-    def connect_buttons(self):
+    def connect(self):
         self.databaseEditButton.clicked.connect(self._show_database_editor)
-        self.action.triggered.connect(self._enable_video_stream)
-        self.action_2.triggered.connect(self._disable_video_stream)
-        self.action_2.setEnabled(False)
+        self.image_editor.close_event.connect(self._enable_videostream)
         # self.operatorDataEditButton.clicked.connect(self._show_user_editor)
 
     def _show_database_editor(self):
         self.microscopeView.setEnabled(False)
         self.image_editor.show()
 
-    def _enable_video_stream(self):
-        self.microscopeView.setEnabled(True)
-        self.action_2.setEnabled(True)
-
-    def _disable_video_stream(self):
-        self.microscopeView.setEnabled(False)
-        self.action_2.setEnabled(False)
+    @pyqtSlot(int)
+    def _enable_videostream(self, num):
+        if num == 1:
+            self.microscopeView.setEnabled(True)
 
     # def _show_user_editor(self):
     #    self.user_editor.show()
@@ -72,7 +67,7 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
         self.logs = get_images(directory)
         i = 0
         for log in self.logs:
-            self.listView.addItem(QtWidgets.QListWidgetItem(log['name']))
+            self.listView.addItem(QListWidgetItem(log['name']))
             self.item_dict[log['name']] = i
             i += 1
         self.display_item()
@@ -96,7 +91,7 @@ def terminate_app():
 
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     app.exec_()
