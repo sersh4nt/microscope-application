@@ -53,10 +53,10 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QListView" name="listView"/>
+       <widget class="QListView" name="typeList"/>
       </item>
       <item>
-       <widget class="QListView" name="listView_2"/>
+       <widget class="QListView" name="componentList"/>
       </item>
      </layout>
     </item>
@@ -66,10 +66,10 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QListView" name="listView_3"/>
+       <widget class="QListView" name="objectList"/>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="saveButton">
         <property name="text">
          <string>Сохранить</string>
         </property>

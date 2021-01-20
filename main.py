@@ -26,15 +26,11 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
         self.logs = []
         self.component_counter = 0
         self.item_dict = {}
-        self.image_editor = ImageEditor()
+        self.image_editor = ImageEditor(self.camera)
         # self.user_editor = UserEditor()
 
         self.load_database()
         self.connect_buttons()
-
-    def resizeEvent(self, e):
-        self.display_item()
-        QtWidgets.QMainWindow.resizeEvent(self, e)
 
     def connect_buttons(self):
         self.databaseEditButton.clicked.connect(self._show_database_editor)
@@ -46,7 +42,6 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
     def _show_database_editor(self):
         self.microscopeView.setEnabled(False)
         self.image_editor.show()
-        # self.image_editor.show_image(frame)
 
     def _enable_video_stream(self):
         self.microscopeView.setEnabled(True)
