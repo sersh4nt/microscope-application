@@ -61,19 +61,12 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,0,0">
         <property name="spacing">
          <number>10</number>
         </property>
         <item>
-         <widget class="QLabel" name="listView">
-          <property name="frameShape">
-           <enum>QFrame::Box</enum>
-          </property>
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
+         <widget class="QListWidget" name="listView"/>
         </item>
         <item>
          <widget class="QLabel" name="databaseComponentView">
@@ -124,8 +117,26 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Видеопоток</string>
+    </property>
+    <addaction name="action"/>
+    <addaction name="action_2"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>Подключить</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>Остановить</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

@@ -1,10 +1,11 @@
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QPixmap, QIcon
-from image_editor import ImageEditor
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import QEvent
+from libs.image_editor import ImageEditor
 # from user_editor import UserEditor
+from libs.camera import Camera
 import qimage2ndarray
-import main_window_design
+from libs.user_interfaces import main_window_design
 import cv2
 import sys
 import os
@@ -16,63 +17,47 @@ class MainWindow(QtWidgets.QMainWindow, main_window_design.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
-        self.video_capture = cv2.VideoCapture(0)
-        self.timer = QTimer()
-        self.video_stream_qpixmap = QPixmap()
+        self.show()
+        # camera view
+        self.camera = Camera(0)
+        self.microscopeView.initialize(camera=self.camera)
+        self.microscopeView.setEnabled(True)
+        # database
         self.logs = []
         self.component_counter = 0
         self.item_dict = {}
         self.image_editor = ImageEditor()
         # self.user_editor = UserEditor()
 
-        self.initiate_video_stream()
         self.load_database()
         self.connect_buttons()
 
+    def resizeEvent(self, e):
+        self.display_item()
+        QtWidgets.QMainWindow.resizeEvent(self, e)
+
     def connect_buttons(self):
         self.databaseEditButton.clicked.connect(self._show_database_editor)
+        self.action.triggered.connect(self._enable_video_stream)
+        self.action_2.triggered.connect(self._disable_video_stream)
+        self.action_2.setEnabled(False)
         # self.operatorDataEditButton.clicked.connect(self._show_user_editor)
 
     def _show_database_editor(self):
-        _, frame = self.video_capture.read()
+        self.microscopeView.setEnabled(False)
         self.image_editor.show()
-        self.image_editor.show_image(frame)
+        # self.image_editor.show_image(frame)
+
+    def _enable_video_stream(self):
+        self.microscopeView.setEnabled(True)
+        self.action_2.setEnabled(True)
+
+    def _disable_video_stream(self):
+        self.microscopeView.setEnabled(False)
+        self.action_2.setEnabled(False)
 
     # def _show_user_editor(self):
     #    self.user_editor.show()
-
-    def display_frame(self):
-        scale_factor = QtWidgets.QApplication.desktop().width() / self.frameGeometry().width()
-        w, h = self.microscopeView.size().width(), self.microscopeView.size().height()
-        ret, frame = self.video_capture.read()
-
-        if not ret:
-            msg = QtWidgets.QMessageBox()
-            msg.setIcon(QtWidgets.QMessageBox.Critical)
-            msg.setText('Cannot get frames from camera!')
-            msg.setInformativeText('Proceed to exit the application.')
-            msg.setWindowTitle('Error!')
-            msg.setStandardButtons(QtWidgets.QMessageBox.Close)
-            msg.buttonClicked.connect(terminate_app)
-            msg.setWindowIcon(QIcon('source/icons/error.png'))
-            msg.exec()
-
-        frame = cv2.resize(frame, None, fx=scale_factor, fy=scale_factor)
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        frame = frame[
-                (frame.shape[0] - h) // 2: (frame.shape[0] + h) // 2 - 2,
-                (frame.shape[1] - w) // 2: (frame.shape[1] + w) // 2 - 2
-        ]
-        img = qimage2ndarray.array2qimage(frame)
-        self.microscopeView.setPixmap(QPixmap.fromImage(img))
-
-    def initiate_video_stream(self):
-        # self.video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-        # self.video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        # self.video_capture.set(cv2.CAP_PROP_FPS, 60)
-        self.timer.timeout.connect(self.display_frame)
-        self.timer.start(1)
 
     def _clicked_on_item(self, item):
         self.component_counter = self.item_dict[item.text()]

@@ -7,6 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from libs.camera import CameraWidget
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -26,8 +28,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setSpacing(10)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.microscopeView = QtWidgets.QLabel(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Ignored, QtWidgets.QSizePolicy.Ignored)
+        self.microscopeView = CameraWidget(parent=self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.microscopeView.sizePolicy().hasHeightForWidth())
@@ -39,7 +41,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setSpacing(10)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.listView = QtWidgets.QListWidget(self.centralwidget)
-        self.listView.setFrameShape(QtWidgets.QFrame.Box)
         self.listView.setObjectName("listView")
         self.verticalLayout_2.addWidget(self.listView)
         self.databaseComponentView = QtWidgets.QLabel(self.centralwidget)
@@ -52,6 +53,8 @@ class Ui_MainWindow(object):
         self.operatorDataEditButton = QtWidgets.QPushButton(self.centralwidget)
         self.operatorDataEditButton.setObjectName("operatorDataEditButton")
         self.verticalLayout_2.addWidget(self.operatorDataEditButton)
+        self.verticalLayout_2.setStretch(0, 1)
+        self.verticalLayout_2.setStretch(1, 1)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.horizontalLayout.setStretch(0, 8)
         self.horizontalLayout.setStretch(1, 3)
@@ -66,10 +69,19 @@ class Ui_MainWindow(object):
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1061, 21))
         self.menubar.setObjectName("menubar")
+        self.menu = QtWidgets.QMenu(self.menubar)
+        self.menu.setObjectName("menu")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.action = QtWidgets.QAction(MainWindow)
+        self.action.setObjectName("action")
+        self.action_2 = QtWidgets.QAction(MainWindow)
+        self.action_2.setObjectName("action_2")
+        self.menu.addAction(self.action)
+        self.menu.addAction(self.action_2)
+        self.menubar.addAction(self.menu.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -78,9 +90,11 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Инспекционный стенд входного контроля"))
         self.microscopeView.setText(_translate("MainWindow", "TextLabel"))
-        #self.listView.setText(_translate("MainWindow", "TextLabel"))
         self.databaseComponentView.setText(_translate("MainWindow", "TextLabel"))
         self.databaseEditButton.setText(_translate("MainWindow", "Изменение базы данных"))
         self.operatorDataEditButton.setText(_translate("MainWindow", "Занесение данных оператора"))
-        self.currentComponentMarking.setText(_translate("MainWindow", "TextLabel"))
+        self.currentComponentMarking.setText(_translate("MainWindow", "Current components:"))
+        self.menu.setTitle(_translate("MainWindow", "Видеопоток"))
+        self.action.setText(_translate("MainWindow", "Подключить"))
+        self.action_2.setText(_translate("MainWindow", "Остановить"))
 
