@@ -24,7 +24,8 @@
   </property>
   <property name="font">
    <font>
-    <pointsize>12</pointsize>
+    <family>Segoe UI</family>
+    <pointsize>10</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -34,7 +35,7 @@
    <locale language="Russian" country="Russia"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,8,3">
+   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,6,3">
     <property name="spacing">
      <number>10</number>
     </property>
@@ -69,16 +70,16 @@
        <widget class="QListView" name="objectList"/>
       </item>
       <item>
-       <widget class="QPushButton" name="saveButton">
+       <widget class="QPushButton" name="shotButton">
         <property name="text">
-         <string>Сохранить</string>
+         <string>Сделать снимок</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="saveButton">
         <property name="text">
-         <string>PushButton</string>
+         <string>Сохранить</string>
         </property>
        </widget>
       </item>
@@ -92,7 +93,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

@@ -31,7 +31,7 @@ class Camera(QObject):
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self._query_frame)
-        self.timer.setInterval(1000//self.fps)
+        self.timer.setInterval(1000 // self.fps)
         self.paused = False
 
     @pyqtSlot()
@@ -82,8 +82,7 @@ class CameraWidget(QLabel):
     def initialize(self, camera):
         self.camera = camera
         self.camera.new_frame.connect(self._on_new_frame)
-        w, h = self.camera.frame_size
-        self.setMaximumSize(w, h)
+        self.frame_size = self.camera.frame_size
 
     @pyqtSlot(np.ndarray)
     def _on_new_frame(self, frame):
@@ -102,11 +101,7 @@ class CameraWidget(QLabel):
         if self.frame is None:
             return
         w, h = self.width(), self.height()
-        scale_factor = QDesktopWidget().availableGeometry().width() / QApplication.desktop().width()
-        frame = cv2.resize(self.frame, None, fx=scale_factor, fy=scale_factor)
-        frame = frame[
-                (frame.shape[0] - h) // 2: (frame.shape[0] + h) // 2 - 2,
-                (frame.shape[1] - w) // 2: (frame.shape[1] + w) // 2 - 2
-                ]
+        scale = max(h / self.frame_size[1], w / self.frame_size[0])
+        frame = cv2.resize(self.frame, None, fx=scale, fy=scale)
         painter = QPainter(self)
-        painter.drawImage(QPoint(1, 1), qimage2ndarray.array2qimage(frame))
+        painter.drawImage(QPoint(0, 0), qimage2ndarray.array2qimage(frame))

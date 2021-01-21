@@ -1,35 +1,39 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+
 from libs.image_editor import ImageEditor
-# from user_editor import UserEditor
+# from libs.user_editor import UserEditor
 from libs.camera import Camera
-import qimage2ndarray
-from libs.user_interfaces import main_window_design
+from libs.user_interfaces import main
+
 import cv2
 import sys
 import os
+import qimage2ndarray
 
 IMG_EXTENSIONS = ('.BMP', '.GIF', '.JPG', '.JPEG', '.PNG', '.PBM', '.PGM', '.PPM', '.TIFF', '.XBM')
 
 
-class MainWindow(QMainWindow, main_window_design.Ui_MainWindow):
+class MainWindow(QMainWindow, main.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.show()
+
         # camera view
         self.camera = Camera(0)
         self.microscopeView.initialize(camera=self.camera)
         self.microscopeView.setEnabled(True)
+
         # database
         self.logs = []
         self.component_counter = 0
         self.item_dict = {}
         self.image_editor = ImageEditor(self.camera)
         # self.user_editor = UserEditor()
-
         self.load_database()
+
         self.connect()
 
     def connect(self):
@@ -39,25 +43,25 @@ class MainWindow(QMainWindow, main_window_design.Ui_MainWindow):
 
     def _show_database_editor(self):
         self.microscopeView.setEnabled(False)
+        self.image_editor.stream_enabled = True
         self.image_editor.show()
 
-    @pyqtSlot(int)
-    def _enable_videostream(self, num):
-        if num == 1:
-            self.microscopeView.setEnabled(True)
+    @pyqtSlot()
+    def _enable_videostream(self):
+        self.image_editor.stream_enabled = False
+        self.microscopeView.setEnabled(True)
 
     # def _show_user_editor(self):
     #    self.user_editor.show()
 
     def _clicked_on_item(self, item):
         self.component_counter = self.item_dict[item.text()]
-        self.display_item()
 
     def display_item(self):
         path = self.logs[self.component_counter]['path']
         image = cv2.imread(path)
-        scale_factor = (self.databaseComponentView.width() - 2) / image.shape[1]
-        image = cv2.resize(image, None, fx=scale_factor, fy=scale_factor)
+        scale = (self.databaseComponentView.width() - 2) / image.shape[1]
+        image = cv2.resize(image, None, fx=scale, fy=scale)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = qimage2ndarray.array2qimage(image)
         self.databaseComponentView.setPixmap(QPixmap.fromImage(image))
