@@ -3,7 +3,11 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
 from libs.shape import Shape
-from libs.utils import distance
+from libs.utils import distance, newIcon, labelValidator
+
+import cv2
+import numpy as np
+import qimage2ndarray
 
 CURSOR_DEFAULT = Qt.ArrowCursor
 CURSOR_POINT = Qt.PointingHandCursor
@@ -690,3 +694,188 @@ class Canvas(QWidget):
 
     def setDrawingShapeToSquare(self, status):
         self.drawSquare = status
+
+
+def _camera_error():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Critical)
+    msg.setText('Cannot get frames from camera!')
+    msg.setInformativeText('Proceed to exit the application.')
+    msg.setWindowTitle('Error!')
+    msg.setStandardButtons(QMessageBox.Close)
+    # msg.buttonClicked.connect(terminate_app)
+    msg.setWindowIcon(QIcon('source/icons/error.png'))
+    msg.exec()
+
+
+class Camera(QObject):
+    _DEFAULT_FPS = 60
+    new_frame = pyqtSignal(np.ndarray)
+
+    def __init__(self, camera_id=0, mirrored=False, parent=None):
+        super(Camera, self).__init__(parent)
+        self.mirrored = mirrored
+        self.cap = cv2.VideoCapture(camera_id)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self._query_frame)
+        self.timer.setInterval(1000 // self.fps)
+        self.paused = False
+
+    @pyqtSlot()
+    def _query_frame(self):
+        ret, frame = self.cap.read()
+        if not ret:
+            _camera_error()
+        if self.mirrored:
+            frame = cv2.flip(frame, 1)
+        self.new_frame.emit(frame)
+
+    @property
+    def paused(self):
+        return not self.timer.isActive()
+
+    @paused.setter
+    def paused(self, p):
+        if p:
+            self.timer.stop()
+        else:
+            self.timer.start()
+
+    @property
+    def frame_size(self):
+        return int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+    @property
+    def fps(self):
+        fps = int(self.cap.get(cv2.CAP_PROP_FPS))
+        if fps <= 0:
+            fps = self._DEFAULT_FPS
+        return fps
+
+    def get_frame(self):
+        ret, frame = self.cap.read()
+        return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+
+class CameraWidget(QLabel):
+    new_frame = pyqtSignal(np.ndarray)
+
+    def __init__(self, camera=None, parent=None):
+        super(CameraWidget, self).__init__(parent)
+        self.frame = None
+        if camera:
+            self.initialize(camera)
+
+    def initialize(self, camera):
+        self.camera = camera
+        self.camera.new_frame.connect(self._on_new_frame)
+        self.frame_size = self.camera.frame_size
+
+    @pyqtSlot(np.ndarray)
+    def _on_new_frame(self, frame):
+        self.frame = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2RGB)
+        self.new_frame.emit(self.frame)
+        self.update()
+
+    def changeEvent(self, e):
+        if e.type() == QEvent.EnabledChange:
+            if self.isEnabled():
+                self.camera.new_frame.connect(self._on_new_frame)
+            else:
+                self.camera.new_frame.disconnect(self._on_new_frame)
+
+    def paintEvent(self, e):
+        if self.frame is None:
+            return
+        w, h = self.width(), self.height()
+        scale = max(h / self.frame_size[1], w / self.frame_size[0])
+        frame = cv2.resize(self.frame, None, fx=scale, fy=scale)
+        painter = QPainter(self)
+        painter.drawImage(QPoint(0, 0), qimage2ndarray.array2qimage(frame))
+
+
+BB = QDialogButtonBox
+
+
+class LabelDialog(QDialog):
+
+    def __init__(self, text="Enter object label", parent=None, listItem=None):
+        super(LabelDialog, self).__init__(parent)
+
+        self.edit = QLineEdit()
+        self.edit.setText(text)
+        self.edit.setValidator(labelValidator())
+        self.edit.editingFinished.connect(self.postProcess)
+
+        model = QStringListModel()
+        model.setStringList(listItem)
+        completer = QCompleter()
+        completer.setModel(model)
+        self.edit.setCompleter(completer)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.edit)
+        self.buttonBox = bb = BB(BB.Ok | BB.Cancel, Qt.Horizontal, self)
+        bb.button(BB.Ok).setIcon(newIcon('done'))
+        bb.button(BB.Cancel).setIcon(newIcon('undo'))
+        bb.accepted.connect(self.validate)
+        bb.rejected.connect(self.reject)
+        layout.addWidget(bb)
+
+        if listItem is not None and len(listItem) > 0:
+            self.listWidget = QListWidget(self)
+            for item in listItem:
+                self.listWidget.addItem(item)
+            self.listWidget.itemClicked.connect(self.listItemClick)
+            self.listWidget.itemDoubleClicked.connect(self.listItemDoubleClick)
+            layout.addWidget(self.listWidget)
+
+        self.setLayout(layout)
+
+    def validate(self):
+        try:
+            if self.edit.text().trimmed():
+                self.accept()
+        except AttributeError:
+            # PyQt5: AttributeError: 'str' object has no attribute 'trimmed'
+            if self.edit.text().strip():
+                self.accept()
+
+    def postProcess(self):
+        try:
+            self.edit.setText(self.edit.text().trimmed())
+        except AttributeError:
+            # PyQt5: AttributeError: 'str' object has no attribute 'trimmed'
+            self.edit.setText(self.edit.text())
+
+    def popUp(self, text='', move=True):
+        self.edit.setText(text)
+        self.edit.setSelection(0, len(text))
+        self.edit.setFocus(Qt.PopupFocusReason)
+        if move:
+            cursor_pos = QCursor.pos()
+            parent_bottomRight = self.parentWidget().geometry()
+            max_x = parent_bottomRight.x() + parent_bottomRight.width() - self.sizeHint().width()
+            max_y = parent_bottomRight.y() + parent_bottomRight.height() - self.sizeHint().height()
+            max_global = self.parentWidget().mapToGlobal(QPoint(max_x, max_y))
+            if cursor_pos.x() > max_global.x():
+                cursor_pos.setX(max_global.x())
+            if cursor_pos.y() > max_global.y():
+                cursor_pos.setY(max_global.y())
+            self.move(cursor_pos)
+        return self.edit.text() if self.exec_() else None
+
+    def listItemClick(self, tQListWidgetItem):
+        try:
+            text = tQListWidgetItem.text().trimmed()
+        except AttributeError:
+            # PyQt5: AttributeError: 'str' object has no attribute 'trimmed'
+            text = tQListWidgetItem.text().strip()
+        self.edit.setText(text)
+
+    def listItemDoubleClick(self, tQListWidgetItem):
+        self.listItemClick(tQListWidgetItem)
+        self.validate()
+

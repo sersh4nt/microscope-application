@@ -3,7 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 from libs.user_interfaces import designer
-from libs.camera import Camera
+from libs.widgets import Camera, LabelDialog
 
 import sys
 import qimage2ndarray
@@ -19,19 +19,22 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         super(ImageEditor, self).__init__()
         self.setupUi(self)
         self.camera = camera
-        self.camera.new_frame.connect(self._on_new_frame)
         self.stream_enabled = False
+        self.single_class = False
         self.frame = None
         self.items_to_shapes = {}
         self.shapes_to_items = {}
         self.label_list = []
-        self.prev_label_text = None
+        self.prev_label_text = ''
+        self.last_label = None
+
+        self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
 
         self.scrollBars = {
             Qt.Vertical: self.scrollArea.verticalScrollBar(),
             Qt.Horizontal: self.scrollArea.horizontalScrollBar()
         }
-        self.canvas.newShape.connect(self.newShape)
+        self.canvas.newShape.connect(self.new_shape)
 
         self.modeEdit.setChecked(True)
         self.modeSelect.setChecked(False)
@@ -41,19 +44,27 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
 
         self.connect()
 
-    def newShape(self):
-        text = 'aaaaa'
+    def new_shape(self):
+        if len(self.label_list) > 0:
+            self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
+
+        if self.last_label and self.single_class:
+            text = self.last_label
+        else:
+            text = self.label_dialog.popUp(text=self.prev_label_text)
+            self.last_label = text
+
         if text is not None:
             self.prev_label_text = text
             color = generate_color_by_text(text)
             shape = self.canvas.setLastLabel(text, color, color)
-            self.addLabel(shape)
+            self.add_label(shape)
             if text not in self.label_list:
                 self.label_list.append(text)
         else:
             self.canvas.resetAllLines()
 
-    def addLabel(self, shape):
+    def add_label(self, shape):
         item = HashableQListWidgetItem(shape.label)
         item.setFlags(item.flags() | Qt.ItemIsUserCheckable)
         item.setCheckState(Qt.Checked)
@@ -62,10 +73,27 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.shapes_to_items[shape] = item
         self.objectList.addItem(item)
 
+    def edit_label(self):
+        item = self.current_item()
+        if not item:
+            return
+        text = self.labelDialog.popUp(item.text())
+        if text is not None:
+            item.setText(text)
+            item.setBackground(generate_color_by_text(text))
+
+    def current_item(self):
+        items = self.objectList.selectedItems()
+        if items:
+            return items[0]
+        return None
+
     def connect(self):
+        self.camera.new_frame.connect(self._on_new_frame)
         self.shotButton.clicked.connect(self._stop_video)
         self.modeSelect.triggered.connect(self._mode_select)
         self.modeEdit.triggered.connect(self._mode_edit)
+        self.objectList.itemDoubleClicked.connect(self.edit_label)
 
     def _mode_select(self):
         self.modeEdit.setChecked(False)
@@ -96,7 +124,6 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
 
 
 class HashableQListWidgetItem(QListWidgetItem):
-
     def __init__(self, *args):
         super(HashableQListWidgetItem, self).__init__(*args)
 

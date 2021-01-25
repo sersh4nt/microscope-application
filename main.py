@@ -4,7 +4,7 @@ from PyQt5.QtCore import *
 
 from libs.image_editor import ImageEditor
 # from libs.user_editor import UserEditor
-from libs.camera import Camera
+from libs.widgets import Camera
 from libs.user_interfaces import main
 
 import cv2

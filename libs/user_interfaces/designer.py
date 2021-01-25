@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from libs.canvas import Canvas
+from libs.widgets import Canvas
 
 
 class Ui_MainWindow(object):
@@ -48,7 +48,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.scrollArea)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.objectList = QtWidgets.QListView(self.centralwidget)
+        self.objectList = QtWidgets.QListWidget(self.centralwidget)
         self.objectList.setObjectName("objectList")
         self.verticalLayout_2.addWidget(self.objectList)
         self.shotButton = QtWidgets.QPushButton(self.centralwidget)
