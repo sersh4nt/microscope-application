@@ -35,18 +35,18 @@
    <locale language="Russian" country="Russia"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,6,3">
+   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="3,8,3">
     <property name="spacing">
      <number>10</number>
     </property>
     <property name="leftMargin">
-     <number>20</number>
+     <number>10</number>
     </property>
     <property name="topMargin">
-     <number>20</number>
+     <number>10</number>
     </property>
     <property name="rightMargin">
-     <number>20</number>
+     <number>10</number>
     </property>
     <property name="bottomMargin">
      <number>0</number>
@@ -62,7 +62,21 @@
      </layout>
     </item>
     <item>
-     <widget class="QWidget" name="canvas" native="true"/>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="canvas">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>432</width>
+         <height>547</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -93,21 +107,51 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="fileMenu">
     <property name="title">
      <string>Файл</string>
     </property>
-    <addaction name="action"/>
+    <addaction name="saveAll"/>
    </widget>
-   <addaction name="menu"/>
+   <widget class="QMenu" name="redactorMenu">
+    <property name="title">
+     <string>Редактор</string>
+    </property>
+    <widget class="QMenu" name="modeMenu">
+     <property name="title">
+      <string>Режим</string>
+     </property>
+     <addaction name="modeSelect"/>
+     <addaction name="modeEdit"/>
+    </widget>
+    <addaction name="modeMenu"/>
+   </widget>
+   <addaction name="fileMenu"/>
+   <addaction name="redactorMenu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
+  <action name="saveAll">
    <property name="text">
     <string>Сохранить изменения</string>
+   </property>
+  </action>
+  <action name="modeSelect">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Выделение</string>
+   </property>
+  </action>
+  <action name="modeEdit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Редактирование</string>
    </property>
   </action>
  </widget>

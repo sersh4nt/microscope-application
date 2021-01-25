@@ -568,6 +568,7 @@ class Canvas(QWidget):
         mods = ev.modifiers()
         if Qt.ControlModifier == int(mods) and v_delta:
             self.zoomRequest.emit(v_delta)
+            print(self.scale)
         else:
             v_delta and self.scrollRequest.emit(v_delta, Qt.Vertical)
             h_delta and self.scrollRequest.emit(h_delta, Qt.Horizontal)
