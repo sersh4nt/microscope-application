@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from libs.widgets import CameraWidget
+from libs.camera import CameraWidget
 
 
 class Ui_MainWindow(object):

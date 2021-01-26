@@ -1,0 +1,241 @@
+Index: libs/image_editor.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from PyQt5.QtWidgets import *\r\nfrom PyQt5.QtCore import *\r\nfrom PyQt5.QtGui import *\r\n\r\nfrom libs.user_interfaces import designer\r\nfrom libs.camera import Camera\r\n\r\nimport sys\r\nimport qimage2ndarray\r\nimport numpy as np\r\nimport cv2\r\n\r\n\r\nclass ImageEditor(QMainWindow, designer.Ui_MainWindow):\r\n    close_event = pyqtSignal()\r\n\r\n    def __init__(self, camera=None):\r\n        super(ImageEditor, self).__init__()\r\n        self.setupUi(self)\r\n        self.camera = camera\r\n        self.camera.new_frame.connect(self._on_new_frame)\r\n        self.stream_enabled = False\r\n        self.frame = None\r\n\r\n        self.connect()\r\n\r\n    def connect(self):\r\n        self.shotButton.clicked.connect(self.stop_video)\r\n        pass\r\n\r\n    def stop_video(self):\r\n        if self.stream_enabled:\r\n            self.stream_enabled = False\r\n            self.shotButton.setText(QCoreApplication.translate(\"MainWindow\", \"Включить видео\"))\r\n            self.canvas.setEditing(False)\r\n        else:\r\n            self.stream_enabled = True\r\n            self.shotButton.setText(QCoreApplication.translate(\"MainWindow\", \"Сделать снимок\"))\r\n            self.canvas.setEditing(True)\r\n\r\n    @pyqtSlot(np.ndarray)\r\n    def _on_new_frame(self, frame):\r\n        if self.stream_enabled:\r\n            self.frame = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2RGB)\r\n            self.canvas.loadPixmap(QPixmap.fromImage(qimage2ndarray.array2qimage(self.frame)))\r\n\r\n    def closeEvent(self, e):\r\n        self.close_event.emit()\r\n\r\n\r\nif __name__ == '__main__':\r\n    app = QApplication(sys.argv)\r\n    window = ImageEditor()\r\n    window.show()\r\n    app.exec_()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- libs/image_editor.py	(revision 16d8c53a8d193c1867f760068ed0bf0b4878b8bd)
++++ libs/image_editor.py	(date 1611411702824)
+@@ -21,22 +21,105 @@
+         self.camera.new_frame.connect(self._on_new_frame)
+         self.stream_enabled = False
+         self.frame = None
++        self.modeEdit.setEnabled(False)
++
++        scroll = QScrollArea()
++        scroll.setWidget(self.canvas)
++        scroll.setWidgetResizable(True)
++        self.scrollBars = {
++            Qt.Vertical: scroll.verticalScrollBar(),
++            Qt.Horizontal: scroll.horizontalScrollBar()
++        }
++        self.scrollArea = scroll
+ 
+         self.connect()
+ 
+     def connect(self):
+         self.shotButton.clicked.connect(self.stop_video)
++        self.modeEdit.triggered.connect(self._set_canvas_editing)
++        self.modeSelect.triggered.connect(self._set_canvas_creating)
++        self.canvas.newShape.connect(self.new_shape)
++        self.canvas.scrollRequest.connect(self.scrollRequest)
++        self.canvas.zoomRequest.connect(self.zoomRequest)
++
++    def scrollRequest(self, delta, orientation):
++        units = - delta / (8 * 15)
++        bar = self.scrollBars[orientation]
++        bar.setValue(bar.value() + bar.singleStep() * units)
++
++    def new_shape(self):
+         pass
+ 
++    def zoomRequest(self, delta):
++        # get the current scrollbar positions
++        # calculate the percentages ~ coordinates
++        h_bar = self.scrollBars[Qt.Horizontal]
++        v_bar = self.scrollBars[Qt.Vertical]
++
++        # get the current maximum, to know the difference after zooming
++        h_bar_max = h_bar.maximum()
++        v_bar_max = v_bar.maximum()
++
++        # get the cursor position and canvas size
++        # calculate the desired movement from 0 to 1
++        # where 0 = move left
++        #       1 = move right
++        # up and down analogous
++        cursor = QCursor()
++        pos = cursor.pos()
++        relative_pos = QWidget.mapFromGlobal(self, pos)
++
++        cursor_x = relative_pos.x()
++        cursor_y = relative_pos.y()
++
++        w = self.scrollArea.width()
++        h = self.scrollArea.height()
++
++        # the scaling from 0 to 1 has some padding
++        # you don't have to hit the very leftmost pixel for a maximum-left movement
++        margin = 0.1
++        move_x = (cursor_x - margin * w) / (w - 2 * margin * w)
++        move_y = (cursor_y - margin * h) / (h - 2 * margin * h)
++
++        # clamp the values from 0 to 1
++        move_x = min(max(move_x, 0), 1)
++        move_y = min(max(move_y, 0), 1)
++
++        # zoom in
++        units = delta / (8 * 15)
++        scale = 10
++        self.addZoom(scale * units)
++
++        # get the difference in scrollbar values
++        # this is how far we can move
++        d_h_bar_max = h_bar.maximum() - h_bar_max
++        d_v_bar_max = v_bar.maximum() - v_bar_max
++
++        # get the new scrollbar values
++        new_h_bar_value = h_bar.value() + move_x * d_h_bar_max
++        new_v_bar_value = v_bar.value() + move_y * d_v_bar_max
++
++        h_bar.setValue(new_h_bar_value)
++        v_bar.setValue(new_v_bar_value)
++
+     def stop_video(self):
+         if self.stream_enabled:
+             self.stream_enabled = False
+             self.shotButton.setText(QCoreApplication.translate("MainWindow", "Включить видео"))
+-            self.canvas.setEditing(False)
+         else:
+             self.stream_enabled = True
+             self.shotButton.setText(QCoreApplication.translate("MainWindow", "Сделать снимок"))
+-            self.canvas.setEditing(True)
++
++    def _set_canvas_editing(self):
++        self.canvas.setEditing(True)
++        self.modeSelect.setEnabled(True)
++        self.modeEdit.setEnabled(False)
++
++    def _set_canvas_creating(self):
++        self.canvas.setEditing(False)
++        self.modeSelect.setEnabled(False)
++        self.modeEdit.setEnabled(True)
++
+ 
+     @pyqtSlot(np.ndarray)
+     def _on_new_frame(self, frame):
+Index: libs/user_interfaces/designer.ui
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<ui version=\"4.0\">\r\n <class>MainWindow</class>\r\n <widget class=\"QMainWindow\" name=\"MainWindow\">\r\n  <property name=\"geometry\">\r\n   <rect>\r\n    <x>0</x>\r\n    <y>0</y>\r\n    <width>800</width>\r\n    <height>600</height>\r\n   </rect>\r\n  </property>\r\n  <property name=\"minimumSize\">\r\n   <size>\r\n    <width>800</width>\r\n    <height>600</height>\r\n   </size>\r\n  </property>\r\n  <property name=\"baseSize\">\r\n   <size>\r\n    <width>800</width>\r\n    <height>600</height>\r\n   </size>\r\n  </property>\r\n  <property name=\"font\">\r\n   <font>\r\n    <family>Segoe UI</family>\r\n    <pointsize>10</pointsize>\r\n   </font>\r\n  </property>\r\n  <property name=\"windowTitle\">\r\n   <string>Редактирование базы компонентов</string>\r\n  </property>\r\n  <property name=\"locale\">\r\n   <locale language=\"Russian\" country=\"Russia\"/>\r\n  </property>\r\n  <widget class=\"QWidget\" name=\"centralwidget\">\r\n   <layout class=\"QHBoxLayout\" name=\"horizontalLayout_3\" stretch=\"3,6,3\">\r\n    <property name=\"spacing\">\r\n     <number>10</number>\r\n    </property>\r\n    <property name=\"leftMargin\">\r\n     <number>20</number>\r\n    </property>\r\n    <property name=\"topMargin\">\r\n     <number>20</number>\r\n    </property>\r\n    <property name=\"rightMargin\">\r\n     <number>20</number>\r\n    </property>\r\n    <property name=\"bottomMargin\">\r\n     <number>0</number>\r\n    </property>\r\n    <item>\r\n     <layout class=\"QVBoxLayout\" name=\"verticalLayout\">\r\n      <item>\r\n       <widget class=\"QListView\" name=\"typeList\"/>\r\n      </item>\r\n      <item>\r\n       <widget class=\"QListView\" name=\"componentList\"/>\r\n      </item>\r\n     </layout>\r\n    </item>\r\n    <item>\r\n     <widget class=\"QWidget\" name=\"canvas\" native=\"true\"/>\r\n    </item>\r\n    <item>\r\n     <layout class=\"QVBoxLayout\" name=\"verticalLayout_2\">\r\n      <item>\r\n       <widget class=\"QListView\" name=\"objectList\"/>\r\n      </item>\r\n      <item>\r\n       <widget class=\"QPushButton\" name=\"shotButton\">\r\n        <property name=\"text\">\r\n         <string>Сделать снимок</string>\r\n        </property>\r\n       </widget>\r\n      </item>\r\n      <item>\r\n       <widget class=\"QPushButton\" name=\"saveButton\">\r\n        <property name=\"text\">\r\n         <string>Сохранить</string>\r\n        </property>\r\n       </widget>\r\n      </item>\r\n     </layout>\r\n    </item>\r\n   </layout>\r\n  </widget>\r\n  <widget class=\"QMenuBar\" name=\"menubar\">\r\n   <property name=\"geometry\">\r\n    <rect>\r\n     <x>0</x>\r\n     <y>0</y>\r\n     <width>800</width>\r\n     <height>23</height>\r\n    </rect>\r\n   </property>\r\n   <widget class=\"QMenu\" name=\"menu\">\r\n    <property name=\"title\">\r\n     <string>Файл</string>\r\n    </property>\r\n    <addaction name=\"action\"/>\r\n   </widget>\r\n   <addaction name=\"menu\"/>\r\n  </widget>\r\n  <widget class=\"QStatusBar\" name=\"statusbar\"/>\r\n  <action name=\"action\">\r\n   <property name=\"text\">\r\n    <string>Сохранить изменения</string>\r\n   </property>\r\n  </action>\r\n </widget>\r\n <resources/>\r\n <connections/>\r\n</ui>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- libs/user_interfaces/designer.ui	(revision 16d8c53a8d193c1867f760068ed0bf0b4878b8bd)
++++ libs/user_interfaces/designer.ui	(date 1611320343084)
+@@ -93,21 +93,45 @@
+      <x>0</x>
+      <y>0</y>
+      <width>800</width>
+-     <height>23</height>
++     <height>21</height>
+     </rect>
+    </property>
+-   <widget class="QMenu" name="menu">
++   <widget class="QMenu" name="fileMenu">
+     <property name="title">
+      <string>Файл</string>
+     </property>
+-    <addaction name="action"/>
++    <addaction name="saveAllChanges"/>
++   </widget>
++   <widget class="QMenu" name="windowMenu">
++    <property name="title">
++     <string>Окно</string>
++    </property>
++    <widget class="QMenu" name="windowMode">
++     <property name="title">
++      <string>Режим</string>
++     </property>
++     <addaction name="modeSelect"/>
++     <addaction name="modeEdit"/>
++    </widget>
++    <addaction name="windowMode"/>
+    </widget>
+-   <addaction name="menu"/>
++   <addaction name="fileMenu"/>
++   <addaction name="windowMenu"/>
+   </widget>
+   <widget class="QStatusBar" name="statusbar"/>
+-  <action name="action">
++  <action name="saveAllChanges">
+    <property name="text">
+     <string>Сохранить изменения</string>
++   </property>
++  </action>
++  <action name="modeSelect">
++   <property name="text">
++    <string>Выделение</string>
++   </property>
++  </action>
++  <action name="modeEdit">
++   <property name="text">
++    <string>Редактирование</string>
+    </property>
+   </action>
+  </widget>
+Index: libs/user_interfaces/designer.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># -*- coding: utf-8 -*-\r\n\r\n# Form implementation generated from reading ui file 'designer.ui'\r\n#\r\n# Created by: PyQt5 UI code generator 5.15.2\r\n#\r\n# WARNING: Any manual changes made to this file will be lost when pyuic5 is\r\n# run again.  Do not edit this file unless you know what you are doing.\r\n\r\n\r\nfrom PyQt5 import QtCore, QtGui, QtWidgets\r\nfrom libs.canvas import Canvas\r\n\r\n\r\nclass Ui_MainWindow(object):\r\n    def setupUi(self, MainWindow):\r\n        MainWindow.setObjectName(\"MainWindow\")\r\n        MainWindow.resize(800, 600)\r\n        MainWindow.setMinimumSize(QtCore.QSize(800, 600))\r\n        MainWindow.setBaseSize(QtCore.QSize(800, 600))\r\n        font = QtGui.QFont()\r\n        font.setFamily(\"Segoe UI\")\r\n        font.setPointSize(10)\r\n        MainWindow.setFont(font)\r\n        MainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.Russian, QtCore.QLocale.Russia))\r\n        self.centralwidget = QtWidgets.QWidget(MainWindow)\r\n        self.centralwidget.setObjectName(\"centralwidget\")\r\n        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.centralwidget)\r\n        self.horizontalLayout_3.setContentsMargins(20, 20, 20, 0)\r\n        self.horizontalLayout_3.setSpacing(10)\r\n        self.horizontalLayout_3.setObjectName(\"horizontalLayout_3\")\r\n        self.verticalLayout = QtWidgets.QVBoxLayout()\r\n        self.verticalLayout.setObjectName(\"verticalLayout\")\r\n        self.typeList = QtWidgets.QListView(self.centralwidget)\r\n        self.typeList.setObjectName(\"typeList\")\r\n        self.verticalLayout.addWidget(self.typeList)\r\n        self.componentList = QtWidgets.QListView(self.centralwidget)\r\n        self.componentList.setObjectName(\"componentList\")\r\n        self.verticalLayout.addWidget(self.componentList)\r\n        self.horizontalLayout_3.addLayout(self.verticalLayout)\r\n        self.canvas = Canvas(self.centralwidget)\r\n        self.canvas.setObjectName(\"canvas\")\r\n        self.horizontalLayout_3.addWidget(self.canvas)\r\n        self.verticalLayout_2 = QtWidgets.QVBoxLayout()\r\n        self.verticalLayout_2.setObjectName(\"verticalLayout_2\")\r\n        self.objectList = QtWidgets.QListView(self.centralwidget)\r\n        self.objectList.setObjectName(\"objectList\")\r\n        self.verticalLayout_2.addWidget(self.objectList)\r\n        self.shotButton = QtWidgets.QPushButton(self.centralwidget)\r\n        self.shotButton.setObjectName(\"shotButton\")\r\n        self.verticalLayout_2.addWidget(self.shotButton)\r\n        self.saveButton = QtWidgets.QPushButton(self.centralwidget)\r\n        self.saveButton.setObjectName(\"saveButton\")\r\n        self.verticalLayout_2.addWidget(self.saveButton)\r\n        self.horizontalLayout_3.addLayout(self.verticalLayout_2)\r\n        self.horizontalLayout_3.setStretch(0, 3)\r\n        self.horizontalLayout_3.setStretch(1, 6)\r\n        self.horizontalLayout_3.setStretch(2, 3)\r\n        MainWindow.setCentralWidget(self.centralwidget)\r\n        self.menubar = QtWidgets.QMenuBar(MainWindow)\r\n        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 23))\r\n        self.menubar.setObjectName(\"menubar\")\r\n        self.menu = QtWidgets.QMenu(self.menubar)\r\n        self.menu.setObjectName(\"menu\")\r\n        MainWindow.setMenuBar(self.menubar)\r\n        self.statusbar = QtWidgets.QStatusBar(MainWindow)\r\n        self.statusbar.setObjectName(\"statusbar\")\r\n        MainWindow.setStatusBar(self.statusbar)\r\n        self.action = QtWidgets.QAction(MainWindow)\r\n        self.action.setObjectName(\"action\")\r\n        self.menu.addAction(self.action)\r\n        self.menubar.addAction(self.menu.menuAction())\r\n\r\n        self.retranslateUi(MainWindow)\r\n        QtCore.QMetaObject.connectSlotsByName(MainWindow)\r\n\r\n    def retranslateUi(self, MainWindow):\r\n        _translate = QtCore.QCoreApplication.translate\r\n        MainWindow.setWindowTitle(_translate(\"MainWindow\", \"Редактирование базы компонентов\"))\r\n        self.shotButton.setText(_translate(\"MainWindow\", \"Сделать снимок\"))\r\n        self.saveButton.setText(_translate(\"MainWindow\", \"Сохранить\"))\r\n        self.menu.setTitle(_translate(\"MainWindow\", \"Файл\"))\r\n        self.action.setText(_translate(\"MainWindow\", \"Сохранить изменения\"))\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- libs/user_interfaces/designer.py	(revision 16d8c53a8d193c1867f760068ed0bf0b4878b8bd)
++++ libs/user_interfaces/designer.py	(date 1611324081994)
+@@ -54,22 +54,34 @@
+         self.verticalLayout_2.addWidget(self.saveButton)
+         self.horizontalLayout_3.addLayout(self.verticalLayout_2)
+         self.horizontalLayout_3.setStretch(0, 3)
+-        self.horizontalLayout_3.setStretch(1, 6)
++        self.horizontalLayout_3.setStretch(1, 8)
+         self.horizontalLayout_3.setStretch(2, 3)
+         MainWindow.setCentralWidget(self.centralwidget)
+         self.menubar = QtWidgets.QMenuBar(MainWindow)
+-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 23))
++        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+         self.menubar.setObjectName("menubar")
+-        self.menu = QtWidgets.QMenu(self.menubar)
+-        self.menu.setObjectName("menu")
++        self.fileMenu = QtWidgets.QMenu(self.menubar)
++        self.fileMenu.setObjectName("fileMenu")
++        self.windowMenu = QtWidgets.QMenu(self.menubar)
++        self.windowMenu.setObjectName("windowMenu")
++        self.windowMode = QtWidgets.QMenu(self.windowMenu)
++        self.windowMode.setObjectName("windowMode")
+         MainWindow.setMenuBar(self.menubar)
+         self.statusbar = QtWidgets.QStatusBar(MainWindow)
+         self.statusbar.setObjectName("statusbar")
+         MainWindow.setStatusBar(self.statusbar)
+-        self.action = QtWidgets.QAction(MainWindow)
+-        self.action.setObjectName("action")
+-        self.menu.addAction(self.action)
+-        self.menubar.addAction(self.menu.menuAction())
++        self.saveAllChanges = QtWidgets.QAction(MainWindow)
++        self.saveAllChanges.setObjectName("saveAllChanges")
++        self.modeSelect = QtWidgets.QAction(MainWindow)
++        self.modeSelect.setObjectName("modeSelect")
++        self.modeEdit = QtWidgets.QAction(MainWindow)
++        self.modeEdit.setObjectName("modeEdit")
++        self.fileMenu.addAction(self.saveAllChanges)
++        self.windowMode.addAction(self.modeSelect)
++        self.windowMode.addAction(self.modeEdit)
++        self.windowMenu.addAction(self.windowMode.menuAction())
++        self.menubar.addAction(self.fileMenu.menuAction())
++        self.menubar.addAction(self.windowMenu.menuAction())
+ 
+         self.retranslateUi(MainWindow)
+         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+@@ -79,5 +91,9 @@
+         MainWindow.setWindowTitle(_translate("MainWindow", "Редактирование базы компонентов"))
+         self.shotButton.setText(_translate("MainWindow", "Сделать снимок"))
+         self.saveButton.setText(_translate("MainWindow", "Сохранить"))
+-        self.menu.setTitle(_translate("MainWindow", "Файл"))
+-        self.action.setText(_translate("MainWindow", "Сохранить изменения"))
++        self.fileMenu.setTitle(_translate("MainWindow", "Файл"))
++        self.windowMenu.setTitle(_translate("MainWindow", "Окно"))
++        self.windowMode.setTitle(_translate("MainWindow", "Режим"))
++        self.saveAllChanges.setText(_translate("MainWindow", "Сохранить изменения"))
++        self.modeSelect.setText(_translate("MainWindow", "Выделение"))
++        self.modeEdit.setText(_translate("MainWindow", "Редактирование"))

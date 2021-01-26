@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/master" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ad414e86-838e-446a-bef8-2e44c287623e" name="Default Changelist" comment="разобраться с edit_label">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/26-01-20210000.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/26-01-20210000.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/classes.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/camera.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/label_dialog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/microscope-application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/microscope-application.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/image_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/image_editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/designer.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/designer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/widgets.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/canvas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1mxfR2tLg8EPPswUyAbZnfZci7I" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/experiments.py" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\source\icons" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="QLabel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="microscope-application" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/AppData/Local/JetBrains/PyCharmCE2020.2/python_stubs/-1364437261/PyQt5/QtWidgets" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$USER_HOME$/AppData/Local/JetBrains/PyCharmCE2020.2/python_stubs/-1364437261/PyQt5/QtWidgets/QLabel.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="experiments" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="microscope-application" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\microscope-application\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/experiments.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="microscope-application" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\microscope-application\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.experiments" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.QLabel" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.QLabel" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ad414e86-838e-446a-bef8-2e44c287623e" name="Default Changelist" comment="" />
+      <created>1610440153930</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610440153930</updated>
+    </task>
+    <task id="LOCAL-00001" summary="handled first exception (camera error)">
+      <created>1610952290334</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1610952290334</updated>
+    </task>
+    <task id="LOCAL-00002" summary="видеопотоки сделаны, надо разобраться с канвасом и фоторедактором">
+      <created>1611254749010</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1611254749010</updated>
+    </task>
+    <task id="LOCAL-00003" summary="разобраться с edit_label">
+      <created>1611601123969</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1611601123969</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="requirements.txt" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="handled first exception (camera error)" />
+    <MESSAGE value="видеопотоки сделаны, надо разобраться с канвасом и фоторедактором" />
+    <MESSAGE value="разобраться с edit_label" />
+    <option name="LAST_COMMIT_MESSAGE" value="разобраться с edit_label" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="174" y="74" width="1092" height="786" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611148116363">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="174" y="74" width="1092" height="786" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.860@0.0.1440.860" timestamp="1611148116363" />
+    <state x="492" y="232" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1611227598905">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="492" y="232" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.860@0.0.1440.860" timestamp="1611227598905" />
+    <state x="464" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1611599044030">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="464" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860@0.0.1440.860" timestamp="1611599044030" />
+    <state x="563" y="320" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog" timestamp="1611666329160">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="563" y="320" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog/0.0.1440.860@0.0.1440.860" timestamp="1611666329160" />
+    <state x="92" y="92" width="1256" height="676" key="DiffContextDialog" timestamp="1611663607999">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="92" y="92" width="1256" height="676" key="DiffContextDialog/0.0.1440.860@0.0.1440.860" timestamp="1611663607999" />
+    <state x="500" y="197" key="FileChooserDialogImpl" timestamp="1611148114333">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="500" y="197" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1611148114333" />
+    <state width="1419" height="276" key="GridCell.Tab.0.bottom" timestamp="1611677311255">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
+    <state width="1419" height="276" key="GridCell.Tab.0.center" timestamp="1611677311255">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
+    <state width="1419" height="276" key="GridCell.Tab.0.left" timestamp="1611677311255">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
+    <state width="1419" height="276" key="GridCell.Tab.0.right" timestamp="1611677311255">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
+    <state width="1419" height="276" key="GridCell.Tab.1.bottom" timestamp="1611677311255">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.1.bottom/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
+    <state width="1419" height="276" key="GridCell.Tab.1.center" timestamp="1611677311255">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.1.center/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
+    <state width="1419" height="276" key="GridCell.Tab.1.left" timestamp="1611677311255">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.1.left/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
+    <state width="1419" height="276" key="GridCell.Tab.1.right" timestamp="1611677311255">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
+    <state x="136" y="68" key="MergeDialog" timestamp="1611598522839">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="136" y="68" key="MergeDialog/0.0.1440.860@0.0.1440.860" timestamp="1611598522839" />
+    <state x="221" y="75" key="SettingsEditor" timestamp="1611212921327">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="221" y="75" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1611212921327" />
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1611601130944">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1611601130944" />
+    <state x="537" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1611171826451">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="537" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.860@0.0.1440.860" timestamp="1611171826451" />
+    <state x="488" y="143" key="git4idea.branch.GitSmartOperationDialog" timestamp="1611598508231">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="488" y="143" key="git4idea.branch.GitSmartOperationDialog/0.0.1440.860@0.0.1440.860" timestamp="1611598508231" />
+    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1610440206173">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1610440206173" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/libs/database.py</url>
+          <line>32</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

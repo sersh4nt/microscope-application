@@ -18,3 +18,34 @@ def labelValidator():
 
 def newIcon(icon):
     return QIcon(':/' + icon)
+
+
+def points2yolo(points):
+    xmin = float('inf')
+    ymin = float('inf')
+    xmax = float('-inf')
+    ymax = float('-inf')
+    for point in points:
+        x = point[0]
+        y = point[1]
+        xmin = min(x, xmin)
+        ymin = min(y, ymin)
+        xmax = max(x, xmax)
+        ymax = max(y, ymax)
+
+    xcen = float(xmin + xmax) / 2
+    ycen = float(ymin + ymax) / 2
+    w = float(xmax - xmin)
+    h = float(ymax - ymin)
+
+    return xcen, ycen, w, h
+
+
+def shape2dict(shape):
+    return dict(
+        label=shape.label,
+        line_color=shape.line_color.getRgb(),
+        fill_color=shape.fill_color.getRgb(),
+        points=[(p.x(), p.y()) for p in shape.points],
+        difficult=shape.difficult
+    )

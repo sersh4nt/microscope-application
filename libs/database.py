@@ -1,33 +1,81 @@
 from datetime import datetime
+from dataclasses import dataclass
+from libs.utils import *
 import os
+import cv2
 
 
 class DatabaseHandler:
     def __init__(self, path):
         self.path = path
         self.records = dict()
+        self.classes = []
         self.load()
-        print(self.records)
+        print(self.classes)
 
     def load(self):
+        with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
+            self.classes = file.read().strip('\n').split('\n')
+
         for component_name in os.listdir(self.path):
             component_folder = os.path.join(self.path, component_name)
-            for folder in os.listdir(component_folder):
-                if folder == 'records':
-                    records_folder = os.path.join(component_folder, folder)
-                    for record in os.listdir(records_folder):
-                        if record.lower().endswith('.txt'):
-                            if component_name not in self.records:
-                                self.records[component_name] = list()
-                            self.records[component_name].append(DataRecord().load(record, component_name))
+            if os.path.isdir(component_folder):
+                for folder in os.listdir(component_folder):
+                    if folder == 'records':
+                        records_folder = os.path.join(component_folder, folder)
+                        for record in os.listdir(records_folder):
+                            if record.lower().endswith('.txt'):
+                                if component_name not in self.records:
+                                    self.records[component_name] = list()
+                                self.records[component_name].append(DataRecord().load(record, component_name))
+
+    def add_record(self, component, img, shapes):
+        dir = os.path.join(self.path, component)
+        # check if component class folder exists
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+        dir = os.path.join(dir, 'records')
+        # check if records folder exists
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+
+        current_date = datetime.now().strftime("%d-%m-%Y")
+        current_number = -1
+        for file in os.listdir(dir):
+            if file.lower().endswith('.txt'):
+                date = file[:10]
+                if date == current_date:
+                    current_number = max(current_number, int(file[11:14]))
+        current_number += 1
+        filename = "{}{:04d}".format(current_date, current_number)
+        cv2.imwrite(filename + '.jpg', img)
+
+        shapes = [shape2dict(shape) for shape in shapes]
+        img_h, img_w = img.shape[0], img.shape[1]\
+
+        if component not in self.classes:
+            self.classes.append(component)
+        index = self.classes.index(component)
+
+        with open(filename + '.txt', 'w') as file:
+            for shape in shapes:
+                xcen, ycen, w, h = points2yolo(shape['points'])
+                xcen /= img_w
+                ycen /= img_h
+                w /= img_w
+                h /= img_h
+
+                file.write("%d %.6f %.6f %.6f %.6f\n" % (index, xcen, ycen, w, h))
 
 
+
+
+@dataclass
 class DataRecord:
-    def __init__(self, date=datetime.now().strftime("%d-%m-%Y"), image='', component='', number=0):
-        self.date = date
-        self.image = image
-        self.component = component
-        self.number = number
+    date: str = datetime.now().strftime("%d-%m-%Y")
+    image: str = ''
+    component: str = ''
+    number: int = 0
 
     '''directory='data/<class_name>', example: directory='data/ad620b' '''
     def save(self, class_directory):

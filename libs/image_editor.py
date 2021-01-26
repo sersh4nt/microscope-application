@@ -3,7 +3,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 from libs.user_interfaces import designer
-from libs.widgets import Camera, LabelDialog
+from libs.camera import Camera
+from libs.label_dialog import LabelDialog
 from libs.database import DatabaseHandler
 
 import sys
@@ -29,6 +30,7 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.label_list = []
         self.prev_label_text = ''
         self.last_label = None
+        self.shapes = []
 
         self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
         self.database_handler = DatabaseHandler(path)
@@ -62,6 +64,7 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
             color = generate_color_by_text(text)
             shape = self.canvas.setLastLabel(text, color, color)
             self.add_label(shape)
+            self.shapes.append(shape)
             if text not in self.label_list:
                 self.label_list.append(text)
         else:
@@ -91,12 +94,16 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
             return items[0]
         return None
 
+    def save_labels(self):
+        self.database_handler.add_record('ad822b', self.frame, self.shapes)
+
     def connect(self):
         self.camera.new_frame.connect(self._on_new_frame)
         self.shotButton.clicked.connect(self._stop_video)
         self.modeSelect.triggered.connect(self._mode_select)
         self.modeEdit.triggered.connect(self._mode_edit)
         self.objectList.itemDoubleClicked.connect(self.edit_label)
+        self.saveButton.clicked.connect(self.save_labels)
 
     def _mode_select(self):
         self.modeEdit.setChecked(False)

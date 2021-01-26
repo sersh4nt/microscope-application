@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from libs.widgets import Canvas
+from libs.canvas import Canvas
 
 
 class Ui_MainWindow(object):
