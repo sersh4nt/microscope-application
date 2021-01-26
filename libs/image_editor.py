@@ -4,18 +4,20 @@ from PyQt5.QtGui import *
 
 from libs.user_interfaces import designer
 from libs.widgets import Camera, LabelDialog
+from libs.database import DatabaseHandler
 
 import sys
 import qimage2ndarray
 import numpy as np
 import cv2
 import hashlib
+import os
 
 
 class ImageEditor(QMainWindow, designer.Ui_MainWindow):
     close_event = pyqtSignal()
 
-    def __init__(self, camera=None):
+    def __init__(self, camera=None, path=None):
         super(ImageEditor, self).__init__()
         self.setupUi(self)
         self.camera = camera
@@ -29,6 +31,7 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.last_label = None
 
         self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
+        self.database_handler = DatabaseHandler(path)
 
         self.scrollBars = {
             Qt.Vertical: self.scrollArea.verticalScrollBar(),
