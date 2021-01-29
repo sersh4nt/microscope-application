@@ -26,24 +26,19 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad414e86-838e-446a-bef8-2e44c287623e" name="Default Changelist" comment="разобраться с edit_label">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/26-01-20210000.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/26-01-20210000.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/classes.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/camera.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/label_dialog.py" afterDir="false" />
+    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="started database">
+      <change afterPath="$PROJECT_DIR$/data/ad822b/records/29-01-20210000.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/ad822b/records/29-01-20210000.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/microscope-application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/microscope-application.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/26-01-20210000.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/26-01-20210000.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/image_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/image_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/designer.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/designer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/widgets.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/canvas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +71,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/experiments.py" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -136,7 +132,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\microscope-application\python.exe" />
+      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\main\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -164,7 +160,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ad414e86-838e-446a-bef8-2e44c287623e" name="Default Changelist" comment="" />
+      <changelist id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="started database" />
       <created>1610440153930</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -227,98 +223,5 @@
     <MESSAGE value="видеопотоки сделаны, надо разобраться с канвасом и фоторедактором" />
     <MESSAGE value="разобраться с edit_label" />
     <option name="LAST_COMMIT_MESSAGE" value="разобраться с edit_label" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="174" y="74" width="1092" height="786" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611148116363">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="174" y="74" width="1092" height="786" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.860@0.0.1440.860" timestamp="1611148116363" />
-    <state x="492" y="232" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1611227598905">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="492" y="232" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.860@0.0.1440.860" timestamp="1611227598905" />
-    <state x="464" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1611599044030">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="464" y="257" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.860@0.0.1440.860" timestamp="1611599044030" />
-    <state x="563" y="320" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog" timestamp="1611666329160">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="563" y="320" key="#com.jetbrains.python.refactoring.move.PyMoveModuleMembersDialog/0.0.1440.860@0.0.1440.860" timestamp="1611666329160" />
-    <state x="92" y="92" width="1256" height="676" key="DiffContextDialog" timestamp="1611663607999">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="92" y="92" width="1256" height="676" key="DiffContextDialog/0.0.1440.860@0.0.1440.860" timestamp="1611663607999" />
-    <state x="500" y="197" key="FileChooserDialogImpl" timestamp="1611148114333">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="500" y="197" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1611148114333" />
-    <state width="1419" height="276" key="GridCell.Tab.0.bottom" timestamp="1611677311255">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state width="1419" height="276" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
-    <state width="1419" height="276" key="GridCell.Tab.0.center" timestamp="1611677311255">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state width="1419" height="276" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
-    <state width="1419" height="276" key="GridCell.Tab.0.left" timestamp="1611677311255">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state width="1419" height="276" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
-    <state width="1419" height="276" key="GridCell.Tab.0.right" timestamp="1611677311255">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state width="1419" height="276" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
-    <state width="1419" height="276" key="GridCell.Tab.1.bottom" timestamp="1611677311255">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state width="1419" height="276" key="GridCell.Tab.1.bottom/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
-    <state width="1419" height="276" key="GridCell.Tab.1.center" timestamp="1611677311255">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state width="1419" height="276" key="GridCell.Tab.1.center/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
-    <state width="1419" height="276" key="GridCell.Tab.1.left" timestamp="1611677311255">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state width="1419" height="276" key="GridCell.Tab.1.left/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
-    <state width="1419" height="276" key="GridCell.Tab.1.right" timestamp="1611677311255">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state width="1419" height="276" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1611677311255" />
-    <state x="136" y="68" key="MergeDialog" timestamp="1611598522839">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="136" y="68" key="MergeDialog/0.0.1440.860@0.0.1440.860" timestamp="1611598522839" />
-    <state x="221" y="75" key="SettingsEditor" timestamp="1611212921327">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="221" y="75" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1611212921327" />
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2" timestamp="1611601130944">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="312" y="163" key="Vcs.Push.Dialog.v2/0.0.1440.860@0.0.1440.860" timestamp="1611601130944" />
-    <state x="537" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1611171826451">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="537" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.860@0.0.1440.860" timestamp="1611171826451" />
-    <state x="488" y="143" key="git4idea.branch.GitSmartOperationDialog" timestamp="1611598508231">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="488" y="143" key="git4idea.branch.GitSmartOperationDialog/0.0.1440.860@0.0.1440.860" timestamp="1611598508231" />
-    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1610440206173">
-      <screen x="0" y="0" width="1440" height="860" />
-    </state>
-    <state x="383" y="180" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1610440206173" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/libs/database.py</url>
-          <line>32</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

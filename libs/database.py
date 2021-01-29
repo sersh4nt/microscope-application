@@ -38,6 +38,7 @@ class DatabaseHandler:
         # check if records folder exists
         if not os.path.exists(dir):
             os.mkdir(dir)
+        os.chdir(dir)
 
         current_date = datetime.now().strftime("%d-%m-%Y")
         current_number = -1
@@ -48,11 +49,12 @@ class DatabaseHandler:
                     current_number = max(current_number, int(file[11:14]))
         current_number += 1
         filename = "{}{:04d}".format(current_date, current_number)
-        cv2.imwrite(filename + '.jpg', img)
+
+        image = cv2.cvtColor(img.copy(), cv2.COLOR_RGB2BGR)
+        cv2.imwrite(filename + '.jpg', image)
 
         shapes = [shape2dict(shape) for shape in shapes]
-        img_h, img_w = img.shape[0], img.shape[1]\
-
+        img_h, img_w = img.shape[0], img.shape[1]
         if component not in self.classes:
             self.classes.append(component)
         index = self.classes.index(component)
@@ -64,8 +66,9 @@ class DatabaseHandler:
                 ycen /= img_h
                 w /= img_w
                 h /= img_h
-
                 file.write("%d %.6f %.6f %.6f %.6f\n" % (index, xcen, ycen, w, h))
+
+        os.chdir(self.path)
 
 
 

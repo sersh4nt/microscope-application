@@ -95,7 +95,8 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         return None
 
     def save_labels(self):
-        self.database_handler.add_record('ad822b', self.frame, self.shapes)
+        # изменить название для сохоранения файлов!!!
+        self.database_handler.add_record('vlda', self.frame, self.shapes)
 
     def connect(self):
         self.camera.new_frame.connect(self._on_new_frame)
