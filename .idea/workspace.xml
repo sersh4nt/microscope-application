@@ -27,18 +27,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="started database">
-      <change afterPath="$PROJECT_DIR$/data/ad822b/records/29-01-20210000.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/ad822b/records/29-01-20210000.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/gay/records/31-01-20210000.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/gay/records/31-01-20210000.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataclasses.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/microscope-application.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/microscope-application.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/26-01-20210000.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/26-01-20210000.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ad822b/records/29-01-20210000.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/ad822b/records/29-01-20210000.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ad822b/records/29-01-20210000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/ad822b/records/29-01-20210000.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/classes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/classes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/canvas.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/canvas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/image_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/image_editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/designer.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/designer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +75,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/experiments.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -132,7 +134,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\main\python.exe" />
+      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\microscope-application\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -223,5 +225,47 @@
     <MESSAGE value="видеопотоки сделаны, надо разобраться с канвасом и фоторедактором" />
     <MESSAGE value="разобраться с edit_label" />
     <option name="LAST_COMMIT_MESSAGE" value="разобраться с edit_label" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="174" y="85" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612092249638">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="174" y="85" width="1092" height="714" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.860@0.0.1440.860" timestamp="1612092249638" />
+    <state x="500" y="185" key="FileChooserDialogImpl" timestamp="1612092245962">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="500" y="185" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1612092245962" />
+    <state width="1419" height="144" key="GridCell.Tab.0.bottom" timestamp="1612112870665">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="144" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1612112870665" />
+    <state width="1419" height="144" key="GridCell.Tab.0.center" timestamp="1612112870665">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="144" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1612112870665" />
+    <state width="1419" height="144" key="GridCell.Tab.0.left" timestamp="1612112870665">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="144" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1612112870665" />
+    <state width="1419" height="144" key="GridCell.Tab.0.right" timestamp="1612112870665">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="144" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1612112870665" />
+    <state width="1419" height="276" key="GridCell.Tab.1.bottom" timestamp="1612112825622">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.1.bottom/0.0.1440.860@0.0.1440.860" timestamp="1612112825622" />
+    <state width="1419" height="276" key="GridCell.Tab.1.center" timestamp="1612112825622">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.1.center/0.0.1440.860@0.0.1440.860" timestamp="1612112825622" />
+    <state width="1419" height="276" key="GridCell.Tab.1.left" timestamp="1612112825622">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.1.left/0.0.1440.860@0.0.1440.860" timestamp="1612112825622" />
+    <state width="1419" height="276" key="GridCell.Tab.1.right" timestamp="1612112825622">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1419" height="276" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1612112825622" />
   </component>
 </project>

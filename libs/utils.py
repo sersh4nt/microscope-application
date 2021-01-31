@@ -41,6 +41,19 @@ def points2yolo(points):
     return xcen, ycen, w, h
 
 
+def yolo2points(xcen, ycen, w, h, img_w, img_h):
+    xmin = max(float(xcen) - float(w) / 2, 0)
+    xmax = min(float(xcen) + float(w) / 2, 1)
+    ymin = max(float(ycen) - float(h) / 2, 0)
+    ymax = min(float(ycen) + float(h) / 2, 1)
+
+    xmin = int(img_w * xmin)
+    xmax = int(img_w * xmax)
+    ymin = int(img_h * ymin)
+    ymax = int(img_h * ymax)
+    return xmin, ymin, xmax, ymax
+
+
 def shape2dict(shape):
     return dict(
         label=shape.label,

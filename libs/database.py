@@ -57,6 +57,13 @@ class DatabaseHandler:
         img_h, img_w = img.shape[0], img.shape[1]
         if component not in self.classes:
             self.classes.append(component)
+            d = os.path.join(self.path, 'classes.txt')
+            with open(d, 'r') as f:
+                text = f.read()
+            with open(d, 'a') as f:
+                if not text.endswith('\n'):
+                    f.write('\n')
+                f.write(component)
         index = self.classes.index(component)
 
         with open(filename + '.txt', 'w') as file:
@@ -70,6 +77,35 @@ class DatabaseHandler:
 
         os.chdir(self.path)
 
+    def edit_record(self, component, filename, frame, shapes):
+        os.chdir(os.path.join(self.path, component, 'records'))
+
+        image = cv2.cvtColor(frame.copy(), cv2.COLOR_RGB2BGR)
+        cv2.imwrite(filename + '.jpg', image)
+
+        shapes = [shape2dict(shape) for shape in shapes]
+        img_h, img_w = frame.shape[0], frame.shape[1]
+        if component not in self.classes:
+            self.classes.append(component)
+            d = os.path.join(self.path, 'classes.txt')
+            with open(d, 'r') as f:
+                text = f.read()
+            with open(d, 'a') as f:
+                if not text.endswith('\n'):
+                    f.write('\n')
+                f.write(component)
+        index = self.classes.index(component)
+
+        with open(filename + '.txt', 'w') as file:
+            for shape in shapes:
+                xcen, ycen, w, h = points2yolo(shape['points'])
+                xcen /= img_w
+                ycen /= img_h
+                w /= img_w
+                h /= img_h
+                file.write("%d %.6f %.6f %.6f %.6f\n" % (index, xcen, ycen, w, h))
+
+        os.chdir(self.path)
 
 
 

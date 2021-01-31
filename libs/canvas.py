@@ -625,7 +625,7 @@ class Canvas(QWidget):
         points = [p1+p2 for p1, p2 in zip(self.selectedShape.points, [step]*4)]
         return True in map(self.outOfPixmap, points)
 
-    def setLastLabel(self, text, line_color  = None, fill_color = None):
+    def setLastLabel(self, text, line_color=None, fill_color=None):
         assert text
         self.shapes[-1].label = text
         if line_color:
@@ -644,7 +644,8 @@ class Canvas(QWidget):
         self.drawingPolygon.emit(True)
 
     def resetAllLines(self):
-        assert self.shapes
+        if not self.shapes:
+            return
         self.current = self.shapes.pop()
         self.current.setOpen()
         self.line.points = [self.current[-1], self.current[0]]

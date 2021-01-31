@@ -3,15 +3,17 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 from libs.user_interfaces import designer
-from libs.camera import Camera
+from libs.utils import *
 from libs.label_dialog import LabelDialog
 from libs.database import DatabaseHandler
+from libs.shape import Shape
 
 import sys
 import qimage2ndarray
 import numpy as np
 import cv2
 import hashlib
+import re
 import os
 
 
@@ -31,6 +33,10 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.prev_label_text = ''
         self.last_label = None
         self.shapes = []
+        self.path = path
+        self.rewrite = False
+        self.current_component = ''
+        self.current_filename = ''
 
         self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
         self.database_handler = DatabaseHandler(path)
@@ -48,6 +54,7 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.statusBar().addPermanentWidget(self.labelCoordinates)
 
         self.connect()
+        self.display_classes()
 
     def new_shape(self):
         if len(self.label_list) > 0:
@@ -69,6 +76,79 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
                 self.label_list.append(text)
         else:
             self.canvas.resetAllLines()
+
+    def display_classes(self):
+        for key in self.database_handler.classes:
+            self.typeList.addItem(key)
+
+    def display_records(self):
+        item = self.typeList.selectedItems()[0]
+        if not item:
+            return
+        self.componentList.clear()
+        if item.text() in self.database_handler.records.keys():
+            for record in self.database_handler.records[item.text()]:
+                self.componentList.addItem("{} №{}".format(record.date, record.number))
+
+    def load_record(self):
+        self.clear_labels()
+        self.rewrite = True
+        item = self.componentList.selectedItems()[0]
+        if not item:
+            return
+        if self.stream_enabled:
+            self._stop_video()
+
+        component = self.typeList.selectedItems()[0].text()
+        filename = item.text().replace('№', '')
+        f = filename.split(' ')
+        filename = '{}{:04d}'.format(f[0], int(f[1]))
+        path = os.path.join(self.path, component, 'records', filename)
+
+        self.current_component = component
+        self.current_filename = filename
+
+        img_path = path + '.jpg'
+        txt_path = path + '.txt'
+        self.frame = cv2.imread(img_path)
+        if self.frame is None:
+            return
+        self.frame = cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB)
+        self.canvas.loadPixmap(QPixmap.fromImage(qimage2ndarray.array2qimage(self.frame)))
+        self.canvas.adjustSize()
+
+        # loading shapes from .txt file
+        with open(os.path.join(self.path, 'classes.txt')) as classes_file:
+            classes = classes_file.read().strip('\n').split('\n')
+
+        with open(txt_path, 'r') as bndboxes_file:
+            for box in bndboxes_file:
+                index, xcen, ycen, w, h = box.strip().split(' ')
+                label = classes[int(index)]
+                xmin, ymin, xmax, ymax = yolo2points(xcen, ycen, w, h, self.frame.shape[1], self.frame.shape[0])
+                points = [(xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax)]
+
+                shape = Shape(label=label)
+                for x, y in points:
+                    x, y, snapped = self.canvas.snapPointToCanvas(x, y)
+                    shape.addPoint(QPointF(x, y))
+                shape.difficult = False
+                shape.fill_color = generate_color_by_text(label)
+                shape.line_color = generate_color_by_text(label)
+                shape.close()
+                self.shapes.append(shape)
+                self.add_label(shape)
+        self.canvas.loadShapes(self.shapes)
+
+    def clear_labels(self):
+        self.label_list.clear()
+        self.last_label = None
+        self.items_to_shapes.clear()
+        self.shapes_to_items.clear()
+        self.prev_label_text = ''
+        self.shapes.clear()
+        if self.objectList.count():
+            self.objectList.clear()
 
     def add_label(self, shape):
         item = HashableQListWidgetItem(shape.label)
@@ -95,8 +175,16 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         return None
 
     def save_labels(self):
-        # изменить название для сохоранения файлов!!!
-        self.database_handler.add_record('vlda', self.frame, self.shapes)
+        if self.rewrite:
+            self.database_handler.edit_record(
+                self.current_component,
+                self.current_filename,
+                self.frame,
+                self.shapes
+            )
+        else:
+            self.database_handler.add_record('gay', self.frame, self.shapes)
+        self.rewrite = False
 
     def connect(self):
         self.camera.new_frame.connect(self._on_new_frame)
@@ -105,6 +193,18 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.modeEdit.triggered.connect(self._mode_edit)
         self.objectList.itemDoubleClicked.connect(self.edit_label)
         self.saveButton.clicked.connect(self.save_labels)
+        self.typeList.itemClicked.connect(self.display_records)
+        self.componentList.itemClicked.connect(self.load_record)
+
+    def clear(self):
+        # if self.typeList.count():
+        #     self.typeList.clear()
+        if self.componentList.count():
+            self.componentList.clear()
+        if self.objectList.count():
+            self.objectList.clear()
+        self.canvas.resetAllLines()
+        self.canvas.adjustSize()
 
     def _mode_select(self):
         self.modeEdit.setChecked(False)
@@ -131,7 +231,13 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
             self.canvas.loadPixmap(QPixmap.fromImage(qimage2ndarray.array2qimage(self.frame)))
 
     def closeEvent(self, e):
+        self.clear()
         self.close_event.emit()
+
+    def resizeEvent(self, ev):
+        self.canvas.adjustSize()
+        self.canvas.update()
+        super(ImageEditor, self).resizeEvent(ev)
 
 
 class HashableQListWidgetItem(QListWidgetItem):
