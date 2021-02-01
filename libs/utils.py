@@ -62,3 +62,33 @@ def shape2dict(shape):
         points=[(p.x(), p.y()) for p in shape.points],
         difficult=shape.difficult
     )
+
+
+def Action(parent, text, slot=None, shortcut=None, icon=None, tip=None, checable=False, enabled=True):
+    a = QAction(text, parent)
+    if icon is not None:
+        a.setIcon(newIcon(icon))
+    if shortcut is not None:
+        if isinstance(shortcut, (list, tuple)):
+            a.setShortcuts(shortcut)
+        else:
+            a.setShortcut(shortcut)
+    if tip is not None:
+        a.setToolTip(tip)
+        a.setStatusTip(tip)
+    if slot is not None:
+        a.triggered.connect(slot)
+    if checable:
+        a.setCheckable(True)
+    a.setEnabled(enabled)
+    return a
+
+
+def add_actions(widget, actions):
+    for action in actions:
+        if action is None:
+            widget.addSeparator()
+        elif isinstance(action, QMenu):
+            widget.addMenu(action)
+        else:
+            widget.addAction(action)

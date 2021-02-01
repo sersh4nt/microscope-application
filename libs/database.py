@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from libs.utils import *
 import os
 import cv2
+import shutil
 
 
 class DatabaseHandler:
@@ -11,7 +12,30 @@ class DatabaseHandler:
         self.records = dict()
         self.classes = []
         self.load()
-        print(self.classes)
+
+    def delete_class(self, component):
+        self.classes.remove(component)
+        with open(os.path.join(self.path, 'classes.txt'), 'w') as file:
+            for component in self.classes:
+                file.write(component + '\n')
+        shutil.rmtree(os.path.join(self.path, component))
+
+    def add_class(self, component):
+        component_dir = os.path.join(self.path, component)
+        os.mkdir(component_dir)
+        records_dir = os.path.join(component_dir, 'records')
+        os.mkdir(records_dir)
+
+        if component not in self.classes:
+            self.classes.append(component)
+            d = os.path.join(self.path, 'classes.txt')
+            with open(d, 'r') as f:
+                text = f.read()
+            with open(d, 'a') as f:
+                if not text.endswith('\n'):
+                    f.write('\n')
+                f.write(component)
+
 
     def load(self):
         with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
@@ -76,6 +100,10 @@ class DatabaseHandler:
                 file.write("%d %.6f %.6f %.6f %.6f\n" % (index, xcen, ycen, w, h))
 
         os.chdir(self.path)
+
+        if component not in self.records:
+            self.records[component] = list()
+        self.records[component].append(DataRecord().load(filename + '.jpg', component))
 
     def edit_record(self, component, filename, frame, shapes):
         os.chdir(os.path.join(self.path, component, 'records'))

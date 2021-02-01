@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-from libs.image_editor import ImageEditor
+from libs.database_editor import ImageEditor
 # from libs.user_editor import UserEditor
 from libs.camera import Camera
 from libs.user_interfaces import main
@@ -61,13 +61,14 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.display_item()
 
     def display_item(self):
-        path = self.logs[self.component_counter]['path']
-        image = cv2.imread(path)
-        scale = (self.databaseComponentView.size().width() - 2) / image.shape[1]
-        image = cv2.resize(image, None, fx=scale, fy=scale)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = qimage2ndarray.array2qimage(image)
-        self.databaseComponentView.setPixmap(QPixmap.fromImage(image))
+        if len(self.logs):
+            path = self.logs[self.component_counter]['path']
+            image = cv2.imread(path)
+            scale = (self.databaseComponentView.size().width() - 2) / image.shape[1]
+            image = cv2.resize(image, None, fx=scale, fy=scale)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            image = qimage2ndarray.array2qimage(image)
+            self.databaseComponentView.setPixmap(QPixmap.fromImage(image))
 
     def load_database(self):
         directory = os.path.join(os.getcwd(), 'data')
@@ -78,6 +79,10 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
             self.item_dict[log['name']] = i
             i += 1
         self.display_item()
+
+    def closeEvent(self, ev):
+        terminate_app()
+        super(MainWindow, self).closeEvent(ev)
 
 
 def get_images(directory):

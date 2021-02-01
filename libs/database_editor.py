@@ -13,7 +13,6 @@ import qimage2ndarray
 import numpy as np
 import cv2
 import hashlib
-import re
 import os
 
 
@@ -26,6 +25,7 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.camera = camera
         self.stream_enabled = False
         self.single_class = False
+        self.dirty = False
         self.frame = None
         self.items_to_shapes = {}
         self.shapes_to_items = {}
@@ -47,6 +47,16 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         }
         self.canvas.newShape.connect(self.new_shape)
 
+        # context menus
+        delete_record_action = Action(self, 'Delete record', self.delete_record, enabled=True)
+        add_record_action = Action(self, 'Add record', self.add_record, enabled=True)
+        delete_component_action = Action(self, 'Delete component', self.delete_component, enabled=True)
+        add_component_action = Action(self, 'Add Component', self.add_component, enabled=True)
+        self.record_menu = QMenu()
+        add_actions(self.record_menu, (delete_record_action, add_record_action))
+        self.component_menu = QMenu()
+        add_actions(self.component_menu, (delete_component_action, add_component_action))
+
         self.modeEdit.setChecked(True)
         self.modeSelect.setChecked(False)
 
@@ -54,6 +64,22 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.statusBar().addPermanentWidget(self.labelCoordinates)
 
         self.connect()
+        self.display_classes()
+
+    def delete_component(self):
+        component = self.get_current_component()
+        if not component:
+            return
+        component = component.text()
+        self.database_handler.delete_class(component)
+        self.clear()
+        self.display_classes()
+
+    def add_component(self):
+        component = self.label_dialog.popUp()
+        if component == '':
+            return
+        self.database_handler.add_class(component)
         self.display_classes()
 
     def new_shape(self):
@@ -74,32 +100,34 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
             self.shapes.append(shape)
             if text not in self.label_list:
                 self.label_list.append(text)
+            self.set_dirty()
         else:
             self.canvas.resetAllLines()
 
     def display_classes(self):
+        self.componentList.clear()
         for key in self.database_handler.classes:
-            self.typeList.addItem(key)
+            self.componentList.addItem(key)
 
     def display_records(self):
-        item = self.typeList.selectedItems()[0]
+        item = self.componentList.selectedItems()[0]
         if not item:
             return
-        self.componentList.clear()
+        self.recordList.clear()
         if item.text() in self.database_handler.records.keys():
             for record in self.database_handler.records[item.text()]:
-                self.componentList.addItem("{} №{}".format(record.date, record.number))
+                self.recordList.addItem("{} №{}".format(record.date, record.number))
 
     def load_record(self):
         self.clear_labels()
         self.rewrite = True
-        item = self.componentList.selectedItems()[0]
+        item = self.recordList.selectedItems()[0]
         if not item:
             return
         if self.stream_enabled:
             self._stop_video()
 
-        component = self.typeList.selectedItems()[0].text()
+        component = self.componentList.selectedItems()[0].text()
         filename = item.text().replace('№', '')
         f = filename.split(' ')
         filename = '{}{:04d}'.format(f[0], int(f[1]))
@@ -131,6 +159,8 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
                 shape = Shape(label=label)
                 for x, y in points:
                     x, y, snapped = self.canvas.snapPointToCanvas(x, y)
+                    if snapped:
+                        self.set_dirty()
                     shape.addPoint(QPointF(x, y))
                 shape.difficult = False
                 shape.fill_color = generate_color_by_text(label)
@@ -140,6 +170,34 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
                 self.add_label(shape)
         self.canvas.loadShapes(self.shapes)
 
+    def delete_record(self):
+        record = self.get_current_record()
+        component = self.get_current_component()
+        if not record or not component:
+            return
+        component = component.text()
+        filename = record.text().replace('№', '')
+        f = filename.split(' ')
+        filename = '{}{:04d}'.format(f[0], int(f[1]))
+        path = os.path.join(self.path, component, 'records', filename)
+        os.remove(path + '.jpg')
+        os.remove(path + '.txt')
+        for i, o in enumerate(self.database_handler.records[component]):
+            if o.image == filename + '.txt':
+                del self.database_handler.records[component][i]
+                break
+        self.clear_labels()
+        self.display_records()
+
+    def add_record(self):
+        component = self.get_current_component()
+        if not component:
+            return
+        component = component.text()
+        if not self.stream_enabled:
+            self.database_handler.add_record(component, self.frame, self.shapes)
+            self.display_records()
+
     def clear_labels(self):
         self.label_list.clear()
         self.last_label = None
@@ -147,8 +205,8 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.shapes_to_items.clear()
         self.prev_label_text = ''
         self.shapes.clear()
-        if self.objectList.count():
-            self.objectList.clear()
+        if self.rectangleList.count():
+            self.rectangleList.clear()
 
     def add_label(self, shape):
         item = HashableQListWidgetItem(shape.label)
@@ -157,21 +215,34 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         item.setBackground(generate_color_by_text(shape.label))
         self.items_to_shapes[item] = shape
         self.shapes_to_items[shape] = item
-        self.objectList.addItem(item)
+        self.rectangleList.addItem(item)
 
     def edit_label(self):
-        item = self.current_item()
+        item = self.get_current_rectangle()
         if not item:
             return
-        text = self.labelDialog.popUp(item.text())
+        text = self.label_dialog.popUp(item.text())
         if text is not None:
             item.setText(text)
             item.setBackground(generate_color_by_text(text))
+            self.set_dirty()
 
-    def current_item(self):
-        items = self.objectList.selectedItems()
+    def get_current_rectangle(self):
+        items = self.rectangleList.selectedItems()
         if items:
             return items[0]
+        return None
+
+    def get_current_record(self):
+        records = self.recordList.selectedItems()
+        if records:
+            return records[0]
+        return None
+
+    def get_current_component(self):
+        component = self.componentList.selectedItems()
+        if component:
+            return component[0]
         return None
 
     def save_labels(self):
@@ -183,28 +254,67 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
                 self.shapes
             )
         else:
-            self.database_handler.add_record('gay', self.frame, self.shapes)
+            text = self.label_dialog.popUp(self.last_label)
+            self.database_handler.add_record(text, self.frame, self.shapes)
+            self.display_classes()
         self.rewrite = False
 
     def connect(self):
         self.camera.new_frame.connect(self._on_new_frame)
+
+        self.canvas.shapeMoved.connect(self.set_dirty)
+
         self.shotButton.clicked.connect(self._stop_video)
+        self.saveButton.clicked.connect(self.save_labels)
+
         self.modeSelect.triggered.connect(self._mode_select)
         self.modeEdit.triggered.connect(self._mode_edit)
-        self.objectList.itemDoubleClicked.connect(self.edit_label)
-        self.saveButton.clicked.connect(self.save_labels)
-        self.typeList.itemClicked.connect(self.display_records)
-        self.componentList.itemClicked.connect(self.load_record)
+
+        self.componentList.customContextMenuRequested.connect(self.class_menu_popup)
+        self.componentList.itemClicked.connect(self.display_records)
+
+        self.recordList.itemClicked.connect(self.load_record)
+        self.recordList.customContextMenuRequested.connect(self.record_menu_popup)
+
+        self.rectangleList.itemDoubleClicked.connect(self.edit_label)
+        self.rectangleList.itemActivated.connect(self.select_shape)
+        self.rectangleList.itemSelectionChanged.connect(self.select_shape)
+        self.rectangleList.itemChanged.connect(self.change_shape)
+
+    def change_shape(self, item):
+        shape = self.items_to_shapes[item]
+        label = item.text()
+        if label != shape.label:
+            shape.label = label
+            shape.line_color = generate_color_by_text(label)
+            self.set_dirty()
+        else:
+            self.canvas.setShapeVisible(shape, True)
+
+    def select_shape(self):
+        item = self.get_current_rectangle()
+        if item:
+            shape = self.items_to_shapes[item]
+            self.canvas.selectShape(shape)
+
+    def record_menu_popup(self, point):
+        self.record_menu.exec_(self.recordList.mapToGlobal(point))
+
+    def class_menu_popup(self, point):
+        self.component_menu.exec_(self.componentList.mapToGlobal(point))
 
     def clear(self):
-        # if self.typeList.count():
-        #     self.typeList.clear()
-        if self.componentList.count():
-            self.componentList.clear()
-        if self.objectList.count():
-            self.objectList.clear()
+        if self.recordList.count():
+            self.recordList.clear()
+        if self.rectangleList.count():
+            self.rectangleList.clear()
         self.canvas.resetAllLines()
         self.canvas.adjustSize()
+
+    def set_dirty(self):
+        self.dirty = True
+
+    # signal functions
 
     def _mode_select(self):
         self.modeEdit.setChecked(False)
@@ -229,6 +339,8 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         if self.stream_enabled:
             self.frame = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2RGB)
             self.canvas.loadPixmap(QPixmap.fromImage(qimage2ndarray.array2qimage(self.frame)))
+
+    # event functions
 
     def closeEvent(self, e):
         self.clear()
