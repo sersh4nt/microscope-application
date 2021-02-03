@@ -6,19 +6,23 @@ import cv2
 import shutil
 
 
-class DatabaseHandler:
+class DatabaseHandler(QObject):
+    reload_database = pyqtSignal()
+
     def __init__(self, path):
+        super(DatabaseHandler, self).__init__()
         self.path = path
         self.records = dict()
         self.classes = []
         self.load()
+        print(self.classes)
 
     def delete_class(self, component):
+        shutil.rmtree(os.path.join(self.path, component))
         self.classes.remove(component)
         with open(os.path.join(self.path, 'classes.txt'), 'w') as file:
             for component in self.classes:
                 file.write(component + '\n')
-        shutil.rmtree(os.path.join(self.path, component))
 
     def add_class(self, component):
         component_dir = os.path.join(self.path, component)
@@ -36,6 +40,21 @@ class DatabaseHandler:
                     f.write('\n')
                 f.write(component)
 
+    def add_ideal_image(self, image, component):
+        if component not in self.classes:
+            self.classes.append(component)
+            d = os.path.join(self.path, 'classes.txt')
+            with open(d, 'r') as f:
+                text = f.read()
+            with open(d, 'a') as f:
+                if not text.endswith('\n'):
+                    f.write('\n')
+                f.write(component)
+        os.chdir(os.path.join(self.path, component))
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        cv2.imwrite(component + '.jpg', image)
+        self.reload_database.emit()
+        os.chdir(self.path)
 
     def load(self):
         with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
@@ -134,7 +153,6 @@ class DatabaseHandler:
                 file.write("%d %.6f %.6f %.6f %.6f\n" % (index, xcen, ycen, w, h))
 
         os.chdir(self.path)
-
 
 
 @dataclass

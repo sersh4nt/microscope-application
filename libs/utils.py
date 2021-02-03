@@ -1,11 +1,13 @@
 from math import sqrt
 import hashlib
-import re
+import os
 import sys
 
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+
+root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 
 
 def distance(p):
@@ -17,7 +19,7 @@ def labelValidator():
 
 
 def newIcon(icon):
-    return QIcon(':/' + icon)
+    return QIcon(os.path.join(root_path, 'source', 'icons', icon) + '.png')
 
 
 def points2yolo(points):
@@ -64,7 +66,7 @@ def shape2dict(shape):
     )
 
 
-def Action(parent, text, slot=None, shortcut=None, icon=None, tip=None, checable=False, enabled=True):
+def Action(parent, text, slot=None, shortcut=None, icon=None, tip=None, checkable=False, enabled=True):
     a = QAction(text, parent)
     if icon is not None:
         a.setIcon(newIcon(icon))
@@ -78,17 +80,40 @@ def Action(parent, text, slot=None, shortcut=None, icon=None, tip=None, checable
         a.setStatusTip(tip)
     if slot is not None:
         a.triggered.connect(slot)
-    if checable:
+    if checkable:
         a.setCheckable(True)
     a.setEnabled(enabled)
     return a
 
 
 def add_actions(widget, actions):
-    for action in actions:
-        if action is None:
-            widget.addSeparator()
-        elif isinstance(action, QMenu):
-            widget.addMenu(action)
-        else:
-            widget.addAction(action)
+    if isinstance(actions, (list, tuple)):
+        for action in actions:
+            add_action(widget, action)
+    else:
+        add_action(widget, actions)
+
+
+def add_action(widget, action):
+    if action is None:
+        widget.addSeparator()
+    elif isinstance(action, QMenu):
+        widget.addMenu(action)
+    else:
+        widget.addAction(action)
+
+
+class HashableQListWidgetItem(QListWidgetItem):
+    def __init__(self, *args):
+        super(HashableQListWidgetItem, self).__init__(*args)
+
+    def __hash__(self):
+        return hash(id(self))
+
+
+def generate_color_by_text(text):
+    hash = int(hashlib.sha256(text.encode('utf-8')).hexdigest(), 16)
+    r = int((hash / 255) % 255)
+    g = int((hash / 65025) % 255)
+    b = int((hash / 16581375) % 255)
+    return QColor(r, g, b, 100)

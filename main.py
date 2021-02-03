@@ -19,7 +19,6 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.show()
 
         # camera view
         self.camera = Camera(0)
@@ -28,25 +27,33 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
 
         # database
         self.logs = []
+        self.path = os.path.join(os.getcwd(), 'data')
         self.component_counter = 0
         self.item_dict = {}
-        self.image_editor = ImageEditor(self.camera, os.path.join(os.getcwd(), 'data'))
+        self.image_editor = ImageEditor(self.camera, self.path)
         self.main_path = os.getcwd()
         # self.user_editor = UserEditor()
         self.load_database()
 
         self.connect()
+        self.show()
 
     def connect(self):
         self.databaseEditButton.clicked.connect(self._show_database_editor)
         self.image_editor.close_event.connect(self._enable_videostream)
         self.listView.itemClicked.connect(self._clicked_on_item)
         # self.operatorDataEditButton.clicked.connect(self._show_user_editor)
+        self.image_editor.database_handler.reload_database.connect(self._reload_database)
 
     def _show_database_editor(self):
         self.microscopeView.setEnabled(False)
         self.image_editor.stream_enabled = True
         self.image_editor.show()
+
+    @pyqtSlot()
+    def _reload_database(self):
+        self.listView.clear()
+        self.load_database()
 
     @pyqtSlot()
     def _enable_videostream(self):
@@ -61,7 +68,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.display_item()
 
     def display_item(self):
-        if len(self.logs):
+        if self.logs and len(self.logs):
             path = self.logs[self.component_counter]['path']
             image = cv2.imread(path)
             scale = (self.databaseComponentView.size().width() - 2) / image.shape[1]
@@ -71,14 +78,17 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
             self.databaseComponentView.setPixmap(QPixmap.fromImage(image))
 
     def load_database(self):
-        directory = os.path.join(os.getcwd(), 'data')
-        self.logs = get_images(directory)
+        self.logs = get_images(self.path)
         i = 0
         for log in self.logs:
             self.listView.addItem(QListWidgetItem(log['name']))
             self.item_dict[log['name']] = i
             i += 1
         self.display_item()
+
+    def resizeEvent(self, ev):
+        self.display_item()
+        super(MainWindow, self).resizeEvent(ev)
 
     def closeEvent(self, ev):
         terminate_app()

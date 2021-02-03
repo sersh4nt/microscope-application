@@ -52,6 +52,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.rectangleList = QtWidgets.QListWidget(self.centralwidget)
         self.rectangleList.setObjectName("objectList")
+        self.rectangleList.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.verticalLayout_2.addWidget(self.rectangleList)
         self.shotButton = QtWidgets.QPushButton(self.centralwidget)
         self.shotButton.setObjectName("shotButton")
