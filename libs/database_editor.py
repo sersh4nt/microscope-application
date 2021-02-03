@@ -271,8 +271,10 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
 
         self.componentList.customContextMenuRequested.connect(self.class_menu_popup)
         self.componentList.itemClicked.connect(self.display_records)
+        self.componentList.itemSelectionChanged.connect(self.clear)
 
         self.recordList.itemClicked.connect(self.load_record)
+        self.recordList.itemSelectionChanged.connect(self.clear_shapes)
         self.recordList.customContextMenuRequested.connect(self.record_menu_popup)
 
         self.rectangleList.itemDoubleClicked.connect(self.edit_label)
@@ -334,6 +336,15 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.canvas.resetAllLines()
         self.canvas.adjustSize()
 
+    def clear_shapes(self):
+        self.shapes.clear()
+        self.shapes_to_items.clear()
+        self.items_to_shapes.clear()
+        if self.rectangleList.count():
+            self.rectangleList.clear()
+        self.canvas.resetAllLines()
+        self.canvas.adjustSize()
+
     # signal functions
     def record_menu_popup(self, point):
         self.record_menu.exec_(self.recordList.mapToGlobal(point))
@@ -361,6 +372,8 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         else:
             self.stream_enabled = True
             self.shotButton.setText(QCoreApplication.translate("MainWindow", "Сделать снимок"))
+            if len(self.shapes):
+                self.clear()
 
     @pyqtSlot(np.ndarray)
     def _on_new_frame(self, frame):

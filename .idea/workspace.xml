@@ -26,10 +26,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="database fixes">
-      <change afterPath="$PROJECT_DIR$/libs/network_handler.py" afterDir="false" />
+    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="started network handler, need to get to ubuntu with cuda and videocard!!!">
+      <change afterPath="$PROJECT_DIR$/data/vlad/vlad.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/database_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database_editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,9 +143,9 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.QLabel" />
       <item itemvalue="Python.experiments" />
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.QLabel" />
     </list>
     <recent_temporary>
       <list>
@@ -192,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612351220427</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="started network handler, need to get to ubuntu with cuda and videocard!!!">
+      <created>1612357584432</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1612357584432</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -229,6 +241,7 @@
     <MESSAGE value="разобраться с edit_label" />
     <MESSAGE value="расширил возможности управления датабазой" />
     <MESSAGE value="database fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="database fixes" />
+    <MESSAGE value="started network handler, need to get to ubuntu with cuda and videocard!!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="started network handler, need to get to ubuntu with cuda and videocard!!!" />
   </component>
 </project>
