@@ -91,6 +91,6 @@ class Ui_MainWindow(object):
         # self.databaseComponentView.setText(_translate("MainWindow", "TextLabel"))
         self.databaseEditButton.setText(_translate("MainWindow", "Изменение базы данных"))
         self.operatorDataEditButton.setText(_translate("MainWindow", "Занесение данных оператора"))
-        self.currentComponentMarking.setText(_translate("MainWindow", "TextLabel"))
+        # self.currentComponentMarking.setText(_translate("MainWindow", "TextLabel"))
         self.action.setText(_translate("MainWindow", "Подключить"))
         self.action_2.setText(_translate("MainWindow", "Остановить"))
