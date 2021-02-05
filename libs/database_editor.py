@@ -108,8 +108,16 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.display_classes()
 
     def new_shape(self):
-        text = self.get_current_component().text()
+        if len(self.label_list):
+            self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
+        if self.last_label:
+            text = self.last_label
+        else:
+            text = self.label_dialog.popUp(text=self.prev_label_text)
+            self.last_label = text
+
         if text is not None:
+            self.prev_label_text = text
             color = generate_color_by_text(text)
             shape = self.canvas.setLastLabel(text, color, color)
             self.add_label(shape)
@@ -262,6 +270,7 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.camera.new_frame.connect(self._on_new_frame)
 
         self.canvas.shapeMoved.connect(self.set_dirty)
+        self.canvas.selectionChanged.connect(self.canvas_shape_selected)
 
         self.shotButton.clicked.connect(self._stop_video)
         self.saveButton.clicked.connect(self.save_labels)
@@ -322,6 +331,7 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.dirty = True
 
     def clear(self):
+        self.last_label = None
         self.rewrite = False
         if not self.stream_enabled:
             self._stop_video()
@@ -346,6 +356,13 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
         self.canvas.adjustSize()
 
     # signal functions
+    def canvas_shape_selected(self):
+        shape = self.canvas.selectedShape
+        if shape:
+            self.shapes_to_items[shape].setSelected(True)
+        else:
+            self.rectangleList.clearSelection()
+
     def record_menu_popup(self, point):
         self.record_menu.exec_(self.recordList.mapToGlobal(point))
 

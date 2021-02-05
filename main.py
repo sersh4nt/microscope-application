@@ -35,10 +35,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         # self.user_editor = UserEditor()
         self.load_database()
 
-        self.show()
-
         self.connect()
-
 
     def connect(self):
         self.databaseEditButton.clicked.connect(self._show_database_editor)

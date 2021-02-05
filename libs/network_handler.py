@@ -1,18 +1,7 @@
 from ctypes import *
-import random
 import cv2
+import os
 from PyQt5.QtCore import *
-
-
-def sample(probs):
-    s = sum(probs)
-    probs = [a / s for a in probs]
-    r = random.uniform(0, 1)
-    for i in range(len(probs)):
-        r = r - probs[i]
-        if r <= 0:
-            return i
-    return len(probs) - 1
 
 
 def c_array(ctype, values):
@@ -38,7 +27,7 @@ class METADATA(Structure):
                 ("names", POINTER(c_char_p))]
 
 
-lib = CDLL('darknet.so', RTLD_GLOBAL)
+lib = CDLL('libdarknet.so', RTLD_GLOBAL)
 lib.network_width.argtypes = [c_void_p]
 lib.network_width.restype = c_int
 lib.network_height.argtypes = [c_void_p]
@@ -105,81 +94,35 @@ class NetworkHandler(QObject):
     def __init__(self, path):
         super(NetworkHandler, self).__init__()
         self.path = path
-        self.networks = []
+        self.network = None
+        self.classes = []
+        self.data = []
+        self.meta = None
 
+        self.load_network()
 
-def classify(net, meta, im):
-    out = predict_image(net, im)
-    res = []
-    for i in range(meta.classes):
-        res.append((meta.names[i], out[i]))
-    res = sorted(res, key=lambda x: -x[1])
-    return res
+    def load_network(self):
+        with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
+            self.classes = file.read().strip('\n').split('\n')
 
+        self.network = load_net(b'.cfg', b'.weights', 0)
+        self.meta = load_meta(b'.data')
 
-def detect(net, meta, image, thresh=.5, hier_thresh=.5, nms=.45):
-    im = load_image(image, 0, 0)
-    boxes = make_boxes(net)
-    probs = make_probs(net)
-    num = num_boxes(net)
-    network_detect(net, im, thresh, hier_thresh, nms, boxes, probs)
-    res = []
-    for j in range(num):
-        for i in range(meta.classes):
-            if probs[j][i] > 0:
-                res.append((meta.names[i], probs[j][i], (boxes[j].x, boxes[j].y, boxes[j].w, boxes[j].h)))
-    res = sorted(res, key=lambda x: -x[1])
-    free_image(im)
-    free_ptrs(cast(probs, POINTER(c_void_p)), num)
-    return res
+    def detect_image(self, image, thresh=0.5, higher_thresh=0.5, nms=0.45):
+        boxes = make_boxes(self.network)
+        probs = make_probs(self.network)
+        num = num_boxes(self.network)
+        network_detect(self.network, image, thresh, higher_thresh, nms, boxes, probs)
+        result = []
+        for j in range(num):
+            for i in range(self.meta.classes):
+                if probs[j][i]:
+                    result.append((self.meta.names[i], probs[j][i], (boxes[j].x, boxes[j].y, boxes[j].w, boxes[j].h)))
+        result = sorted(result, key=lambda x: x[-1])
+        free_image(image)
+        free_ptrs(cast(probs, POINTER(c_void_p)), num)
+        return result
 
+    def index_images(self):
+        pass
 
-def detect_im(net, meta, im, thresh=.5, hier_thresh=.5, nms=.45):
-    boxes = make_boxes(net)
-    probs = make_probs(net)
-    num = num_boxes(net)
-    network_detect(net, im, thresh, hier_thresh, nms, boxes, probs)
-    res = []
-    for j in range(num):
-        for i in range(meta.classes):
-            if probs[j][i] > 0:
-                res.append((meta.names[i], probs[j][i], (boxes[j].x, boxes[j].y, boxes[j].w, boxes[j].h)))
-    res = sorted(res, key=lambda x: -x[1])
-    free_image(im)
-    free_ptrs(cast(probs, POINTER(c_void_p)), num)
-    return res
-
-
-def detect_np(net, meta, np_img, thresh=.5, hier_thresh=.5, nms=.45):
-    im = nparray_to_image(np_img)
-    boxes = make_boxes(net)
-    probs = make_probs(net)
-    num = num_boxes(net)
-    network_detect(net, im, thresh, hier_thresh, nms, boxes, probs)
-    res = []
-    for j in range(num):
-        for i in range(meta.classes):
-            if probs[j][i] > 0:
-                res.append((meta.names[i], probs[j][i], (boxes[j].x, boxes[j].y, boxes[j].w, boxes[j].h)))
-    res = sorted(res, key=lambda x: -x[1])
-    free_image(im)
-    free_ptrs(cast(probs, POINTER(c_void_p)), num)
-    return res
-
-
-def nparray_to_image(img):
-    data = img.ctypes.data_as(POINTER(c_ubyte))
-    image = ndarray_image(data, img.ctypes.shape, img.ctypes.strides)
-
-    return image
-
-
-if __name__ == "__main__":
-    cap = cv2.VideoCapture(0)
-    ret, img = cap.read()
-    # im=nparray_to_image(img)
-
-    net = load_net(b"cfg/tiny-yolo.cfg", b"tiny-yolo.weights", 0)
-    meta = load_meta(b"cfg/coco.data")
-    r = detect_np(net, meta, img)
-    print(r)

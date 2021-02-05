@@ -60,7 +60,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setStretch(1, 1)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.horizontalLayout.setStretch(0, 8)
-        self.horizontalLayout.setStretch(1, 3)
+        self.horizontalLayout.setStretch(1, 2)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.currentComponentMarking = QtWidgets.QLabel(self.centralwidget)
         self.currentComponentMarking.setFrameShape(QtWidgets.QFrame.Box)

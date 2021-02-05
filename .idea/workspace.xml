@@ -26,14 +26,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="started network handler, need to get to ubuntu with cuda and videocard!!!">
-      <change afterPath="$PROJECT_DIR$/data/vlad/vlad.jpg" afterDir="false" />
+    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="database improvements">
+      <change afterPath="$PROJECT_DIR$/data/chair/records/05-02-20210000.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/chair/records/05-02-20210000.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/libdarknet.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/classes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/classes.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/database_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database_editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/network_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/network_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,13 +70,16 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/network_handler.py" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\source\icons" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Professional\PycharmProjects\microscope-application\libs" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
@@ -92,27 +96,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$USER_HOME$/AppData/Local/JetBrains/PyCharmCE2020.2/python_stubs/-1364437261/PyQt5/QtWidgets/QLabel.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="experiments" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="microscope-application" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\microscope-application\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/experiments.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -142,10 +125,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="network_handler" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="microscope-application" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/network_handler.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="Python.experiments" />
-      <item itemvalue="Python.main" />
       <item itemvalue="Python.QLabel" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.network_handler" />
     </list>
     <recent_temporary>
       <list>
@@ -204,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612357584432</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="database improvements">
+      <created>1612360009480</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1612360009480</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -242,6 +253,7 @@
     <MESSAGE value="расширил возможности управления датабазой" />
     <MESSAGE value="database fixes" />
     <MESSAGE value="started network handler, need to get to ubuntu with cuda and videocard!!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="started network handler, need to get to ubuntu with cuda and videocard!!!" />
+    <MESSAGE value="database improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="database improvements" />
   </component>
 </project>
