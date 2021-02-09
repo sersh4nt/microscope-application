@@ -2,7 +2,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-from libs.database_editor import ImageEditor
+from libs.database_editor import DatabaseEditor
+from libs.network_handler import NetworkHandler
 # from libs.user_editor import UserEditor
 from libs.camera import Camera
 from libs.user_interfaces import main
@@ -28,10 +29,11 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         # database
         self.logs = []
         self.path = os.path.join(os.getcwd(), 'data')
+        self.main_path = os.getcwd()
         self.component_counter = 0
         self.item_dict = {}
-        self.image_editor = ImageEditor(self.camera, self.path)
-        self.main_path = os.getcwd()
+        self.database_editor = DatabaseEditor(self.camera, self.path)
+        self.network_handler = NetworkHandler(self.main_path, 'cpu')
         # self.user_editor = UserEditor()
         self.load_database()
 
@@ -39,15 +41,16 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
 
     def connect(self):
         self.databaseEditButton.clicked.connect(self._show_database_editor)
-        self.image_editor.close_event.connect(self._enable_videostream)
+        self.database_editor.close_event.connect(self._enable_videostream)
         self.listView.itemClicked.connect(self._clicked_on_item)
         # self.operatorDataEditButton.clicked.connect(self._show_user_editor)
-        self.image_editor.database_handler.reload_database.connect(self._reload_database)
+        self.database_editor.database_handler.reload_database.connect(self._reload_database)
+        self.database_editor.acquire_training.connect(self.network_handler.train_network)
 
     def _show_database_editor(self):
         self.microscopeView.setEnabled(False)
-        self.image_editor.stream_enabled = True
-        self.image_editor.show()
+        self.database_editor.stream_enabled = True
+        self.database_editor.show()
 
     @pyqtSlot()
     def _reload_database(self):
@@ -56,7 +59,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
 
     @pyqtSlot()
     def _enable_videostream(self):
-        self.image_editor.stream_enabled = False
+        self.database_editor.stream_enabled = False
         self.microscopeView.setEnabled(True)
 
     # def _show_user_editor(self):

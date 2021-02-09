@@ -15,7 +15,6 @@ class DatabaseHandler(QObject):
         self.records = dict()
         self.classes = []
         self.load()
-        print(self.classes)
 
     def delete_class(self, component):
         shutil.rmtree(os.path.join(self.path, component))

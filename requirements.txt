@@ -1,2 +1,0 @@
-numpy~=1.19.5
-qimage2ndarray~=1.8.3

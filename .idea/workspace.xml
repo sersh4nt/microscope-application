@@ -26,16 +26,8 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="database improvements">
-      <change afterPath="$PROJECT_DIR$/data/chair/records/05-02-20210000.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/chair/records/05-02-20210000.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/libdarknet.so" afterDir="false" />
+    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="network handler started&#10;TODO: indexing, net's training">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/classes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/classes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/database_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/network_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/network_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +44,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="network_handler" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -70,20 +62,27 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/network_handler.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/models/train" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\source\icons" />
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\models\train" />
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\libs\yolo" />
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\models" />
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\data" />
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\libs\yolov5" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\models" />
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\libs\yolo" />
+      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application" />
       <recent name="C:\Users\Professional\PycharmProjects\microscope-application\libs" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="QLabel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="QLabel" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="microscope-application" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -151,11 +150,6 @@
       <item itemvalue="Python.main" />
       <item itemvalue="Python.network_handler" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.QLabel" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -215,7 +209,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612360009480</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="network handler started&#10;TODO: indexing, net's training">
+      <created>1612881669670</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1612881669670</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -232,7 +233,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -254,6 +255,23 @@
     <MESSAGE value="database fixes" />
     <MESSAGE value="started network handler, need to get to ubuntu with cuda and videocard!!!" />
     <MESSAGE value="database improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="database improvements" />
+    <MESSAGE value="network handler started&#10;TODO: indexing, net's training" />
+    <option name="LAST_COMMIT_MESSAGE" value="network handler started&#10;TODO: indexing, net's training" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../../../../ProgramData/Anaconda3/envs/main/Lib/site-packages/torch/serialization.py</url>
+          <line>824</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="__exception__[0]" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

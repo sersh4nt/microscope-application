@@ -15,11 +15,12 @@ import cv2
 import os
 
 
-class ImageEditor(QMainWindow, designer.Ui_MainWindow):
+class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
     close_event = pyqtSignal()
+    acquire_training = pyqtSignal()
 
     def __init__(self, camera=None, path=None):
-        super(ImageEditor, self).__init__()
+        super(DatabaseEditor, self).__init__()
         self.setupUi(self)
         self.camera = camera
         self.stream_enabled = False
@@ -402,15 +403,16 @@ class ImageEditor(QMainWindow, designer.Ui_MainWindow):
     def closeEvent(self, e):
         self.clear()
         self.close_event.emit()
+        self.acquire_training.emit()
 
     def resizeEvent(self, ev):
         self.canvas.adjustSize()
         self.canvas.update()
-        super(ImageEditor, self).resizeEvent(ev)
+        super(DatabaseEditor, self).resizeEvent(ev)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = ImageEditor()
+    window = DatabaseEditor()
     window.show()
     app.exec_()
