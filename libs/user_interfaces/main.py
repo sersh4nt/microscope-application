@@ -86,8 +86,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Инспекционный стенд входного контроля"))
-        self.microscopeView.setText(_translate("MainWindow", "TextLabel"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Оптический инспектор First line SL701"))
+        # self.microscopeView.setText(_translate("MainWindow", "TextLabel"))
         # self.databaseComponentView.setText(_translate("MainWindow", "TextLabel"))
         self.databaseEditButton.setText(_translate("MainWindow", "Изменение базы данных"))
         self.operatorDataEditButton.setText(_translate("MainWindow", "Занесение данных оператора"))

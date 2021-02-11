@@ -26,16 +26,20 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="database improvements">
-      <change afterPath="$PROJECT_DIR$/data/chair/records/05-02-20210000.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/chair/records/05-02-20210000.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/libdarknet.so" afterDir="false" />
+    <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="netHandler class extension">
+      <change afterPath="$PROJECT_DIR$/data/volodya/records/08-02-20210000.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/volodya/records/08-02-20210000.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/volodya/records/08-02-20210001.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/volodya/records/08-02-20210001.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/classes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/classes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/vlad/records/03-02-20210000.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/volodya/records/03-02-20210000.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/canvas.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/canvas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/database_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database_editor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/network_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/network_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/label_dialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/label_dialog.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/user_interfaces/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,8 +114,9 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="QT_DEBUG_PLUGINS" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\main\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\Professional\.conda\envs\main\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -132,9 +137,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\Professional\.conda\envs\main\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/network_handler.py" />
@@ -147,9 +152,9 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.QLabel" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.network_handler" />
+      <item itemvalue="Python.QLabel" />
     </list>
     <recent_temporary>
       <list>
@@ -215,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612360009480</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="netHandler class extension">
+      <created>1612517485554</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1612517485554</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -254,6 +266,18 @@
     <MESSAGE value="database fixes" />
     <MESSAGE value="started network handler, need to get to ubuntu with cuda and videocard!!!" />
     <MESSAGE value="database improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="database improvements" />
+    <MESSAGE value="netHandler class extension" />
+    <option name="LAST_COMMIT_MESSAGE" value="netHandler class extension" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/libs/canvas.py</url>
+          <line>216</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

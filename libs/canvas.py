@@ -16,7 +16,7 @@ class Canvas(QWidget):
     zoomRequest = pyqtSignal(int)
     scrollRequest = pyqtSignal(int, int)
     newShape = pyqtSignal()
-    selectionChanged = pyqtSignal(bool)
+    selectionChanged = pyqtSignal()
     shapeMoved = pyqtSignal()
     drawingPolygon = pyqtSignal(bool)
 
@@ -315,7 +315,7 @@ class Canvas(QWidget):
         shape.selected = True
         self.selectedShape = shape
         self.setHiding()
-        self.selectionChanged.emit(True)
+        self.selectionChanged.emit()
         self.update()
 
     def selectShapePoint(self, point):
@@ -418,7 +418,7 @@ class Canvas(QWidget):
             self.selectedShape.selected = False
             self.selectedShape = None
             self.setHiding(False)
-            self.selectionChanged.emit(False)
+            self.selectionChanged.emit()
             self.update()
 
     def deleteSelected(self):
