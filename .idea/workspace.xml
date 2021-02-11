@@ -27,6 +27,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="network handler started&#10;TODO: indexing, net's training">
+      <change afterPath="$PROJECT_DIR$/data/vlad/records/11-02-20210000.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/vlad/records/11-02-20210000.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/volodya/volodya.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/train/best.pt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,11 +72,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Professional\PycharmProjects\microscope-application\models\train" />
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\models\train" />
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\libs\yolo" />
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\models" />
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\data" />
-      <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\libs\yolov5" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\models" />
@@ -110,7 +114,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\main\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\Professional\.conda\envs\main\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -227,19 +231,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
