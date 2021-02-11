@@ -41,6 +41,7 @@ class LabelDialog(QDialog):
             layout.addWidget(self.listWidget)
 
         self.setLayout(layout)
+        self.setWindowTitle('Label dialog')
 
     def validate(self):
         try:
@@ -59,6 +60,8 @@ class LabelDialog(QDialog):
             self.edit.setText(self.edit.text())
 
     def popUp(self, text='', move=True):
+        if text is None:
+            text = ''
         self.edit.setText(text)
         self.edit.setSelection(0, len(text))
         self.edit.setFocus(Qt.PopupFocusReason)

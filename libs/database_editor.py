@@ -14,6 +14,7 @@ import numpy as np
 import cv2
 import os
 
+sys.setrecursionlimit(1000)
 
 class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
     close_event = pyqtSignal()
@@ -111,11 +112,14 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
     def new_shape(self):
         if len(self.label_list):
             self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
-        if self.last_label:
-            text = self.last_label
+
+        self.current_component = self.get_current_component().text()
+
+        if self.current_component:
+            text = self.current_component
         else:
             text = self.label_dialog.popUp(text=self.prev_label_text)
-            self.last_label = text
+        self.last_label = text
 
         if text is not None:
             self.prev_label_text = text
@@ -212,7 +216,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             if o.image == filename + '.txt':
                 del self.database_handler.records[component][i]
                 break
-        self.clear_labels()
+        self.clear()
         self.display_records()
 
     def add_record(self):
@@ -262,7 +266,10 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
                 self.shapes
             )
         else:
-            text = self.label_dialog.popUp(self.last_label)
+            if self.current_component is not None:
+                text = self.current_component.text()
+            else:
+                text = self.label_dialog.popUp(self.last_label)
             self.database_handler.add_record(text, self.frame, self.shapes)
             self.display_classes()
         self.rewrite = False
@@ -305,9 +312,8 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     def select_shape(self):
         item = self.get_current_rectangle()
-        if item:
-            shape = self.items_to_shapes[item]
-            self.canvas.selectShape(shape)
+        if item and self.canvas.editing():
+            self.canvas.selectShape(self.items_to_shapes[item])
 
     # helpers
     def get_current_rectangle(self):
@@ -356,6 +362,24 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.canvas.resetAllLines()
         self.canvas.adjustSize()
 
+    def discard_changes_dialog(self):
+        yes, no, cancel = QMessageBox.Yes, QMessageBox.No, QMessageBox.Cancel
+        message = 'You have unsaved changes, would you like to save them and proceed?\nClick "No" to undo all changes.'
+        return QMessageBox.warning(self, 'Attention', message, yes | no | cancel)
+
+    def may_continue(self):
+        if not self.dirty:
+            return True
+        else:
+            action = self.discard_changes_dialog()
+            if action == QMessageBox.No:
+                return True
+            elif action == QMessageBox.Yes:
+                self.save_labels()
+                return True
+            else:
+                return False
+
     # signal functions
     def canvas_shape_selected(self):
         shape = self.canvas.selectedShape
@@ -401,9 +425,11 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     # event functions
     def closeEvent(self, e):
-        self.clear()
-        self.close_event.emit()
-        self.acquire_training.emit()
+        if self.may_continue():
+            self.clear()
+            self.close_event.emit()
+        else:
+            e.ignore()
 
     def resizeEvent(self, ev):
         self.canvas.adjustSize()
