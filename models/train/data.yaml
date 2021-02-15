@@ -1,0 +1,7 @@
+names:
+- vlad
+- volodya
+- ulyana
+nc: 3
+train: models/train/train.txt
+val: models/train/val.txt

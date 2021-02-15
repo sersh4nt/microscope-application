@@ -16,9 +16,9 @@ import os
 
 sys.setrecursionlimit(1000)
 
+
 class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
     close_event = pyqtSignal()
-    acquire_training = pyqtSignal()
 
     def __init__(self, camera=None, path=None):
         super(DatabaseEditor, self).__init__()
@@ -38,6 +38,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.rewrite = False
         self.current_component = ''
         self.current_filename = ''
+        self._no_selection_slot = False
 
         self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
         self.database_handler = DatabaseHandler(path)
@@ -267,7 +268,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             )
         else:
             if self.current_component is not None:
-                text = self.current_component.text()
+                text = self.current_component
             else:
                 text = self.label_dialog.popUp(self.last_label)
             self.database_handler.add_record(text, self.frame, self.shapes)
@@ -313,6 +314,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
     def select_shape(self):
         item = self.get_current_rectangle()
         if item and self.canvas.editing():
+            self._no_selection_slot = True
             self.canvas.selectShape(self.items_to_shapes[item])
 
     # helpers
@@ -382,11 +384,14 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     # signal functions
     def canvas_shape_selected(self):
-        shape = self.canvas.selectedShape
-        if shape:
-            self.shapes_to_items[shape].setSelected(True)
+        if self._no_selection_slot:
+            self._no_selection_slot = False
         else:
-            self.rectangleList.clearSelection()
+            shape = self.canvas.selectedShape
+            if shape:
+                self.shapes_to_items[shape].setSelected(True)
+            else:
+                self.rectangleList.clearSelection()
 
     def record_menu_popup(self, point):
         self.record_menu.exec_(self.recordList.mapToGlobal(point))

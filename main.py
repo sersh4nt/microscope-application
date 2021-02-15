@@ -12,8 +12,7 @@ import cv2
 import sys
 import os
 import qimage2ndarray
-
-IMG_EXTENSIONS = ('.BMP', '.GIF', '.JPG', '.JPEG', '.PNG', '.PBM', '.PGM', '.PPM', '.TIFF', '.XBM')
+import torch
 
 
 class MainWindow(QMainWindow, main.Ui_MainWindow):
@@ -33,7 +32,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.component_counter = 0
         self.item_dict = {}
         self.database_editor = DatabaseEditor(self.camera, self.path)
-        self.network_handler = NetworkHandler(self.main_path, 'cpu')
+        self.network_handler = NetworkHandler(self.main_path, '0' if torch.cuda.is_available() else 'cpu')
         # self.user_editor = UserEditor()
         self.load_database()
 
@@ -45,7 +44,10 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.listView.itemClicked.connect(self._clicked_on_item)
         # self.operatorDataEditButton.clicked.connect(self._show_user_editor)
         self.database_editor.database_handler.reload_database.connect(self._reload_database)
-        self.database_editor.acquire_training.connect(self.network_handler.train_network)
+        self.startTrainingButton.clicked.connect(self._train_network)
+
+    def _train_network(self):
+        self.network_handler.train_network()
 
     def _show_database_editor(self):
         self.microscopeView.setEnabled(False)
@@ -103,7 +105,7 @@ def get_images(directory):
         path = os.path.join(directory, dir)
         if os.path.isdir(path):
             for file in os.listdir(os.path.join(directory, dir)):
-                if file.upper().endswith(IMG_EXTENSIONS):
+                if file.lower().endswith('.jpeg'):
                     img_obj = {'name': dir, 'path': os.path.join(path, file)}
                     res.append(img_obj)
     return res

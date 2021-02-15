@@ -1,3 +1,2 @@
-1
-2
-3
+C:\Users\Professional\PycharmProjects\microscope-application\data\vlad\records\15-02-20210002.jpg
+C:\Users\Professional\PycharmProjects\microscope-application\data\volodya\records\15-02-20210000.jpg

@@ -1,3 +1,8 @@
-a
-b
-c
+C:\Users\Professional\PycharmProjects\microscope-application\data\ulyana\records\15-02-20210000.jpg
+C:\Users\Professional\PycharmProjects\microscope-application\data\ulyana\records\15-02-20210001.jpg
+C:\Users\Professional\PycharmProjects\microscope-application\data\ulyana\records\15-02-20210002.jpg
+C:\Users\Professional\PycharmProjects\microscope-application\data\ulyana\records\15-02-20210003.jpg
+C:\Users\Professional\PycharmProjects\microscope-application\data\vlad\records\15-02-20210000.jpg
+C:\Users\Professional\PycharmProjects\microscope-application\data\vlad\records\15-02-20210001.jpg
+C:\Users\Professional\PycharmProjects\microscope-application\data\volodya\records\15-02-20210001.jpg
+C:\Users\Professional\PycharmProjects\microscope-application\data\volodya\records\15-02-20210002.jpg

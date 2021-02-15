@@ -61,7 +61,7 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,0,0,0">
         <property name="spacing">
          <number>10</number>
         </property>
@@ -92,6 +92,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="startTrainingButton">
+          <property name="text">
+           <string>Начать обучение нейронной сети</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -114,7 +121,7 @@
      <x>0</x>
      <y>0</y>
      <width>1061</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

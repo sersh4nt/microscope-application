@@ -1,7 +1,7 @@
 from math import sqrt
 import hashlib
 import os
-import sys
+import random
 
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -117,3 +117,12 @@ def generate_color_by_text(text):
     g = int((hash / 65025) % 255)
     b = int((hash / 16581375) % 255)
     return QColor(r, g, b, 100)
+
+
+def get_random_combination(n, k):
+    random.seed()
+    a = [i for i in range(n)]
+    for i in range(k):
+        ind = random.randint(0, n - k - 1) + k
+        a[i], a[ind] = a[ind], a[i]
+    return a[:k]

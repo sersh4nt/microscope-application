@@ -51,13 +51,22 @@ class DatabaseHandler(QObject):
                 f.write(component)
         os.chdir(os.path.join(self.path, component))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        cv2.imwrite(component + '.jpg', image)
+        cv2.imwrite(component + '.jpeg', image)
         self.reload_database.emit()
         os.chdir(self.path)
 
     def load(self):
+        if not os.path.exists(self.path):
+            os.mkdir('data')
+
+        if not os.path.exists(os.path.join(self.path, 'classes.txt')):
+            open(os.path.join(self.path, 'classes.txt'), 'w')
+
         with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
-            self.classes = file.read().strip('\n').split('\n')
+            self.classes = file.read().strip('\n').strip('').split('\n')
+
+        if self.classes == ['']:
+            self.classes = []
 
         for component_name in os.listdir(self.path):
             component_folder = os.path.join(self.path, component_name)
