@@ -13,6 +13,7 @@ import sys
 import os
 import qimage2ndarray
 import torch
+import threading
 
 
 class MainWindow(QMainWindow, main.Ui_MainWindow):
@@ -47,7 +48,9 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.startTrainingButton.clicked.connect(self._train_network)
 
     def _train_network(self):
-        self.network_handler.train_network()
+        th = threading.Thread(target=self.network_handler.train_network)
+        th.start()
+        th.join()
 
     def _show_database_editor(self):
         self.microscopeView.setEnabled(False)
