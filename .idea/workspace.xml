@@ -29,13 +29,13 @@
     <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="added training without threading">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_25-Jan-21_22_15__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ulyana/records/15-02-20210003.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ulyana/records/15-02-20210003.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/canvas.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/canvas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ulyana/records.cache" beforeDir="false" afterPath="$PROJECT_DIR$/data/ulyana/records.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/vlad/records.cache" beforeDir="false" afterPath="$PROJECT_DIR$/data/vlad/records.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/network_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/network_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/yolo/plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/yolo/plots.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/labels.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/labels.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/labels_correlogram.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/labels_correlogram.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/train/train.txt" beforeDir="false" afterPath="$PROJECT_DIR$/models/train/train.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/train/val.txt" beforeDir="false" afterPath="$PROJECT_DIR$/models/train/val.txt" afterDir="false" />
     </list>

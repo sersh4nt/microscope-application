@@ -1,7 +1,4 @@
-from PyQt5.QtCore import *
-
 from libs.yolo.datasets import *
-from models.experimental import *
 from models.yolo import *
 from libs.yolo.general import *
 from libs.yolo.plots import *
@@ -14,7 +11,6 @@ from libs.yolo import test
 import torch.optim as optim
 import torch.optim.lr_scheduler as lr_scheduler
 from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.utils.tensorboard import SummaryWriter
 from torch.cuda import amp
 import torch.distributed as dist
 import torch
@@ -22,16 +18,15 @@ import yaml
 
 
 class NetworkHandler:
-    def __init__(self, path, device='cpu'):
+    def __init__(self, path):
         super(NetworkHandler, self).__init__()
         self.path = path
         self.network = None
         self.classes = []
         self.data = []
         self.meta = None
-        self.device_name = device
         self.path = path
-        self.device = None
+        self.device = select_device('0' if torch.cuda.is_available() else 'cpu')
         self.half = False
         self.model = None
         self.stride = 0
@@ -41,21 +36,24 @@ class NetworkHandler:
         self.current_progress = 0
 
     def load_network(self):
-        # with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
-        #     self.classes = file.read().strip('\n').split('\n')
         path = os.path.join(self.path, 'models', 'train', 'best.pt')
 
         set_logging()
-        self.device = select_device(self.device_name)
         self.half = self.device.type != 'cpu'
-        if os.path.exists(path):
+        try:
             self.model = attempt_load(path, map_location=self.device)
             self.stride = int(self.model.stride.max())
             if self.half:
                 self.model.half()
+        except FileNotFoundError:
+            msg = 'Cannot load neural network weights!\n' \
+                  'The program would not support detection functions'
+            QMessageBox.warning(None, 'Warning!', msg, QMessageBox.Ok)
 
     def train_network(self, epochs=300, batch_size=16):
         rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
+        plots = True  # as default
+        adam = False
         # DDP parameter, do not modify
         local_rank = -1
         save_dir = Path(os.path.join(self.path, 'models'))
@@ -112,12 +110,13 @@ class NetworkHandler:
                 pg1.append(v.weight)  # apply decay
 
         # use adam optimizer, false as default
-        adam = False
         if adam:
-            optimizer = optim.Adam(pg0, lr=hyp_dict['lr0'], betas=(hyp_dict['momentum'], 0.999))  # adjust beta1 to momentum
+            # adjust beta1 to momentum
+            optimizer = optim.Adam(pg0, lr=hyp_dict['lr0'], betas=(hyp_dict['momentum'], 0.999))
         else:
             optimizer = optim.SGD(pg0, lr=hyp_dict['lr0'], momentum=hyp_dict['momentum'], nesterov=True)
-        optimizer.add_param_group({'params': pg1, 'weight_decay': hyp_dict['weight_decay']})  # add pg1 with weight_decay
+        # add pg1 with weight_decay
+        optimizer.add_param_group({'params': pg1, 'weight_decay': hyp_dict['weight_decay']})
         optimizer.add_param_group({'params': pg2})  # add pg2 (biases)
         logger.info('Optimizer groups: %g .bias, %g conv.weight, %g other' % (len(pg2), len(pg1), len(pg0)))
         del pg0, pg1, pg2
@@ -137,7 +136,8 @@ class NetworkHandler:
         # Image sizes
         gs = int(model.stride.max())  # grid size (max stride)
         nl = model.model[-1].nl  # number of detection layers (used for scaling hyp_dict['obj'])
-        imgsz, imgsz_test = [check_img_size(x, gs) for x in [self.image_size, self.image_size]]  # verify imgsz are gs-multiples
+        # verify imgsz are gs-multiples
+        imgsz, imgsz_test = [check_img_size(x, gs) for x in [self.image_size, self.image_size]]
 
         # DP mode
         if cuda and rank == -1 and torch.cuda.device_count() > 1:
@@ -165,16 +165,6 @@ class NetworkHandler:
         self.overall_progress = nb * epochs
         assert mlc < nc, 'Label class %g exceeds nc=%g in %s. Possible class labels are 0-%g' % (mlc, nc, data, nc - 1)
 
-        tb_writer = None
-        wandb = None
-        if rank in [-1, 0] and wandb and wandb.run is None:
-            opt.hyp = hyp  # add hyperparameters
-            wandb_run = wandb.init(config=opt, resume="allow",
-                                   project='YOLOv5' if opt.project == 'runs/train' else Path(opt.project).stem,
-                                   name=save_dir.stem,
-                                   id=ckpt.get('wandb_id') if 'ckpt' in locals() else None)
-        loggers = {'wandb' : wandb}
-
         if rank in [-1, 0]:
             ema.updates = start_epoch * nb // accumulate  # set EMA updates
             testloader = create_dataloader(test_path, imgsz_test, batch_size * 2, gs, False,
@@ -183,14 +173,9 @@ class NetworkHandler:
 
             labels = np.concatenate(dataset.labels, 0)
             c = torch.tensor(labels[:, 0])  # classes
-            # cf = torch.bincount(c.long(), minlength=nc) + 1.  # frequency
-            # model._initialize_biases(cf.to(device))
 
-            plots = True # as default
             if plots:
-                plot_labels(labels, save_dir, loggers)
-                if tb_writer:
-                    tb_writer.add_histogram('classes', c, 0)
+                plot_labels(labels, save_dir)
 
                 # Anchors
                 check_anchors(dataset, model=model, thr=hyp_dict['anchor_t'], imgsz=imgsz)
@@ -207,8 +192,8 @@ class NetworkHandler:
 
         # Start training
         t0 = time.time()
-        nw = max(round(hyp_dict['warmup_epochs'] * nb), 1000)  # number of warmup iterations, max(3 epochs, 1k iterations)
-        # nw = min(nw, (epochs - start_epoch) / 2 * nb)  # limit warmup to < 1/2 of training
+        # number of warmup iterations, max(3 epochs, 1k iterations)
+        nw = max(round(hyp_dict['warmup_epochs'] * nb), 1000)
         maps = np.zeros(nc)  # mAP per class
         results = (0, 0, 0, 0, 0, 0, 0)  # P, R, mAP@.5, mAP@.5-.95, val_loss(box, obj, cls)
         scheduler.last_epoch = start_epoch - 1  # do not move
@@ -219,7 +204,7 @@ class NetworkHandler:
                     f'Logging results to {save_dir}\n'
                     f'Starting training for {epochs} epochs...')
 
-        for epoch in range(start_epoch, epochs):  # epoch ------------------------------------------------------------------
+        for epoch in range(start_epoch, epochs):  # epoch -----------------------
             model.train()
 
             # Update image weights (optional)
@@ -278,7 +263,8 @@ class NetworkHandler:
                     pred = model(imgs)  # forward
                     loss, loss_items = compute_loss(pred, targets.to(self.device))  # loss scaled by batch_size
                     if rank != -1:
-                        loss *= int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1 # gradient averaged between devices in DDP mode
+                        # gradient averaged between devices in DDP mode
+                        loss *= int(os.environ['WORLD_SIZE']) if 'WORLD_SIZE' in os.environ else 1
 
                 # Backward
                 scaler.scale(loss).backward()
@@ -303,15 +289,9 @@ class NetworkHandler:
                     if plots and ni < 3:
                         f = save_dir / f'train_batch{ni}.jpg'  # filename
                         Thread(target=plot_images, args=(imgs, targets, paths, f), daemon=True).start()
-                        # if tb_writer:
-                        #     tb_writer.add_image(f, result, dataformats='HWC', global_step=epoch)
-                        #     tb_writer.add_graph(model, imgs)  # add model to tensorboard
-                    elif plots and ni == 10 and wandb:
-                        wandb.log({"Mosaics": [wandb.Image(str(x), caption=x.name) for x in save_dir.glob('train*.jpg')
-                                               if x.exists()]}, commit=False)
 
-                # end batch ------------------------------------------------------------------------------------------------
-            # end epoch ----------------------------------------------------------------------------------------------------
+                # end batch -----------------------------------------------------
+            # end epoch ---------------------------------------------------------
 
             # Scheduler
             lr = [x['lr'] for x in optimizer.param_groups]  # for tensorboard
@@ -343,17 +323,6 @@ class NetworkHandler:
                 if bucket:
                     os.system('gsutil cp %s gs://results/results.txt' % results_file)
 
-                # Log
-                tags = ['train/box_loss', 'train/obj_loss', 'train/cls_loss',  # train loss
-                        'metrics/precision', 'metrics/recall', 'metrics/mAP_0.5', 'metrics/mAP_0.5:0.95',
-                        'val/box_loss', 'val/obj_loss', 'val/cls_loss',  # val loss
-                        'x/lr0', 'x/lr1', 'x/lr2']  # params
-                for x, tag in zip(list(mloss[:-1]) + list(results) + lr, tags):
-                    if tb_writer:
-                        tb_writer.add_scalar(tag, x, epoch)  # tensorboard
-                    if wandb:
-                        wandb.log({tag: x}, step=epoch, commit=tag == tags[-1])  # W&B
-
                 # Update best mAP
                 fi = fitness(np.array(results).reshape(1, -1))  # weighted combination of [P, R, mAP@.5, mAP@.5-.95]
                 if fi > best_fitness:
@@ -368,14 +337,14 @@ class NetworkHandler:
                                 'training_results': f.read(),
                                 'model': ema.ema,
                                 'optimizer': None if final_epoch else optimizer.state_dict(),
-                                'wandb_id': wandb_run.id if wandb else None}
+                                'wandb_id': None}
 
                     # Save last, best and delete
                     torch.save(ckpt, last)
                     if best_fitness == fi:
                         torch.save(ckpt, best)
                     del ckpt
-            # end epoch ----------------------------------------------------------------------------------------------------
+            # end epoch ---------------------------------------------------------
         # end training
 
     def index_classes(self, path):

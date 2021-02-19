@@ -1,10 +1,8 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 
 from libs.database_editor import DatabaseEditor
 from libs.network_handler import NetworkHandler
-# from libs.user_editor import UserEditor
 from libs.camera import Camera
 from libs.user_interfaces import main
 
@@ -12,7 +10,6 @@ import cv2
 import sys
 import os
 import qimage2ndarray
-import torch
 from multiprocessing import Process
 
 
@@ -21,18 +18,15 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-        # camera view
         self.camera = Camera(0)
         self.microscopeView.initialize(camera=self.camera)
         self.microscopeView.setEnabled(True)
 
-        # database
         self.main_path = os.getcwd()
         self.path = os.path.join(self.main_path, 'data')
         self.database_editor = DatabaseEditor(self.camera, self.path)
         self.network_handler = NetworkHandler(self.main_path)
         self.training_process = None
-        # self.user_editor = UserEditor()
 
         self.connect()
         self.display_classes()
@@ -41,8 +35,6 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.databaseEditButton.clicked.connect(self.show_database_editor)
         self.database_editor.close_event.connect(self.enable_videostream)
         self.listView.itemClicked.connect(self.display_item)
-        # self.listView.itemSelectionChanged.connect(self.display_item)
-        # self.operatorDataEditButton.clicked.connect(self._show_user_editor)
         self.startTrainingButton.clicked.connect(self.train_network)
         self.camera.camera_err.connect(self.camera_error)
         self.database_editor.database_handler.update_classes.connect(self.display_classes)
@@ -69,7 +61,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
     def stop_training_dialog(self):
         yes, cancel = QMessageBox.Yes, QMessageBox.Cancel
         message = 'Neural network training is still in progress.\nContinue exit?'
-        return QMessageBox.warning(self, 'Attention', message, yes | cancel)
+        return QMessageBox.warning(self, 'Warning!', message, yes | cancel)
 
     def show_database_editor(self):
         self.microscopeView.setEnabled(False)
@@ -80,9 +72,6 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.database_editor.stream_enabled = False
         self.microscopeView.setEnabled(True)
 
-    # def _show_user_editor(self):
-    #    self.user_editor.show()
-
     def display_classes(self):
         self.listView.clear()
         self.listView.addItems(self.database_editor.database_handler.ideal_images.keys())
@@ -90,7 +79,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
     def display_item(self, item=None):
         logs = self.database_editor.database_handler.ideal_images
         if len(logs):
-            path = list(logs.values())[0] if item is None else logs[item.text()]
+            path = logs[item.text()] if item else list(logs.values())[0]
             image = cv2.imread(path)
             scale = (self.databaseComponentView.size().width() - 2) / image.shape[1]
             image = cv2.resize(image, None, fx=scale, fy=scale)
@@ -103,10 +92,12 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         super(MainWindow, self).resizeEvent(ev)
 
     def closeEvent(self, ev):
-        if self.training_process is not None and self.training_process.is_alive():
+        if self.training_process and self.training_process.is_alive():
             action = self.stop_training_dialog()
             if action == QMessageBox.Yes:
                 self.training_process.terminate()
+                self.camera.cap.release()
+                cv2.destroyAllWindows()
                 sys.exit()
             else:
                 ev.ignore()
