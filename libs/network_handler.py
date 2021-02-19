@@ -22,7 +22,7 @@ import yaml
 
 
 class NetworkHandler:
-    def __init__(self, path, device):
+    def __init__(self, path, device='cpu'):
         super(NetworkHandler, self).__init__()
         self.path = path
         self.network = None
@@ -48,10 +48,11 @@ class NetworkHandler:
         set_logging()
         self.device = select_device(self.device_name)
         self.half = self.device.type != 'cpu'
-        self.model = attempt_load(path, map_location=self.device)
-        self.stride = int(self.model.stride.max())
-        if self.half:
-            self.model.half()
+        if os.path.exists(path):
+            self.model = attempt_load(path, map_location=self.device)
+            self.stride = int(self.model.stride.max())
+            if self.half:
+                self.model.half()
 
     def train_network(self, epochs=300, batch_size=16):
         rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
@@ -414,6 +415,9 @@ class NetworkHandler:
 
     # this does work
     def detect(self, image):
+        if self.network is None:
+            return
+
         possible_result = []
 
         names = self.model.module.names if hasattr(self.model, 'module') else self.model.names

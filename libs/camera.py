@@ -6,21 +6,10 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 
-def _camera_error():
-    msg = QMessageBox()
-    msg.setIcon(QMessageBox.Critical)
-    msg.setText('Cannot get frames from camera!')
-    msg.setInformativeText('Proceed to exit the application.')
-    msg.setWindowTitle('Error!')
-    msg.setStandardButtons(QMessageBox.Close)
-    # msg.buttonClicked.connect(terminate_app)
-    msg.setWindowIcon(QIcon('source/icons/error.png'))
-    msg.exec()
-
-
 class Camera(QObject):
     _DEFAULT_FPS = 60
     new_frame = pyqtSignal(np.ndarray)
+    camera_err = pyqtSignal()
 
     def __init__(self, camera_id=0, mirrored=False, parent=None):
         super(Camera, self).__init__(parent)
@@ -37,7 +26,7 @@ class Camera(QObject):
     def _query_frame(self):
         ret, frame = self.cap.read()
         if not ret:
-            _camera_error()
+            self.camera_err.emit()
         if self.mirrored:
             frame = cv2.flip(frame, 1)
         self.new_frame.emit(frame)

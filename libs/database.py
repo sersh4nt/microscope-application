@@ -7,13 +7,14 @@ import shutil
 
 
 class DatabaseHandler(QObject):
-    reload_database = pyqtSignal()
+    update_classes = pyqtSignal()
 
     def __init__(self, path):
         super(DatabaseHandler, self).__init__()
         self.path = path
         self.records = dict()
         self.classes = []
+        self.ideal_images = {}
         self.load()
 
     def delete_class(self, component):
@@ -39,6 +40,11 @@ class DatabaseHandler(QObject):
                     f.write('\n')
                 f.write(component)
 
+    def index_ideal_images(self):
+        self.ideal_images.clear()
+        self.get_ideal_images()
+        self.update_classes.emit()
+
     def add_ideal_image(self, image, component):
         if component not in self.classes:
             self.classes.append(component)
@@ -52,8 +58,16 @@ class DatabaseHandler(QObject):
         os.chdir(os.path.join(self.path, component))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         cv2.imwrite(component + '.jpeg', image)
-        self.reload_database.emit()
+        self.index_ideal_images()
         os.chdir(self.path)
+
+    def get_ideal_images(self):
+        for dir in os.listdir(self.path):
+            path = os.path.join(self.path, dir)
+            if os.path.isdir(path):
+                for file in os.listdir(os.path.join(self.path, dir)):
+                    if file.lower().endswith('.jpeg'):
+                        self.ideal_images[dir] = os.path.join(path, file)
 
     def load(self):
         if not os.path.exists(self.path):
@@ -79,6 +93,8 @@ class DatabaseHandler(QObject):
                                 if component_name not in self.records:
                                     self.records[component_name] = list()
                                 self.records[component_name].append(DataRecord().load(record, component_name))
+
+        self.get_ideal_images()
 
     def add_record(self, component, img, shapes):
         dir = os.path.join(self.path, component)

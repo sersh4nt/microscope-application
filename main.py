@@ -27,67 +27,70 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.microscopeView.setEnabled(True)
 
         # database
-        self.logs = []
-        self.path = os.path.join(os.getcwd(), 'data')
         self.main_path = os.getcwd()
-        self.component_counter = 0
-        self.item_dict = {}
+        self.path = os.path.join(self.main_path, 'data')
         self.database_editor = DatabaseEditor(self.camera, self.path)
-        self.network_handler = NetworkHandler(self.main_path, '0' if torch.cuda.is_available() else 'cpu')
+        self.network_handler = NetworkHandler(self.main_path)
         self.training_process = None
         # self.user_editor = UserEditor()
-        self.load_database()
 
         self.connect()
+        self.display_classes()
 
     def connect(self):
-        self.databaseEditButton.clicked.connect(self._show_database_editor)
-        self.database_editor.close_event.connect(self._enable_videostream)
-        self.listView.itemClicked.connect(self._clicked_on_item)
+        self.databaseEditButton.clicked.connect(self.show_database_editor)
+        self.database_editor.close_event.connect(self.enable_videostream)
+        self.listView.itemClicked.connect(self.display_item)
+        # self.listView.itemSelectionChanged.connect(self.display_item)
         # self.operatorDataEditButton.clicked.connect(self._show_user_editor)
-        self.database_editor.database_handler.reload_database.connect(self._reload_database)
-        self.startTrainingButton.clicked.connect(self._train_network)
+        self.startTrainingButton.clicked.connect(self.train_network)
+        self.camera.camera_err.connect(self.camera_error)
+        self.database_editor.database_handler.update_classes.connect(self.display_classes)
 
-    def _train_network(self):
+    def camera_error(self):
+        msg = 'Cannot get frames from camera!\nProceed to exit the application.'
+        QMessageBox.critical(self, 'Error!', msg, QMessageBox.Close)
+        self.close()
+
+    def train_network(self):
         if self.training_process is None or not self.training_process.is_alive():
             self.training_process = Process(target=self.network_handler.train_network)
             self.training_process.start()
-            ok = QMessageBox.Ok
             message = 'Training process started.\n' \
                       'Please, do not close the application until training\'s done!\n' \
                       'You can check the progress down below at sidebar!'
             self.trainProgressBar.setVisible(True)
             self.trainProgressBar.setMaximum(self.network_handler.overall_progress)
             self.trainProgressBar.setValue(self.network_handler.current_progress)
-            QMessageBox.information(self, 'Success!', message, ok)
+            QMessageBox.information(self, 'Success!', message, QMessageBox.Ok)
         else:
             QMessageBox.warning(self, 'Attention', 'Training is still in progress!', QMessageBox.Ok)
 
-    def _show_database_editor(self):
+    def stop_training_dialog(self):
+        yes, cancel = QMessageBox.Yes, QMessageBox.Cancel
+        message = 'Neural network training is still in progress.\nContinue exit?'
+        return QMessageBox.warning(self, 'Attention', message, yes | cancel)
+
+    def show_database_editor(self):
         self.microscopeView.setEnabled(False)
         self.database_editor.stream_enabled = True
         self.database_editor.show()
 
-    @pyqtSlot()
-    def _reload_database(self):
-        self.listView.clear()
-        self.load_database()
-
-    @pyqtSlot()
-    def _enable_videostream(self):
+    def enable_videostream(self):
         self.database_editor.stream_enabled = False
         self.microscopeView.setEnabled(True)
 
     # def _show_user_editor(self):
     #    self.user_editor.show()
 
-    def _clicked_on_item(self, item):
-        self.component_counter = self.item_dict[item.text()]
-        self.display_item()
+    def display_classes(self):
+        self.listView.clear()
+        self.listView.addItems(self.database_editor.database_handler.ideal_images.keys())
 
-    def display_item(self):
-        if self.logs and len(self.logs):
-            path = self.logs[self.component_counter]['path']
+    def display_item(self, item=None):
+        logs = self.database_editor.database_handler.ideal_images
+        if len(logs):
+            path = list(logs.values())[0] if item is None else logs[item.text()]
             image = cv2.imread(path)
             scale = (self.databaseComponentView.size().width() - 2) / image.shape[1]
             image = cv2.resize(image, None, fx=scale, fy=scale)
@@ -95,44 +98,20 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
             image = qimage2ndarray.array2qimage(image)
             self.databaseComponentView.setPixmap(QPixmap.fromImage(image))
 
-    def load_database(self):
-        self.logs = get_images(self.path)
-        i = 0
-        for log in self.logs:
-            self.listView.addItem(QListWidgetItem(log['name']))
-            self.item_dict[log['name']] = i
-            i += 1
-        self.display_item()
-
     def resizeEvent(self, ev):
         self.display_item()
         super(MainWindow, self).resizeEvent(ev)
 
-    def end_training_dialog(self):
-        yes, cancel = QMessageBox.Yes, QMessageBox.Cancel
-        message = 'Neural network training is still in progress.\nContinue exit?'
-        return QMessageBox.warning(self, 'Attention', message, yes | cancel)
-
     def closeEvent(self, ev):
         if self.training_process is not None and self.training_process.is_alive():
-            action = self.end_training_dialog()
+            action = self.stop_training_dialog()
             if action == QMessageBox.Yes:
                 self.training_process.terminate()
                 sys.exit()
             else:
                 ev.ignore()
-
-
-def get_images(directory):
-    res = []
-    for dir in os.listdir(directory):
-        path = os.path.join(directory, dir)
-        if os.path.isdir(path):
-            for file in os.listdir(os.path.join(directory, dir)):
-                if file.lower().endswith('.jpeg'):
-                    img_obj = {'name': dir, 'path': os.path.join(path, file)}
-                    res.append(img_obj)
-    return res
+        else:
+            sys.exit()
 
 
 if __name__ == '__main__':
