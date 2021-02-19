@@ -13,7 +13,7 @@ import sys
 import os
 import qimage2ndarray
 import torch
-import threading
+from multiprocessing import Process
 
 
 class MainWindow(QMainWindow, main.Ui_MainWindow):
@@ -34,6 +34,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.item_dict = {}
         self.database_editor = DatabaseEditor(self.camera, self.path)
         self.network_handler = NetworkHandler(self.main_path, '0' if torch.cuda.is_available() else 'cpu')
+        self.training_process = None
         # self.user_editor = UserEditor()
         self.load_database()
 
@@ -48,9 +49,19 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.startTrainingButton.clicked.connect(self._train_network)
 
     def _train_network(self):
-        th = threading.Thread(target=self.network_handler.train_network)
-        th.start()
-        th.join()
+        if self.training_process is None or not self.training_process.is_alive():
+            self.training_process = Process(target=self.network_handler.train_network)
+            self.training_process.start()
+            ok = QMessageBox.Ok
+            message = 'Training process started.\n' \
+                      'Please, do not close the application until training\'s done!\n' \
+                      'You can check the progress down below at sidebar!'
+            self.trainProgressBar.setVisible(True)
+            self.trainProgressBar.setMaximum(self.network_handler.overall_progress)
+            self.trainProgressBar.setValue(self.network_handler.current_progress)
+            QMessageBox.information(self, 'Success!', message, ok)
+        else:
+            QMessageBox.warning(self, 'Attention', 'Training is still in progress!', QMessageBox.Ok)
 
     def _show_database_editor(self):
         self.microscopeView.setEnabled(False)
@@ -97,9 +108,19 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.display_item()
         super(MainWindow, self).resizeEvent(ev)
 
+    def end_training_dialog(self):
+        yes, cancel = QMessageBox.Yes, QMessageBox.Cancel
+        message = 'Neural network training is still in progress.\nContinue exit?'
+        return QMessageBox.warning(self, 'Attention', message, yes | cancel)
+
     def closeEvent(self, ev):
-        terminate_app()
-        super(MainWindow, self).closeEvent(ev)
+        if self.training_process is not None and self.training_process.is_alive():
+            action = self.end_training_dialog()
+            if action == QMessageBox.Yes:
+                self.training_process.terminate()
+                sys.exit()
+            else:
+                ev.ignore()
 
 
 def get_images(directory):
@@ -114,16 +135,8 @@ def get_images(directory):
     return res
 
 
-def terminate_app():
-    sys.exit()
-
-
-def main():
+if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     app.exec_()
-
-
-if __name__ == '__main__':
-    main()

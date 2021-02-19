@@ -27,19 +27,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="added training without threading">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_11-Feb-21_16_34_[Default_Changelist]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/confusion_matrix.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/test_batch0_labels.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/test_batch0_pred.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/volodya/records.cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/train/best.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_11-Feb-21_16_34_[Default_Changelist]/11-02-20210000.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_11-Feb-21_16_34_[Default_Changelist]/best.pt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_11-Feb-21_16_34_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_11-Feb-21_16_34_[Default_Changelist]/volodya.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ulyana/records.cache" beforeDir="false" afterPath="$PROJECT_DIR$/data/ulyana/records.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/vlad/records.cache" beforeDir="false" afterPath="$PROJECT_DIR$/data/vlad/records.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/network_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/network_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/labels.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/labels.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/labels_correlogram.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/labels_correlogram.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/train/train.txt" beforeDir="false" afterPath="$PROJECT_DIR$/models/train/train.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/train/val.txt" beforeDir="false" afterPath="$PROJECT_DIR$/models/train/val.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/results.txt" beforeDir="false" afterPath="$PROJECT_DIR$/models/results.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/train_batch0.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/train_batch0.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/train_batch1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/train_batch1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/train_batch2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/train_batch2.jpg" afterDir="false" />
     </list>
+    <list id="975c9222-508e-4a87-bdeb-80fc59a0e14d" name="added training without threading" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,14 +87,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/yolo" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/models/train" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Professional\PycharmProjects\microscope-application\libs\yolo" />
       <recent name="C:\Users\Professional\PycharmProjects\microscope-application\models\train" />
+      <recent name="C:\Users\Professional\PycharmProjects\microscope-application\libs\yolo" />
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\models\train" />
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\libs\yolo" />
       <recent name="C:\Users\sersh4nt\PycharmProjects\microscope-application\models" />
@@ -175,6 +180,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="started database" />
+      <changelist id="975c9222-508e-4a87-bdeb-80fc59a0e14d" name="added training without threading" comment="" />
       <created>1610440153930</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -257,7 +263,21 @@
       <option name="project" value="LOCAL" />
       <updated>1613467778444</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="added training without threading">
+      <created>1613470300692</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1613470300692</updated>
+    </task>
+    <task id="LOCAL-00013" summary="added training without threading">
+      <created>1613470305125</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1613470305125</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -319,11 +339,6 @@
           <url>file://$PROJECT_DIR$/libs/database_editor.py</url>
           <line>204</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/libs/database_editor.py</url>
-          <line>261</line>
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/libs/database_editor.py</url>

@@ -18,12 +18,10 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.cuda import amp
 import torch.distributed as dist
 import torch
-
 import yaml
 
 
-class NetworkHandler(QObject):
-
+class NetworkHandler:
     def __init__(self, path, device):
         super(NetworkHandler, self).__init__()
         self.path = path
@@ -39,6 +37,8 @@ class NetworkHandler(QObject):
         self.stride = 0
         self.image_size = 640
         self.load_network()
+        self.overall_progress = 0
+        self.current_progress = 0
 
     def load_network(self):
         # with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
@@ -161,6 +161,7 @@ class NetworkHandler(QObject):
                                                 prefix=colorstr('train: '))
         mlc = np.concatenate(dataset.labels, 0)[:, 0].max()  # max label class
         nb = len(dataloader)  # number of batches
+        self.overall_progress = nb * epochs
         assert mlc < nc, 'Label class %g exceeds nc=%g in %s. Possible class labels are 0-%g' % (mlc, nc, data, nc - 1)
 
         tb_writer = None
@@ -243,9 +244,10 @@ class NetworkHandler(QObject):
             if rank in [-1, 0]:
                 pbar = tqdm(pbar, total=nb)  # progress bar
             optimizer.zero_grad()
-            for i, (
-            imgs, targets, paths, _) in pbar:  # batch -------------------------------------------------------------
+            for i, (imgs, targets, paths, _) in pbar:  # batch ---------------------------
                 ni = i + nb * epoch  # number integrated batches (since train start)
+                self.current_progress = ni
+
                 imgs = imgs.to(self.device, non_blocking=True).float() / 255.0  # uint8 to float32, 0-255 to 0.0-1.0
 
                 # Warmup
