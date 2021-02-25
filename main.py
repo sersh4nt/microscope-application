@@ -38,6 +38,11 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.startTrainingButton.clicked.connect(self.train_network)
         self.camera.camera_err.connect(self.camera_error)
         self.database_editor.database_handler.update_classes.connect(self.display_classes)
+        self.microscopeView.new_frame.connect(self.new_frame)
+
+    def new_frame(self, frame):
+        data = self.network_handler.detect(frame)
+        print(data)
 
     def camera_error(self):
         msg = 'Cannot get frames from camera!\nProceed to exit the application.'

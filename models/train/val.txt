@@ -1,2 +1,3 @@
-C:\Users\sersh4nt\PycharmProjects\microscope-application\data\vlad\records\15-02-20210002.jpg
-C:\Users\sersh4nt\PycharmProjects\microscope-application\data\volodya\records\15-02-20210000.jpg
+/home/sersh4nt/PycharmProjects/microscope-application/data/vlad/records/15-02-20210002.jpg
+/home/sersh4nt/PycharmProjects/microscope-application/data/vlad/records/20-02-20210000.jpg
+/home/sersh4nt/PycharmProjects/microscope-application/data/vlad/records/20-02-20210001.jpg

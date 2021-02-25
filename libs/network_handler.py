@@ -21,7 +21,6 @@ class NetworkHandler:
     def __init__(self, path):
         super(NetworkHandler, self).__init__()
         self.path = path
-        self.network = None
         self.classes = []
         self.data = []
         self.meta = None
@@ -34,6 +33,8 @@ class NetworkHandler:
         self.load_network()
         self.overall_progress = 0
         self.current_progress = 0
+
+        torch.multiprocessing.set_start_method('spawn')
 
     def load_network(self):
         path = os.path.join(self.path, 'models', 'train', 'best.pt')
@@ -50,7 +51,7 @@ class NetworkHandler:
                   'The program would not support detection functions'
             QMessageBox.warning(None, 'Warning!', msg, QMessageBox.Ok)
 
-    def train_network(self, epochs=300, batch_size=16):
+    def train_network(self, epochs=300, batch_size=4):
         rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
         plots = True  # as default
         adam = False
@@ -385,7 +386,7 @@ class NetworkHandler:
 
     # this does work
     def detect(self, image):
-        if self.network is None:
+        if self.model is None:
             return
 
         possible_result = []
@@ -394,10 +395,8 @@ class NetworkHandler:
 
         t0 = time.time()
         self.image_size = check_img_size(640, s=self.stride)
-        if self.device.type != 'cpu':
-            self.model(torch.zeros(1, 3, self.image_size, self.image_size)) \
-                .to(self.device) \
-                .type_as(next(self.model.parameters()))
+        # if self.device.type != 'cpu':
+        #    self.model(torch.zeros(1, 3, self.image_size, self.image_size)).to(self.device).type_as(next(self.model.parameters()))
 
         image = letterbox(image, self.image_size, stride=self.stride)[0]
         image = image[:, :, ::-1].transpose(2, 0, 1)
@@ -417,6 +416,5 @@ class NetworkHandler:
             if len(detection):
                 for *xyxy, conf, cls in reversed(detection):
                     possible_result.append(f'{names[int(cls)]} {conf:.2f}')
-        print(predictions)
 
         return possible_result
