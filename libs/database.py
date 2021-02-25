@@ -26,9 +26,11 @@ class DatabaseHandler(QObject):
 
     def add_class(self, component):
         component_dir = os.path.join(self.path, component)
-        os.mkdir(component_dir)
+        if not os.path.exists(component_dir):
+            os.mkdir(component_dir)
         records_dir = os.path.join(component_dir, 'records')
-        os.mkdir(records_dir)
+        if not os.path.exists(records_dir):
+            os.mkdir(records_dir)
 
         if component not in self.classes:
             self.classes.append(component)
@@ -150,6 +152,9 @@ class DatabaseHandler(QObject):
 
     def edit_record(self, component, filename, frame, shapes):
         os.chdir(os.path.join(self.path, component, 'records'))
+
+        sp = filename.split(' ')
+        filename = '{}{:04d}'.format(sp[0], int(sp[1][1:]))
 
         image = cv2.cvtColor(frame.copy(), cv2.COLOR_RGB2BGR)
         cv2.imwrite(filename + '.jpg', image)

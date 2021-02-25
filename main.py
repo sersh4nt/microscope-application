@@ -18,7 +18,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-        self.camera = Camera(0)
+        self.camera = Camera()
         self.microscopeView.initialize(camera=self.camera)
         self.microscopeView.setEnabled(True)
 

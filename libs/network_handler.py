@@ -159,7 +159,8 @@ class NetworkHandler:
         # Trainloader
         dataloader, dataset = create_dataloader(train_path, imgsz, batch_size, gs, False,
                                                 hyp=hyp_dict, rank=rank,
-                                                prefix=colorstr('train: '))
+                                                prefix=colorstr('train: '),
+                                                workers=0)
         mlc = np.concatenate(dataset.labels, 0)[:, 0].max()  # max label class
         nb = len(dataloader)  # number of batches
         self.overall_progress = nb * epochs

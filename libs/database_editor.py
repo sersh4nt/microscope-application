@@ -1,7 +1,3 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-
 from libs.user_interfaces import designer
 from libs.utils import *
 from libs.label_dialog import LabelDialog
@@ -10,11 +6,9 @@ from libs.shape import Shape
 
 import sys
 import qimage2ndarray
-import numpy as np
+from functools import partial
 import cv2
 import os
-
-sys.setrecursionlimit(1000)
 
 
 class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
@@ -25,23 +19,19 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.setupUi(self)
         self.camera = camera
         self.stream_enabled = False
-        self.single_class = False
         self.dirty = False
         self.frame = None
         self.items_to_shapes = {}
         self.shapes_to_items = {}
-        self.label_list = []
         self.prev_label_text = ''
         self.last_label = None
         self.shapes = []
         self.path = path
-        self.rewrite = False
-        self.current_component = ''
-        self.current_filename = ''
         self._no_selection_slot = False
 
-        self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
         self.database_handler = DatabaseHandler(path)
+        self.label_list = self.database_handler.classes
+        self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
 
         self.scrollBars = {
             Qt.Vertical: self.scrollArea.verticalScrollBar(),
@@ -76,7 +66,6 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     def delete_shape(self):
         self.remove_label(self.canvas.deleteSelected())
-        self.rewrite = True
         self.save_labels()
 
     def remove_label(self, shape):
@@ -114,10 +103,10 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         if len(self.label_list):
             self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
 
-        self.current_component = self.get_current_component().text()
+        component = self.get_current_component()
 
-        if self.current_component:
-            text = self.current_component
+        if component:
+            text = component.text()
         else:
             text = self.label_dialog.popUp(text=self.prev_label_text)
         self.last_label = text
@@ -133,7 +122,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             self.set_dirty()
         else:
             self.canvas.resetAllLines()
-        self._mode_select()
+        self.mode_edit(False)
 
     def display_classes(self):
         self.componentList.clear()
@@ -151,7 +140,6 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     def load_record(self):
         self.clear_labels()
-        self.rewrite = True
         item = self.recordList.selectedItems()[0]
         if not item:
             return
@@ -163,9 +151,6 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         f = filename.split(' ')
         filename = '{}{:04d}'.format(f[0], int(f[1]))
         path = os.path.join(self.path, component, 'records', filename)
-
-        self.current_component = component
-        self.current_filename = filename
 
         img_path = path + '.jpg'
         txt_path = path + '.txt'
@@ -259,21 +244,22 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             self.set_dirty()
 
     def save_labels(self):
-        if self.rewrite:
+        component = self.get_current_component()
+        record = self.get_current_record()
+        if record:
             self.database_handler.edit_record(
-                self.current_component,
-                self.current_filename,
+                component.text(),
+                record.text(),
                 self.frame,
                 self.shapes
             )
         else:
-            if self.current_component is not None:
-                text = self.current_component
+            if component:
+                text = component.text()
             else:
                 text = self.label_dialog.popUp(self.last_label)
             self.database_handler.add_record(text, self.frame, self.shapes)
             self.display_classes()
-        self.rewrite = False
 
     def connect(self):
         self.camera.new_frame.connect(self._on_new_frame)
@@ -284,8 +270,8 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.shotButton.clicked.connect(self._stop_video)
         self.saveButton.clicked.connect(self.save_labels)
 
-        self.modeSelect.triggered.connect(self._mode_select)
-        self.modeEdit.triggered.connect(self._mode_edit)
+        self.modeSelect.triggered.connect(partial(self.mode_edit, False))
+        self.modeEdit.triggered.connect(partial(self.mode_edit, True))
 
         self.componentList.customContextMenuRequested.connect(self.class_menu_popup)
         self.componentList.itemClicked.connect(self.display_records)
@@ -341,10 +327,9 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     def clear(self):
         self.last_label = None
-        self.rewrite = False
         if not self.stream_enabled:
             self._stop_video()
-        self._mode_edit()
+        self.mode_edit(True)
         self.shapes.clear()
         self.shapes_to_items.clear()
         self.items_to_shapes.clear()
@@ -402,15 +387,10 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
     def rectangle_menu_popup(self, point):
         self.rectangle_menu.exec_(self.rectangleList.mapToGlobal(point))
 
-    def _mode_select(self):
-        self.modeEdit.setChecked(False)
-        self.modeSelect.setChecked(True)
-        self.canvas.setEditing(False)
-
-    def _mode_edit(self):
-        self.modeEdit.setChecked(True)
-        self.modeSelect.setChecked(False)
-        self.canvas.setEditing(True)
+    def mode_edit(self, edit=True):
+        self.modeEdit.setChecked(edit)
+        self.modeSelect.setChecked(not edit)
+        self.canvas.setEditing(edit)
 
     def _stop_video(self):
         if self.stream_enabled:
@@ -422,13 +402,11 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             if len(self.shapes):
                 self.clear()
 
-    @pyqtSlot(np.ndarray)
     def _on_new_frame(self, frame):
         if self.stream_enabled:
             self.frame = cv2.cvtColor(frame.copy(), cv2.COLOR_BGR2RGB)
             self.canvas.loadPixmap(QPixmap.fromImage(qimage2ndarray.array2qimage(self.frame)))
 
-    # event functions
     def closeEvent(self, e):
         if self.may_continue():
             self.clear()
