@@ -37,7 +37,7 @@ class NetworkHandler:
         torch.multiprocessing.set_start_method('spawn')
 
     def load_network(self):
-        path = os.path.join(self.path, 'models', 'train', 'best.pt')
+        path = os.path.join(self.path, 'models', 'train', 'last.pt')
 
         set_logging()
         self.half = self.device.type != 'cpu'
@@ -51,7 +51,7 @@ class NetworkHandler:
                   'The program would not support detection functions'
             QMessageBox.warning(None, 'Warning!', msg, QMessageBox.Ok)
 
-    def train_network(self, epochs=300, batch_size=4):
+    def train_network(self, epochs=1000, batch_size=4):
         rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
         plots = True  # as default
         adam = False

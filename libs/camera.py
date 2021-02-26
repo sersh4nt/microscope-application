@@ -15,8 +15,8 @@ class Camera(QObject):
         super(Camera, self).__init__(parent)
         self.mirrored = mirrored
         self.cap = cv2.VideoCapture(camera_id)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self._query_frame)
         self.timer.setInterval(1000 // self.fps)
