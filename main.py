@@ -1,16 +1,17 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-
-from libs.database_editor import DatabaseEditor
-from libs.network_handler import NetworkHandler
-from libs.camera import Camera
-from libs.user_interfaces import main
+import os
+import sys
+from multiprocessing import Process, Value
 
 import cv2
-import sys
-import os
 import qimage2ndarray
-from multiprocessing import Process
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+
+from libs.camera import Camera
+from libs.database_editor import DatabaseEditor
+from libs.network_handler import NetworkHandler
+from libs.user_interfaces import main
 
 
 class MainWindow(QMainWindow, main.Ui_MainWindow):
@@ -28,6 +29,14 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.network_handler = NetworkHandler(self.main_path)
         self.training_process = None
 
+        self.timer = QTimer()
+        self.timer.setInterval(1000)
+        self.timer.start()
+        self.current_progress = Value('i', 0)
+        self.overall_progress = Value('i', 0)
+        self.train_time_start = Value('f', 0)
+        self.train_time_end = Value('f', 0)
+
         self.connect()
         self.display_classes()
 
@@ -39,10 +48,20 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.camera.camera_err.connect(self.camera_error)
         self.database_editor.database_handler.update_classes.connect(self.display_classes)
         self.microscopeView.new_frame.connect(self.new_frame)
+        self.timer.timeout.connect(self.update_progress_bar)
+
+    def update_progress_bar(self):
+        self.trainProgressBar.setMaximum(self.overall_progress.value)
+        self.trainProgressBar.setValue(self.current_progress.value)
+        if self.training_process and self.training_process.is_alive():
+            self.statusbarDisplay.setText('Training is in progress...')
+        else:
+            self.statusbarDisplay.clear()
 
     def new_frame(self, frame):
-        data = self.network_handler.detect(frame)
-        print(data)
+        if not self.training_process or self.training_process and not self.training_process.is_alive():
+            data = self.network_handler.detect(frame)
+            print(data)
 
     def camera_error(self):
         msg = 'Cannot get frames from camera!\nProceed to exit the application.'
@@ -51,14 +70,21 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
 
     def train_network(self):
         if self.training_process is None or not self.training_process.is_alive():
-            self.training_process = Process(target=self.network_handler.train_network)
+            self.training_process = Process(
+                target=self.network_handler.train_network,
+                args=(self.current_progress,
+                      self.overall_progress,
+                      self.train_time_start,
+                      self.train_time_end
+                      )
+            )
             self.training_process.start()
             message = 'Training process started.\n' \
                       'Please, do not close the application until training\'s done!\n' \
                       'You can check the progress down below at sidebar!'
-            self.trainProgressBar.setVisible(True)
-            self.trainProgressBar.setMaximum(self.network_handler.overall_progress)
-            self.trainProgressBar.setValue(self.network_handler.current_progress)
+            self.statusbar.setVisible(True)
+            self.trainProgressBar.setMaximum(self.overall_progress.value)
+            self.trainProgressBar.setValue(self.current_progress.value)
             QMessageBox.information(self, 'Success!', message, QMessageBox.Ok)
         else:
             QMessageBox.warning(self, 'Attention', 'Training is still in progress!', QMessageBox.Ok)
@@ -83,6 +109,8 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
 
     def display_item(self, item=None):
         logs = self.database_editor.database_handler.ideal_images
+        if not item and self.listView.selectedItems():
+            item = self.listView.selectedItems()[0]
         if len(logs):
             path = logs[item.text()] if item else list(logs.values())[0]
             image = cv2.imread(path)

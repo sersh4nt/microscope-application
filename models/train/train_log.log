@@ -1,0 +1,2036 @@
+[INFO] [34m[1mhyperparameters: [0mlr0=0.0032, lrf=0.12, momentum=0.843, weight_decay=0.00036, warmup_epochs=2.0, warmup_momentum=0.5, warmup_bias_lr=0.05, box=0.0296, cls=0.243, cls_pw=0.631, obj=0.301, obj_pw=0.911, iou_t=0.2, anchor_t=2.91, fl_gamma=0.0, hsv_h=0.0138, hsv_s=0.664, hsv_v=0.464, degrees=0.373, translate=0.245, scale=0.898, shear=0.602, perspective=0.0, flipud=0.00856, fliplr=0.5, mosaic=1.0, mixup=0.243
+[INFO] 
+                 from  n    params  module                                  arguments                     
+[INFO]   0                -1  1      8800  models.common.Focus                     [3, 80, 3]                    
+[INFO]   1                -1  1    115520  models.common.Conv                      [80, 160, 3, 2]               
+[INFO]   2                -1  1    309120  models.common.C3                        [160, 160, 4]                 
+[INFO]   3                -1  1    461440  models.common.Conv                      [160, 320, 3, 2]              
+[INFO]   4                -1  1   3285760  models.common.C3                        [320, 320, 12]                
+[INFO]   5                -1  1   1844480  models.common.Conv                      [320, 640, 3, 2]              
+[INFO]   6                -1  1  13125120  models.common.C3                        [640, 640, 12]                
+[INFO]   7                -1  1   7375360  models.common.Conv                      [640, 1280, 3, 2]             
+[INFO]   8                -1  1   4099840  models.common.SPP                       [1280, 1280, [5, 9, 13]]      
+[INFO]   9                -1  1  19676160  models.common.C3                        [1280, 1280, 4, False]        
+[INFO]  10                -1  1    820480  models.common.Conv                      [1280, 640, 1, 1]             
+[INFO]  11                -1  1         0  torch.nn.modules.upsampling.Upsample    [None, 2, 'nearest']          
+[INFO]  12           [-1, 6]  1         0  models.common.Concat                    [1]                           
+[INFO]  13                -1  1   5332480  models.common.C3                        [1280, 640, 4, False]         
+[INFO]  14                -1  1    205440  models.common.Conv                      [640, 320, 1, 1]              
+[INFO]  15                -1  1         0  torch.nn.modules.upsampling.Upsample    [None, 2, 'nearest']          
+[INFO]  16           [-1, 4]  1         0  models.common.Concat                    [1]                           
+[INFO]  17                -1  1   1335040  models.common.C3                        [640, 320, 4, False]          
+[INFO]  18                -1  1    922240  models.common.Conv                      [320, 320, 3, 2]              
+[INFO]  19          [-1, 14]  1         0  models.common.Concat                    [1]                           
+[INFO]  20                -1  1   4922880  models.common.C3                        [640, 640, 4, False]          
+[INFO]  21                -1  1   3687680  models.common.Conv                      [640, 640, 3, 2]              
+[INFO]  22          [-1, 10]  1         0  models.common.Concat                    [1]                           
+[INFO]  23                -1  1  19676160  models.common.C3                        [1280, 1280, 4, False]        
+[INFO]  24      [17, 20, 23]  1     53832  models.yolo.Detect                      [3, [[10, 13, 16, 30, 33, 23], [30, 61, 62, 45, 59, 119], [116, 90, 156, 198, 373, 326]], [320, 640, 1280]]
+[INFO] Model Summary: 607 layers, 87257832 parameters, 87257832 gradients
+[INFO] 
+[INFO] Scaled weight_decay = 0.00036
+[INFO] Optimizer groups: 134 .bias, 134 conv.weight, 131 other
+[INFO] Image sizes 640 train, 640 test
+Using 0 dataloader workers
+Logging results to /home/sersh4nt/PycharmProjects/microscope-application/models
+Starting training for 1000 epochs...
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size
+[INFO] 
+     Epoch   gpu_mem       box       obj       cls     total   targets  img_size

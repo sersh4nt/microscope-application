@@ -1,3 +1,6 @@
+import subprocess
+import platform
+
 import cv2
 import numpy as np
 import qimage2ndarray
@@ -14,9 +17,17 @@ class Camera(QObject):
     def __init__(self, camera_id=0, mirrored=False, parent=None):
         super(Camera, self).__init__(parent)
         self.mirrored = mirrored
-        self.cap = cv2.VideoCapture(camera_id)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+
+        if platform.system() == 'Linux':
+            command = "v4l2-ctl -d 0 -c exposure_auto=3"
+            subprocess.call(command, shell=True)
+            self.cap = cv2.VideoCapture(camera_id, cv2.CAP_V4L2)
+            self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
+        elif platform.system() == 'Windows':
+            self.cap = cv2.VideoCapture(camera_id)
+
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self._query_frame)
         self.timer.setInterval(1000 // self.fps)

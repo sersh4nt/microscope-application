@@ -20,6 +20,7 @@ import yaml
 class NetworkHandler:
     def __init__(self, path):
         super(NetworkHandler, self).__init__()
+        set_logging()
         self.path = path
         self.classes = []
         self.data = []
@@ -31,15 +32,11 @@ class NetworkHandler:
         self.stride = 0
         self.image_size = 640
         self.load_network()
-        self.overall_progress = 0
-        self.current_progress = 0
 
         torch.multiprocessing.set_start_method('spawn')
 
     def load_network(self):
         path = os.path.join(self.path, 'models', 'train', 'last.pt')
-
-        set_logging()
         self.half = self.device.type != 'cpu'
         try:
             self.model = attempt_load(path, map_location=self.device)
@@ -51,7 +48,22 @@ class NetworkHandler:
                   'The program would not support detection functions'
             QMessageBox.warning(None, 'Warning!', msg, QMessageBox.Ok)
 
-    def train_network(self, epochs=1000, batch_size=4):
+    def train_network(self,
+                      current_progress,
+                      overall_progress,
+                      time_start,
+                      time_end,
+                      epochs=1000,
+                      batch_size=4):
+
+        path = Path(os.getcwd()) / 'models' / 'train' / 'train_log.log'
+        logging.basicConfig(
+            format="[%(levelname)s] %(message)s",
+            level=logging.INFO,
+            filename=path,
+            filemode='w+'
+        )
+
         rank = int(os.environ['RANK']) if 'RANK' in os.environ else -1
         plots = True  # as default
         adam = False
@@ -164,7 +176,7 @@ class NetworkHandler:
                                                 workers=0)
         mlc = np.concatenate(dataset.labels, 0)[:, 0].max()  # max label class
         nb = len(dataloader)  # number of batches
-        self.overall_progress = nb * epochs
+        overall_progress.value = nb * epochs
         assert mlc < nc, 'Label class %g exceeds nc=%g in %s. Possible class labels are 0-%g' % (mlc, nc, data, nc - 1)
 
         if rank in [-1, 0]:
@@ -193,7 +205,7 @@ class NetworkHandler:
         model.names = names
 
         # Start training
-        t0 = time.time()
+        time_start.value = time.time()
         # number of warmup iterations, max(3 epochs, 1k iterations)
         nw = max(round(hyp_dict['warmup_epochs'] * nb), 1000)
         maps = np.zeros(nc)  # mAP per class
@@ -234,7 +246,7 @@ class NetworkHandler:
             optimizer.zero_grad()
             for i, (imgs, targets, paths, _) in pbar:  # batch ---------------------------
                 ni = i + nb * epoch  # number integrated batches (since train start)
-                self.current_progress = ni
+                current_progress.value = ni
 
                 imgs = imgs.to(self.device, non_blocking=True).float() / 255.0  # uint8 to float32, 0-255 to 0.0-1.0
 
@@ -348,6 +360,7 @@ class NetworkHandler:
                     del ckpt
             # end epoch ---------------------------------------------------------
         # end training
+        time_end.value = time.time() - time_start.value
 
     def index_classes(self, path):
         with open(os.path.join(path, 'data', 'classes.txt'), 'r') as f:

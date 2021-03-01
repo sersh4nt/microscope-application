@@ -29,8 +29,9 @@ os.environ['NUMEXPR_MAX_THREADS'] = str(min(os.cpu_count(), 8))  # NumExpr max t
 
 
 def set_logging(rank=-1):
+    path = Path(os.getcwd()) / 'models' / 'train' / 'train_log.log'
     logging.basicConfig(
-        format="%(message)s",
+        format="[%(asctime)s] [%(levelname)s] %(message)s",
         level=logging.INFO if rank in [-1, 0] else logging.WARN)
 
 

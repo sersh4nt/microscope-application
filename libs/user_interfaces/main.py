@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import *
 from libs.camera import CameraWidget
 
 
@@ -81,13 +82,9 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
 
         self.trainProgressBar = QtWidgets.QProgressBar(self.statusbar)
-        self.trainProgressBar.setMaximum(450)
-        self.trainProgressBar.setValue(238)
-        self.trainProgressBar.setFixedHeight(12)
-
+        self.trainProgressBar.setAlignment(Qt.AlignLeft)
         self.statusbarDisplay = QtWidgets.QLabel(self.statusbar)
-        self.statusbarDisplay.setFixedHeight(12)
-        self.trainProgressBar.setVisible(False)
+        self.trainProgressBar.setFixedHeight(16)
         
         self.progressBarWidget = QtWidgets.QWidget()
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -95,9 +92,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.trainProgressBar)
         self.horizontalLayout_2.setStretch(0, 1)
         self.horizontalLayout_2.setStretch(1, 1)
-        self.horizontalLayout_2.setContentsMargins(10, 10, 0, 10)
+        self.horizontalLayout_2.setContentsMargins(10, 0, 0, 10)
         self.progressBarWidget.setLayout(self.horizontalLayout_2)
         self.statusbar.addPermanentWidget(self.progressBarWidget, 1)
+        self.statusbar.setVisible(False)
 
         MainWindow.setStatusBar(self.statusbar)
         self.action = QtWidgets.QAction(MainWindow)
