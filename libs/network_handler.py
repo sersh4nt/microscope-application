@@ -36,9 +36,10 @@ class NetworkHandler:
         torch.multiprocessing.set_start_method('spawn')
 
     def load_network(self):
-        path = os.path.join(self.path, 'models', 'train', 'last.pt')
+        path = os.path.join(self.path, 'models', 'train', 'best.pt')
         self.half = self.device.type != 'cpu'
         try:
+            del self.model
             self.model = attempt_load(path, map_location=self.device)
             self.stride = int(self.model.stride.max())
             if self.half:
@@ -53,10 +54,9 @@ class NetworkHandler:
                       overall_progress,
                       time_start,
                       time_end,
-                      epochs=1000,
-                      batch_size=4):
+                      batch_size=16):
 
-        path = Path(os.getcwd()) / 'models' / 'train' / 'train_log.log'
+        path = Path(__file__).parents[1] / 'models' / 'train' / 'train_log.log'
         logging.basicConfig(
             format="[%(levelname)s] %(message)s",
             level=logging.INFO,
@@ -76,9 +76,7 @@ class NetworkHandler:
         results_file = os.path.join(save_dir, 'results.txt')
         self.index_records(weights_dir)
         self.index_classes(self.path)
-        total_batch_size = 16
-        # epochs = 5
-        # batch_size = 1
+        total_batch_size = batch_size
 
         data = check_file(os.path.join(weights_dir, 'data.yaml'))
         cfg = check_file(os.path.join(weights_dir, 'cfg.yaml'))
@@ -96,10 +94,11 @@ class NetworkHandler:
         train_path = data_dict['train']
         test_path = data_dict['val']
         nc = data_dict['nc']
+        epochs = 3000
         names = data_dict['names']
         assert len(names) == nc, '%g names found for nc=%g dataset in %s' % (len(names), nc, data)
 
-        model = Model(cfg, ch=3, nc=nc).to(self.device)
+        model = Model(cfg, ch=3, nc=nc, anchors=hyp_dict.get('anchors')).to(self.device)
 
         freeze = []
         for k, v in model.named_parameters():
@@ -240,7 +239,7 @@ class NetworkHandler:
             if rank != -1:
                 dataloader.sampler.set_epoch(epoch)
             pbar = enumerate(dataloader)
-            logger.info(('\n' + '%10s' * 8) % ('Epoch', 'gpu_mem', 'box', 'obj', 'cls', 'total', 'targets', 'img_size'))
+            logger.info('%10s' * 8 % ('Epoch', 'gpu_mem', 'box', 'obj', 'cls', 'total', 'targets', 'img_size'))
             if rank in [-1, 0]:
                 pbar = tqdm(pbar, total=nb)  # progress bar
             optimizer.zero_grad()
@@ -298,6 +297,7 @@ class NetworkHandler:
                     s = ('%10s' * 2 + '%10.4g' * 6) % (
                         '%g/%g' % (epoch, epochs - 1), mem, *mloss, targets.shape[0], imgs.shape[-1])
                     pbar.set_description(s)
+                    logger.info(s)
 
                     # Plot
                     if plots and ni < 3:
@@ -317,7 +317,7 @@ class NetworkHandler:
                 if ema:
                     ema.update_attr(model, include=['yaml', 'nc', 'hyp', 'gr', 'names', 'stride', 'class_weights'])
                 final_epoch = epoch + 1 == epochs
-                if final_epoch:  # Calculate mAP
+                if final_epoch or True:  # Calculate mAP
                     results, maps, times = test.test(data,
                                                      batch_size=batch_size * 2,
                                                      imgsz=imgsz_test,
@@ -331,7 +331,7 @@ class NetworkHandler:
                                                      compute_loss=compute_loss)
 
                 # Write
-                with open(results_file, 'a') as f:
+                with open(results_file, 'w+') as f:
                     f.write(s + '%10.4g' * 7 % results + '\n')  # P, R, mAP@.5, mAP@.5-.95, val_loss(box, obj, cls)
                 bucket = ''
                 if bucket:
@@ -361,6 +361,7 @@ class NetworkHandler:
             # end epoch ---------------------------------------------------------
         # end training
         time_end.value = time.time() - time_start.value
+        self.load_network()
 
     def index_classes(self, path):
         with open(os.path.join(path, 'data', 'classes.txt'), 'r') as f:
@@ -385,15 +386,13 @@ class NetworkHandler:
         # reindexing records
         paths = glob.glob(os.path.join(self.path, 'data', '**', '*.jpg'), recursive=True)
         combination = get_random_combination(len(paths), int(0.8 * len(paths)))
-        train_paths = []
         val_paths = []
         for i, path in enumerate(paths):
-            if i in combination:
-                train_paths.append(path)
-            else:
+            if i not in combination:
                 val_paths.append(path)
+
         with open(os.path.join(dir, 'train.txt'), 'w') as f:
-            f.write('\n'.join(train_paths))
+            f.write('\n'.join(paths))
         with open(os.path.join(dir, 'val.txt'), 'w') as f:
             f.write('\n'.join(val_paths))
 

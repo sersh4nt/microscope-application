@@ -30,7 +30,7 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.training_process = None
 
         self.timer = QTimer()
-        self.timer.setInterval(1000)
+        self.timer.setInterval(1000 // 5)
         self.timer.start()
         self.current_progress = Value('i', 0)
         self.overall_progress = Value('i', 0)
@@ -47,21 +47,21 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
         self.startTrainingButton.clicked.connect(self.train_network)
         self.camera.camera_err.connect(self.camera_error)
         self.database_editor.database_handler.update_classes.connect(self.display_classes)
-        self.microscopeView.new_frame.connect(self.new_frame)
-        self.timer.timeout.connect(self.update_progress_bar)
+        # self.microscopeView.new_frame.connect(self.new_frame)
+        self.timer.timeout.connect(self.update_event)
 
-    def update_progress_bar(self):
-        self.trainProgressBar.setMaximum(self.overall_progress.value)
+    def update_event(self):
+        if not self.database_editor.stream_enabled \
+                and (not self.training_process or self.training_process and not self.training_process.is_alive()):
+            data = self.network_handler.detect(self.camera.get_frame())
+            print(data)
+
+        self.trainProgressBar.setMaximum(self.overall_progress.value - 1)
         self.trainProgressBar.setValue(self.current_progress.value)
         if self.training_process and self.training_process.is_alive():
             self.statusbarDisplay.setText('Training is in progress...')
         else:
             self.statusbarDisplay.clear()
-
-    def new_frame(self, frame):
-        if not self.training_process or self.training_process and not self.training_process.is_alive():
-            data = self.network_handler.detect(frame)
-            print(data)
 
     def camera_error(self):
         msg = 'Cannot get frames from camera!\nProceed to exit the application.'
@@ -79,11 +79,11 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
                       )
             )
             self.training_process.start()
-            message = 'Training process started.\n' \
+            message = 'Training process started. The application may slow down.\n' \
                       'Please, do not close the application until training\'s done!\n' \
                       'You can check the progress down below at sidebar!'
             self.statusbar.setVisible(True)
-            self.trainProgressBar.setMaximum(self.overall_progress.value)
+            self.trainProgressBar.setMaximum(self.overall_progress.value - 1 if self.overall_progress.value > 0 else self.overall_progress.value)
             self.trainProgressBar.setValue(self.current_progress.value)
             QMessageBox.information(self, 'Success!', message, QMessageBox.Ok)
         else:

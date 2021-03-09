@@ -1,7 +1,7 @@
 names:
-- vlad
-- volodya
-- ulyana
+- funduk
+- mindal
+- keshu
 nc: 3
 train: models/train/train.txt
 val: models/train/val.txt

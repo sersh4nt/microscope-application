@@ -13,7 +13,10 @@ class DatabaseHandler(QObject):
         super(DatabaseHandler, self).__init__()
         self.path = path
         self.records = dict()
-        self.classes = []
+
+        with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
+            self.classes = file.read().strip('\n').strip('').split('\n')
+
         self.ideal_images = {}
         self.load()
 
@@ -77,9 +80,6 @@ class DatabaseHandler(QObject):
 
         if not os.path.exists(os.path.join(self.path, 'classes.txt')):
             open(os.path.join(self.path, 'classes.txt'), 'w')
-
-        with open(os.path.join(self.path, 'classes.txt'), 'r') as file:
-            self.classes = file.read().strip('\n').strip('').split('\n')
 
         if self.classes == ['']:
             self.classes = []
@@ -162,18 +162,13 @@ class DatabaseHandler(QObject):
         shapes = [shape2dict(shape) for shape in shapes]
         img_h, img_w = frame.shape[0], frame.shape[1]
         if component not in self.classes:
-            self.classes.append(component)
-            d = os.path.join(self.path, 'classes.txt')
-            with open(d, 'r') as f:
-                text = f.read()
-            with open(d, 'a') as f:
-                if not text.endswith('\n'):
-                    f.write('\n')
-                f.write(component)
-        index = self.classes.index(component)
+            self.add_class(component)
 
         with open(filename + '.txt', 'w') as file:
             for shape in shapes:
+                if not (shape['label'] in self.classes):
+                    self.add_class(shape['label'])
+                index = self.classes.index(shape['label'])
                 xcen, ycen, w, h = points2yolo(shape['points'])
                 xcen /= img_w
                 ycen /= img_h

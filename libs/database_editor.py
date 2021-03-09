@@ -30,7 +30,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self._no_selection_slot = False
 
         self.database_handler = DatabaseHandler(path)
-        self.label_list = self.database_handler.classes
+        self.label_list = self.database_handler.classes.copy()
         self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
 
         self.scrollBars = {
@@ -89,6 +89,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         component = component.text()
         self.database_handler.delete_class(component)
         self.clear()
+        self.database_handler.index_ideal_images()
         self.display_classes()
 
     def add_component(self):
@@ -103,12 +104,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         if len(self.label_list):
             self.label_dialog = LabelDialog(parent=self, listItem=self.label_list)
 
-        component = self.get_current_component()
-
-        if component:
-            text = component.text()
-        else:
-            text = self.label_dialog.popUp(text=self.prev_label_text)
+        text = self.label_dialog.popUp(text=self.prev_label_text)
         self.last_label = text
 
         if text is not None:
@@ -126,8 +122,8 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     def display_classes(self):
         self.componentList.clear()
-        for key in self.database_handler.classes:
-            self.componentList.addItem(key)
+        self.label_list = self.database_handler.classes.copy()
+        self.componentList.addItems(self.label_list)
 
     def display_records(self):
         item = self.componentList.selectedItems()[0]
@@ -161,14 +157,10 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.canvas.loadPixmap(QPixmap.fromImage(qimage2ndarray.array2qimage(self.frame)))
         self.canvas.adjustSize()
 
-        # loading shapes from .txt file
-        with open(os.path.join(self.path, 'classes.txt')) as classes_file:
-            classes = classes_file.read().strip('\n').split('\n')
-
         with open(txt_path, 'r') as bndboxes_file:
             for box in bndboxes_file:
                 index, xcen, ycen, w, h = box.strip().split(' ')
-                label = classes[int(index)]
+                label = self.database_handler.classes[int(index)]
                 xmin, ymin, xmax, ymax = yolo2points(xcen, ycen, w, h, self.frame.shape[1], self.frame.shape[0])
                 points = [(xmin, ymin), (xmax, ymin), (xmax, ymax), (xmin, ymax)]
 
@@ -215,7 +207,6 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             self.display_records()
 
     def clear_labels(self):
-        self.label_list.clear()
         self.last_label = None
         self.items_to_shapes.clear()
         self.shapes_to_items.clear()
@@ -246,6 +237,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
     def save_labels(self):
         component = self.get_current_component()
         record = self.get_current_record()
+        self.label_dialog = LabelDialog(parent=self, listItem=self.database_handler.classes)
         if record:
             self.database_handler.edit_record(
                 component.text(),
@@ -260,6 +252,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
                 text = self.label_dialog.popUp(self.last_label)
             self.database_handler.add_record(text, self.frame, self.shapes)
             self.display_classes()
+        self.dirty = False
 
     def connect(self):
         self.camera.new_frame.connect(self._on_new_frame)
