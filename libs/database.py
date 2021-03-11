@@ -1,9 +1,11 @@
-from datetime import datetime
-from dataclasses import dataclass
-from libs.utils import *
 import os
-import cv2
 import shutil
+from dataclasses import dataclass
+from datetime import datetime
+
+import cv2
+
+from libs.utils import *
 
 
 class DatabaseHandler(QObject):

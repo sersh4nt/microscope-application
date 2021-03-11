@@ -1,10 +1,10 @@
-from math import sqrt
 import hashlib
 import os
 import random
+from math import sqrt
 
-from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))

@@ -1,5 +1,5 @@
-import subprocess
 import platform
+import subprocess
 
 import cv2
 import numpy as np

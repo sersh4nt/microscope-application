@@ -1,10 +1,10 @@
-/home/sersh4nt/PycharmProjects/microscope-application/data/keshu/records/09-03-20210007.jpg
+/home/sersh4nt/PycharmProjects/microscope-application/data/keshu/records/09-03-20210002.jpg
+/home/sersh4nt/PycharmProjects/microscope-application/data/funduk/records/04-03-20210002.jpg
+/home/sersh4nt/PycharmProjects/microscope-application/data/funduk/records/04-03-20210009.jpg
 /home/sersh4nt/PycharmProjects/microscope-application/data/funduk/records/04-03-20210003.jpg
 /home/sersh4nt/PycharmProjects/microscope-application/data/funduk/records/04-03-20210005.jpg
 /home/sersh4nt/PycharmProjects/microscope-application/data/funduk/records/04-03-20210006.jpg
 /home/sersh4nt/PycharmProjects/microscope-application/data/mindal/records/04-03-20210010.jpg
-/home/sersh4nt/PycharmProjects/microscope-application/data/mindal/records/04-03-20210004.jpg
 /home/sersh4nt/PycharmProjects/microscope-application/data/mindal/records/04-03-20210011.jpg
-/home/sersh4nt/PycharmProjects/microscope-application/data/mindal/records/04-03-20210007.jpg
 /home/sersh4nt/PycharmProjects/microscope-application/data/mindal/records/04-03-20210002.jpg
 /home/sersh4nt/PycharmProjects/microscope-application/data/mindal/records/04-03-20210009.jpg

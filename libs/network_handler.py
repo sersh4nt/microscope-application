@@ -1,20 +1,20 @@
-from libs.yolo.datasets import *
-from models.yolo import *
-from libs.yolo.general import *
-from libs.yolo.plots import *
-from libs.yolo.torch_utils import *
-from libs.utils import *
-from libs.yolo.autoanchor import *
-from libs.yolo.loss import *
-from libs.yolo import test
-
+import torch
+import torch.distributed as dist
 import torch.optim as optim
 import torch.optim.lr_scheduler as lr_scheduler
-from torch.nn.parallel import DistributedDataParallel as DDP
-from torch.cuda import amp
-import torch.distributed as dist
-import torch
 import yaml
+from torch.cuda import amp
+from torch.nn.parallel import DistributedDataParallel as DDP
+
+from libs.utils import *
+from libs.yolo import test
+from libs.yolo.autoanchor import *
+from libs.yolo.datasets import *
+from libs.yolo.general import *
+from libs.yolo.loss import *
+from libs.yolo.plots import *
+from libs.yolo.torch_utils import *
+from models.yolo import *
 
 
 class NetworkHandler:
@@ -36,7 +36,7 @@ class NetworkHandler:
         torch.multiprocessing.set_start_method('spawn')
 
     def load_network(self):
-        path = os.path.join(self.path, 'models', 'train', 'best.pt')
+        path = os.path.join(self.path, 'models', 'train', 'last.pt')
         self.half = self.device.type != 'cpu'
         try:
             del self.model
@@ -54,7 +54,7 @@ class NetworkHandler:
                       overall_progress,
                       time_start,
                       time_end,
-                      batch_size=16):
+                      batch_size=24):
 
         path = Path(__file__).parents[1] / 'models' / 'train' / 'train_log.log'
         logging.basicConfig(
@@ -94,11 +94,25 @@ class NetworkHandler:
         train_path = data_dict['train']
         test_path = data_dict['val']
         nc = data_dict['nc']
-        epochs = 3000
+        epochs = 6000
         names = data_dict['names']
         assert len(names) == nc, '%g names found for nc=%g dataset in %s' % (len(names), nc, data)
 
-        model = Model(cfg, ch=3, nc=nc, anchors=hyp_dict.get('anchors')).to(self.device)
+        weights = 'models/train/x.pt'
+        pretrained = weights.endswith('.pt')
+        if pretrained:
+            with torch_distributed_zero_first(rank):
+                attempt_download(weights)  # download if not found locally
+            ckpt = torch.load(weights, map_location=self.device)  # load checkpoint
+            model = Model(cfg or ckpt['model'].yaml, ch=3, nc=nc, anchors=hyp_dict.get('anchors')).to(self.device)  # create
+            exclude = ['anchor'] if cfg or hyp_dict.get('anchors') else []  # exclude keys
+            state_dict = ckpt['model'].float().state_dict()  # to FP32
+            state_dict = intersect_dicts(state_dict, model.state_dict(), exclude=exclude)  # intersect
+            model.load_state_dict(state_dict, strict=False)  # load
+            logger.info(
+                'Transferred %g/%g items from %s' % (len(state_dict), len(model.state_dict()), weights))  # report
+        else:
+            model = Model(cfg, ch=3, nc=nc, anchors=hyp_dict.get('anchors')).to(self.device)  # create
 
         freeze = []
         for k, v in model.named_parameters():
@@ -192,6 +206,7 @@ class NetworkHandler:
 
                 # Anchors
                 check_anchors(dataset, model=model, thr=hyp_dict['anchor_t'], imgsz=imgsz)
+            model.half().float()
 
         # Model parameters
         hyp_dict['box'] *= 3. / nl  # scale to layers
@@ -343,7 +358,7 @@ class NetworkHandler:
                     best_fitness = fi
 
                 # Save model
-                save = final_epoch
+                save = True
                 if save:
                     with open(results_file, 'r') as f:  # create checkpoint
                         ckpt = {'epoch': epoch,
@@ -354,7 +369,8 @@ class NetworkHandler:
                                 'wandb_id': None}
 
                     # Save last, best and delete
-                    torch.save(ckpt, last)
+                    if current_progress.value % 100:
+                        torch.save(ckpt, last)
                     if best_fitness == fi:
                         torch.save(ckpt, best)
                     del ckpt
@@ -387,12 +403,15 @@ class NetworkHandler:
         paths = glob.glob(os.path.join(self.path, 'data', '**', '*.jpg'), recursive=True)
         combination = get_random_combination(len(paths), int(0.8 * len(paths)))
         val_paths = []
+        train_paths = []
         for i, path in enumerate(paths):
-            if i not in combination:
+            if i in combination:
+                train_paths.append(path)
+            else:
                 val_paths.append(path)
 
         with open(os.path.join(dir, 'train.txt'), 'w') as f:
-            f.write('\n'.join(paths))
+            f.write('\n'.join(train_paths))
         with open(os.path.join(dir, 'val.txt'), 'w') as f:
             f.write('\n'.join(val_paths))
 

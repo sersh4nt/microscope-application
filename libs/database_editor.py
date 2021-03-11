@@ -1,14 +1,15 @@
+import os
+import sys
+from functools import partial
+
+import cv2
+import qimage2ndarray
+
+from libs.database import DatabaseHandler
+from libs.label_dialog import LabelDialog
+from libs.shape import Shape
 from libs.user_interfaces import designer
 from libs.utils import *
-from libs.label_dialog import LabelDialog
-from libs.database import DatabaseHandler
-from libs.shape import Shape
-
-import sys
-import qimage2ndarray
-from functools import partial
-import cv2
-import os
 
 
 class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
@@ -28,6 +29,8 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.shapes = []
         self.path = path
         self._no_selection_slot = False
+        self.current_component = ''
+        self.current_record = ''
 
         self.database_handler = DatabaseHandler(path)
         self.label_list = self.database_handler.classes.copy()
@@ -37,7 +40,6 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             Qt.Vertical: self.scrollArea.verticalScrollBar(),
             Qt.Horizontal: self.scrollArea.horizontalScrollBar()
         }
-        self.canvas.newShape.connect(self.new_shape)
 
         # context menus
         delete_record_action = Action(self, 'Delete record', self.delete_record, enabled=True)
@@ -79,11 +81,11 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     def add_component_image(self):
         image = self.frame
-        component = self.get_current_component().text()
+        component = self.get_selected_component().text()
         self.database_handler.add_ideal_image(image, component)
 
     def delete_component(self):
-        component = self.get_current_component()
+        component = self.get_selected_component()
         if not component:
             return
         component = component.text()
@@ -126,19 +128,28 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.componentList.addItems(self.label_list)
 
     def display_records(self):
+        if not self.may_continue():
+            return
+        self.set_clean()
+        self.clear()
         item = self.componentList.selectedItems()[0]
         if not item:
             return
         self.recordList.clear()
+        self.current_component = item.text()
         if item.text() in self.database_handler.records.keys():
             for record in self.database_handler.records[item.text()]:
                 self.recordList.addItem("{} №{}".format(record.date, record.number))
 
     def load_record(self):
+        if not self.may_continue():
+            return
+        self.set_clean()
         self.clear_labels()
         item = self.recordList.selectedItems()[0]
         if not item:
             return
+        self.current_record = item.text()
         if self.stream_enabled:
             self._stop_video()
 
@@ -179,8 +190,8 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.canvas.loadShapes(self.shapes)
 
     def delete_record(self):
-        record = self.get_current_record()
-        component = self.get_current_component()
+        record = self.get_selected_record()
+        component = self.get_selected_component()
         if not record or not component:
             return
         component = component.text()
@@ -198,7 +209,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         self.display_records()
 
     def add_record(self):
-        component = self.get_current_component()
+        component = self.get_selected_component()
         if not component:
             return
         component = component.text()
@@ -235,30 +246,31 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             self.set_dirty()
 
     def save_labels(self):
-        component = self.get_current_component()
-        record = self.get_current_record()
+        component = self.current_component
+        record = self.current_record
         self.label_dialog = LabelDialog(parent=self, listItem=self.database_handler.classes)
         if record:
             self.database_handler.edit_record(
-                component.text(),
-                record.text(),
+                component,
+                record,
                 self.frame,
                 self.shapes
             )
         else:
             if component:
-                text = component.text()
+                text = component
             else:
                 text = self.label_dialog.popUp(self.last_label)
             self.database_handler.add_record(text, self.frame, self.shapes)
             self.display_classes()
-        self.dirty = False
+        self.set_clean()
 
     def connect(self):
         self.camera.new_frame.connect(self._on_new_frame)
 
         self.canvas.shapeMoved.connect(self.set_dirty)
         self.canvas.selectionChanged.connect(self.canvas_shape_selected)
+        self.canvas.newShape.connect(self.new_shape)
 
         self.shotButton.clicked.connect(self._stop_video)
         self.saveButton.clicked.connect(self.save_labels)
@@ -268,10 +280,10 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
         self.componentList.customContextMenuRequested.connect(self.class_menu_popup)
         self.componentList.itemClicked.connect(self.display_records)
-        self.componentList.itemSelectionChanged.connect(self.clear)
+        # self.componentList.itemSelectionChanged.connect(self.clear)
 
         self.recordList.itemClicked.connect(self.load_record)
-        self.recordList.itemSelectionChanged.connect(self.clear_shapes)
+        # self.recordList.itemSelectionChanged.connect(self.clear_shapes)
         self.recordList.customContextMenuRequested.connect(self.record_menu_popup)
 
         self.rectangleList.itemDoubleClicked.connect(self.edit_label)
@@ -303,17 +315,20 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
             return items[0]
         return None
 
-    def get_current_record(self):
+    def get_selected_record(self):
         records = self.recordList.selectedItems()
         if records:
             return records[0]
         return None
 
-    def get_current_component(self):
+    def get_selected_component(self):
         component = self.componentList.selectedItems()
         if component:
             return component[0]
         return None
+
+    def set_clean(self):
+        self.dirty = False
 
     def set_dirty(self):
         self.dirty = True
@@ -345,7 +360,7 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
     def discard_changes_dialog(self):
         yes, no, cancel = QMessageBox.Yes, QMessageBox.No, QMessageBox.Cancel
         message = 'You have unsaved changes, would you like to save them and proceed?\nClick "No" to undo all changes.'
-        return QMessageBox.warning(self, 'Attention', message, yes | no | cancel)
+        return QMessageBox.warning(self, 'Attention', message, cancel | no | yes)
 
     def may_continue(self):
         if not self.dirty:
