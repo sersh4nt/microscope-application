@@ -9,11 +9,14 @@ BB = QDialogButtonBox
 
 class LabelDialog(QDialog):
 
-    def __init__(self, text="Enter object label", parent=None, listItem=None):
+    def __init__(self, text="Enter new component label \nor choose one from the list below:", parent=None, listItem=None):
         super(LabelDialog, self).__init__(parent)
 
+        self.label = QLabel()
+        self.label.setText(text)
+        self.label.setAlignment(Qt.AlignCenter)
+
         self.edit = QLineEdit()
-        self.edit.setText(text)
         self.edit.setValidator(labelValidator())
         self.edit.editingFinished.connect(self.postProcess)
 
@@ -24,6 +27,7 @@ class LabelDialog(QDialog):
         self.edit.setCompleter(completer)
 
         layout = QVBoxLayout()
+        layout.addWidget(self.label)
         layout.addWidget(self.edit)
         self.buttonBox = bb = BB(BB.Ok | BB.Cancel, Qt.Horizontal, self)
         bb.button(BB.Ok).setIcon(newIcon('done'))

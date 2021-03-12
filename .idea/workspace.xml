@@ -27,68 +27,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="21dfd215-cd80-4f86-bda7-4440f17f7e9e" name="Default Changelist" comment="stable framerate on ubuntu 20.04&#10;need to fix autoexposure of camera">
-      <change afterPath="$PROJECT_DIR$/data/mindal/records/11-03-20210000.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/mindal/records/11-03-20210000.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/train/best.pt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/train/last.pt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/train/x.pt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/strings/strings-ru-RU.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/strings/strings.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/funduk/records.cache" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210000.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210000.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210000.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210001.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210001.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210001.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210001.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210002.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210002.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210004.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210004.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210004.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210004.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210005.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210005.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210005.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210005.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210006.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210006.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210006.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210006.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210007.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210007.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210007.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210007.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210010.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210010.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210010.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210010.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210011.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210011.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210011.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210011.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210012.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210012.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/funduk/records/04-03-20210012.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/funduk/records/04-03-20210012.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210000.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210000.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210000.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210000.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210001.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210001.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210001.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210001.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210002.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210002.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210002.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210002.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210004.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210004.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210004.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210004.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210005.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210005.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210005.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210005.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210006.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210006.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210006.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210006.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210007.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210007.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210007.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210007.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210008.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210008.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210008.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210008.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210009.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210009.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210009.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210009.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210011.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210011.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210011.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210011.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210013.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210013.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/keshu/records/09-03-20210013.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/keshu/records/09-03-20210013.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/camera.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/canvas.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/canvas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/database_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/database_editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/label_dialog.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/label_dialog.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/libs/network_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/network_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/shape.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/shape.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/designer.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/designer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/user_interfaces/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/user_interfaces/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/F1_curve.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/F1_curve.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/PR_curve.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/PR_curve.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/P_curve.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/P_curve.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/R_curve.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/R_curve.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/confusion_matrix.png" beforeDir="false" afterPath="$PROJECT_DIR$/models/confusion_matrix.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/experimental.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/experimental.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/labels.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/labels.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/labels_correlogram.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/models/labels_correlogram.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/results.txt" beforeDir="false" afterPath="$PROJECT_DIR$/models/results.txt" afterDir="false" />
@@ -191,8 +143,6 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="OPENCV_VIDEOIO_DEBUG" value="1" />
-        <env name="GST_DEBUG" value="4" />
       </envs>
       <option name="SDK_HOME" value="$USER_HOME$/anaconda3/envs/main-gpu/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -364,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615279887708</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="code refactor, improved database_editor.py with saving files">
+      <created>1615445661349</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1615445661349</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -411,7 +368,8 @@
     <MESSAGE value="works with cuda on ubuntu 20.04" />
     <MESSAGE value="stable framerate on ubuntu 20.04&#10;need to fix autoexposure of camera" />
     <MESSAGE value="further improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="further improvements" />
+    <MESSAGE value="code refactor, improved database_editor.py with saving files" />
+    <option name="LAST_COMMIT_MESSAGE" value="code refactor, improved database_editor.py with saving files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -420,11 +378,6 @@
           <url>file://$PROJECT_DIR$/../../../../ProgramData/Anaconda3/envs/main/Lib/site-packages/torch/serialization.py</url>
           <line>824</line>
           <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/libs/yolo/datasets.py</url>
-          <line>416</line>
-          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

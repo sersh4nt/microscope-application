@@ -83,6 +83,8 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
         image = self.frame
         component = self.get_selected_component().text()
         self.database_handler.add_ideal_image(image, component)
+        msg = 'Class\'s image added! You could see it at the main window of the program.'
+        QMessageBox.information(self, 'Information', msg, QMessageBox.Ok)
 
     def delete_component(self):
         component = self.get_selected_component()
@@ -96,8 +98,10 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
     def add_component(self):
         self.clear()
+        msg = 'Creating new class. Please add at least 15 images and mark them out!'
+        QMessageBox.information(self, 'Information', msg, QMessageBox.Ok)
         component = self.label_dialog.popUp()
-        if component == '':
+        if not component:
             return
         self.database_handler.add_class(component)
         self.display_classes()
@@ -277,6 +281,9 @@ class DatabaseEditor(QMainWindow, designer.Ui_MainWindow):
 
         self.modeSelect.triggered.connect(partial(self.mode_edit, False))
         self.modeEdit.triggered.connect(partial(self.mode_edit, True))
+
+        self.addClass.triggered.connect(self.add_component)
+        self.addImage.triggered.connect(self.add_component_image)
 
         self.componentList.customContextMenuRequested.connect(self.class_menu_popup)
         self.componentList.itemClicked.connect(self.display_records)

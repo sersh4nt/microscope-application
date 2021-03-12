@@ -94,11 +94,11 @@ class NetworkHandler:
         train_path = data_dict['train']
         test_path = data_dict['val']
         nc = data_dict['nc']
-        epochs = 6000
+        epochs = 10000
         names = data_dict['names']
         assert len(names) == nc, '%g names found for nc=%g dataset in %s' % (len(names), nc, data)
 
-        weights = 'models/train/x.pt'
+        weights = 'models/train/last.pt'
         pretrained = weights.endswith('.pt')
         if pretrained:
             with torch_distributed_zero_first(rank):
