@@ -423,29 +423,34 @@ class NetworkHandler:
         possible_result = []
 
         names = self.model.module.names if hasattr(self.model, 'module') else self.model.names
+        colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 
         t0 = time.time()
         self.image_size = check_img_size(640, s=self.stride)
         # if self.device.type != 'cpu':
         #    self.model(torch.zeros(1, 3, self.image_size, self.image_size)).to(self.device).type_as(next(self.model.parameters()))
 
-        image = letterbox(image, self.image_size, stride=self.stride)[0]
-        image = image[:, :, ::-1].transpose(2, 0, 1)
-        image = np.ascontiguousarray(image)
-        image = torch.from_numpy(image).to(self.device)
-        image = image.half() if self.half else image.float()
-        image /= 255
-        if image.ndimension() == 3:
-            image = image.unsqueeze(0)
+        img = letterbox(image, self.image_size, stride=self.stride)[0]
+        img = img[:, :, ::-1].transpose(2, 0, 1)
+        img = np.ascontiguousarray(img)
+        img = torch.from_numpy(img).to(self.device)
+        img = img.half() if self.half else img.float()
+        img /= 255
+        if img.ndimension() == 3:
+            img = img.unsqueeze(0)
 
         t1 = time_synchronized()
-        predictions = self.model(image)[0]
+        predictions = self.model(img)[0]
         predictions = non_max_suppression(predictions, 0.25, 0.45)
         t2 = time_synchronized()
 
         for detection in predictions:
             if len(detection):
-                for *xyxy, conf, cls in reversed(detection):
-                    possible_result.append(f'{names[int(cls)]} {conf:.2f}')
+                detection[:, :4] = scale_coords(img.shape[2:], detection[:, :4], image.shape).round()
 
-        return possible_result
+                for *xyxy, conf, cls in reversed(detection):
+                    label = f'{names[int(cls)]} {conf:.2f}'
+                    possible_result.append(label)
+                    plot_one_box(xyxy, image, label=label, color=colors[int(cls)], line_thickness=2)
+
+        return possible_result, image

@@ -53,8 +53,13 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
     def update_event(self):
         if not self.database_editor.stream_enabled \
                 and (not self.training_process or self.training_process and not self.training_process.is_alive()):
-            data = self.network_handler.detect(self.camera.get_frame())
+            data, image = self.network_handler.detect(self.camera.get_frame())
             print(data)
+            self.microscopeView.setEnabled(False)
+            self.microscopeView.frame = image
+            self.microscopeView.update()
+        else:
+            self.microscopeView.setEnabled(True)
 
         self.trainProgressBar.setMaximum(self.overall_progress.value - 1)
         self.trainProgressBar.setValue(self.current_progress.value)

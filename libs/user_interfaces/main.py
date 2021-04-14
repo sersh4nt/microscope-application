@@ -70,6 +70,7 @@ class Ui_MainWindow(object):
         self.currentComponentMarking = QtWidgets.QLabel(self.centralwidget)
         self.currentComponentMarking.setFrameShape(QtWidgets.QFrame.Box)
         self.currentComponentMarking.setObjectName("currentComponentMarking")
+        self.currentComponentMarking.setVisible(False)
         self.verticalLayout.addWidget(self.currentComponentMarking)
         self.verticalLayout.setStretch(0, 100)
         self.verticalLayout.setStretch(1, 1)
