@@ -88,7 +88,9 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
                       'Please, do not close the application until training\'s done!\n' \
                       'You can check the progress down below at sidebar!'
             self.statusbar.setVisible(True)
-            self.trainProgressBar.setMaximum(self.overall_progress.value - 1 if self.overall_progress.value > 0 else self.overall_progress.value)
+            self.trainProgressBar.setMaximum(
+                self.overall_progress.value - 1 if self.overall_progress.value > 0 else self.overall_progress.value
+            )
             self.trainProgressBar.setValue(self.current_progress.value)
             QMessageBox.information(self, 'Success!', message, QMessageBox.Ok)
         else:

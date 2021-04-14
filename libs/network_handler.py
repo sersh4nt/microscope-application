@@ -1,8 +1,6 @@
-import torch
 import torch.distributed as dist
 import torch.optim as optim
 import torch.optim.lr_scheduler as lr_scheduler
-import yaml
 from torch.cuda import amp
 from torch.nn.parallel import DistributedDataParallel as DDP
 
@@ -103,10 +101,10 @@ class NetworkHandler:
         if pretrained:
             with torch_distributed_zero_first(rank):
                 attempt_download(weights)  # download if not found locally
-            ckpt = torch.load(weights, map_location=self.device)  # load checkpoint
-            model = Model(cfg or ckpt['model'].yaml, ch=3, nc=nc, anchors=hyp_dict.get('anchors')).to(self.device)  # create
+            checkpoint = torch.load(weights, map_location=self.device)  # load checkpoint
+            model = Model(cfg or checkpoint['model'].yaml, ch=3, nc=nc, anchors=hyp_dict.get('anchors')).to(self.device)
             exclude = ['anchor'] if cfg or hyp_dict.get('anchors') else []  # exclude keys
-            state_dict = ckpt['model'].float().state_dict()  # to FP32
+            state_dict = checkpoint['model'].float().state_dict()  # to FP32
             state_dict = intersect_dicts(state_dict, model.state_dict(), exclude=exclude)  # intersect
             model.load_state_dict(state_dict, strict=False)  # load
             logger.info(
@@ -361,19 +359,21 @@ class NetworkHandler:
                 save = True
                 if save:
                     with open(results_file, 'r') as f:  # create checkpoint
-                        ckpt = {'epoch': epoch,
-                                'best_fitness': best_fitness,
-                                'training_results': f.read(),
-                                'model': ema.ema,
-                                'optimizer': None if final_epoch else optimizer.state_dict(),
-                                'wandb_id': None}
+                        checkpoint = {
+                            'epoch': epoch,
+                            'best_fitness': best_fitness,
+                            'training_results': f.read(),
+                            'model': ema.ema,
+                            'optimizer': None if final_epoch else optimizer.state_dict(),
+                            'wandb_id': None
+                        }
 
                     # Save last, best and delete
                     if current_progress.value % 100:
-                        torch.save(ckpt, last)
+                        torch.save(checkpoint, last)
                     if best_fitness == fi:
-                        torch.save(ckpt, best)
-                    del ckpt
+                        torch.save(checkpoint, best)
+                    del checkpoint
             # end epoch ---------------------------------------------------------
         # end training
         time_end.value = time.time() - time_start.value
@@ -398,7 +398,7 @@ class NetworkHandler:
         with open(os.path.join(path, 'models', 'train', 'cfg.yaml'), 'w') as f:
             data = yaml.dump(data, f)
 
-    def index_records(self, dir):
+    def index_records(self, directory):
         # reindexing records
         paths = glob.glob(os.path.join(self.path, 'data', '**', '*.jpg'), recursive=True)
         combination = get_random_combination(len(paths), int(0.8 * len(paths)))
@@ -410,9 +410,9 @@ class NetworkHandler:
             else:
                 val_paths.append(path)
 
-        with open(os.path.join(dir, 'train.txt'), 'w') as f:
+        with open(os.path.join(directory, 'train.txt'), 'w') as f:
             f.write('\n'.join(train_paths))
-        with open(os.path.join(dir, 'val.txt'), 'w') as f:
+        with open(os.path.join(directory, 'val.txt'), 'w') as f:
             f.write('\n'.join(val_paths))
 
     # this does work
@@ -425,10 +425,7 @@ class NetworkHandler:
         names = self.model.module.names if hasattr(self.model, 'module') else self.model.names
         colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
 
-        t0 = time.time()
         self.image_size = check_img_size(640, s=self.stride)
-        # if self.device.type != 'cpu':
-        #    self.model(torch.zeros(1, 3, self.image_size, self.image_size)).to(self.device).type_as(next(self.model.parameters()))
 
         img = letterbox(image, self.image_size, stride=self.stride)[0]
         img = img[:, :, ::-1].transpose(2, 0, 1)
@@ -439,10 +436,8 @@ class NetworkHandler:
         if img.ndimension() == 3:
             img = img.unsqueeze(0)
 
-        t1 = time_synchronized()
         predictions = self.model(img)[0]
         predictions = non_max_suppression(predictions, 0.25, 0.45)
-        t2 = time_synchronized()
 
         for detection in predictions:
             if len(detection):

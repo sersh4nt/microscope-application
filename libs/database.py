@@ -1,4 +1,3 @@
-import os
 import shutil
 from dataclasses import dataclass
 from datetime import datetime
@@ -69,12 +68,12 @@ class DatabaseHandler(QObject):
         os.chdir(self.path)
 
     def get_ideal_images(self):
-        for dir in os.listdir(self.path):
-            path = os.path.join(self.path, dir)
+        for directory in os.listdir(self.path):
+            path = os.path.join(self.path, directory)
             if os.path.isdir(path):
-                for file in os.listdir(os.path.join(self.path, dir)):
+                for file in os.listdir(os.path.join(self.path, directory)):
                     if file.lower().endswith('.jpeg'):
-                        self.ideal_images[dir] = os.path.join(path, file)
+                        self.ideal_images[directory] = os.path.join(path, file)
 
     def load(self):
         if not os.path.exists(self.path):
@@ -101,19 +100,19 @@ class DatabaseHandler(QObject):
         self.get_ideal_images()
 
     def add_record(self, component, img, shapes):
-        dir = os.path.join(self.path, component)
+        directory = os.path.join(self.path, component)
         # check if component class folder exists
-        if not os.path.exists(dir):
-            os.mkdir(dir)
-        dir = os.path.join(dir, 'records')
+        if not os.path.exists(directory):
+            os.mkdir(directory)
+        directory = os.path.join(directory, 'records')
         # check if records folder exists
-        if not os.path.exists(dir):
-            os.mkdir(dir)
-        os.chdir(dir)
+        if not os.path.exists(directory):
+            os.mkdir(directory)
+        os.chdir(directory)
 
         current_date = datetime.now().strftime("%d-%m-%Y")
         current_number = -1
-        for file in os.listdir(dir):
+        for file in os.listdir(directory):
             if file.lower().endswith('.txt'):
                 date = file[:10]
                 if date == current_date:

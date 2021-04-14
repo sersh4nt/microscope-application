@@ -119,9 +119,9 @@ class Shape(object):
                     font.setPointSize(self.labelFontSize)
                     font.setBold(True)
                     painter.setFont(font)
-                    if(self.label == None):
+                    if self.label is None:
                         self.label = ""
-                    if(min_y < min_y_label):
+                    if min_y < min_y_label:
                         min_y += min_y_label
                     painter.drawText(min_x, min_y, self.label)
 

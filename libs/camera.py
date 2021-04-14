@@ -75,13 +75,10 @@ class CameraWidget(QLabel):
     def __init__(self, camera=None, parent=None):
         super(CameraWidget, self).__init__(parent)
         self.frame = None
+        self.camera = camera if camera else None
+        self.frame_size = self.camera.frame_size if camera else None
         if camera:
-            self.initialize(camera)
-
-    def initialize(self, camera):
-        self.camera = camera
-        self.camera.new_frame.connect(self._on_new_frame)
-        self.frame_size = self.camera.frame_size
+            self.camera.new_frame.connect(self._on_new_frame)
 
     @pyqtSlot(np.ndarray)
     def _on_new_frame(self, frame):
