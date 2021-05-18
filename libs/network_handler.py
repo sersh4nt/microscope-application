@@ -46,6 +46,7 @@ class NetworkHandler:
             msg = 'Cannot load neural network weights!\n' \
                   'The program would not support detection functions'
             QMessageBox.warning(None, 'Warning!', msg, QMessageBox.Ok)
+            self.model = None
 
     def train_network(self,
                       current_progress,
@@ -97,7 +98,7 @@ class NetworkHandler:
         assert len(names) == nc, '%g names found for nc=%g dataset in %s' % (len(names), nc, data)
 
         weights = 'models/train/last.pt'
-        pretrained = weights.endswith('.pt')
+        pretrained = weights.endswith('.pt') and self.model is not None
         if pretrained:
             with torch_distributed_zero_first(rank):
                 attempt_download(weights)  # download if not found locally
@@ -418,7 +419,7 @@ class NetworkHandler:
     # this does work
     def detect(self, image):
         if self.model is None:
-            return
+            return None, image
 
         possible_result = []
 

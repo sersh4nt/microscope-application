@@ -38,9 +38,10 @@ class Camera(QObject):
         ret, frame = self.cap.read()
         if not ret:
             self.camera_err.emit()
-        if self.mirrored:
-            frame = cv2.flip(frame, 1)
-        self.new_frame.emit(frame)
+        else:
+            if self.mirrored:
+                frame = cv2.flip(frame, 1)
+            self.new_frame.emit(frame)
 
     @property
     def paused(self):
@@ -66,7 +67,7 @@ class Camera(QObject):
 
     def get_frame(self):
         ret, frame = self.cap.read()
-        return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) if ret else None
 
 
 class CameraWidget(QLabel):
@@ -75,10 +76,13 @@ class CameraWidget(QLabel):
     def __init__(self, camera=None, parent=None):
         super(CameraWidget, self).__init__(parent)
         self.frame = None
-        self.camera = camera if camera else None
-        self.frame_size = self.camera.frame_size if camera else None
         if camera:
-            self.camera.new_frame.connect(self._on_new_frame)
+            self.initialize(camera)
+
+    def initialize(self, camera):
+        self.camera = camera
+        self.camera.new_frame.connect(self._on_new_frame)
+        self.frame_size = self.camera.frame_size
 
     @pyqtSlot(np.ndarray)
     def _on_new_frame(self, frame):

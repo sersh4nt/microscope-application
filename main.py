@@ -53,11 +53,13 @@ class MainWindow(QMainWindow, main.Ui_MainWindow):
     def update_event(self):
         if not self.database_editor.stream_enabled \
                 and (not self.training_process or self.training_process and not self.training_process.is_alive()):
-            data, image = self.network_handler.detect(self.camera.get_frame())
-            print(data)
-            self.microscopeView.setEnabled(False)
-            self.microscopeView.frame = image
-            self.microscopeView.update()
+            frame = self.camera.get_frame()
+            if frame is not None:
+                data, image = self.network_handler.detect(frame)
+                print(data)
+                self.microscopeView.setEnabled(False)
+                self.microscopeView.frame = image
+                self.microscopeView.update()
         else:
             self.microscopeView.setEnabled(True)
 
